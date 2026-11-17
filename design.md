@@ -15,7 +15,7 @@ Scope of the current release:
 - Readable captions that follow the spoken audio, using browser-native speech.
 - Low-effort guides can be expanded with one additional pre-written story.
 - Visitors can ask follow-up questions, answered by Claude.
-- Public-domain preview images for the works whose copyright has expired.
+- Preview images from Wikimedia Commons where a suitably licensed photo exists (§4.3).
 
 ## 2. Decisions that changed from the original brief
 
@@ -24,7 +24,7 @@ Scope of the current release:
 | 30 paintings, paintings only | 20 works supplied by the project owner (`high_museum_20_audio_guides.json`). Includes non-paintings (see §4). |
 | No guide scripts in the catalog; Claude generates guides on demand | Guides are pre-written (short, expansion, long) and bundled with the catalog. Claude is used only for follow-up questions. |
 | `generate-guide` and `expand-guide` endpoints | Not built. Expansion uses the supplied expansion text. May be added later. |
-| No images | Public-domain images only, from Wikimedia Commons (§4.3). |
+| No images | Wikimedia Commons images: public domain or CC0 for the High Museum; CC0 or credited CC BY-SA for the Henan Museum (§4.3). |
 | Single museum, no selection UI | Welcome screens for museum and language, each with one option, so more can be added. |
 | No playback speed controls, no word highlighting | Speed (1×, 1.5×, 2×), progress bar, and sentence-level captions are built. |
 | Single museum, single language | Two museums and two languages. Choosing a language also switches the interface text, the speech voice, and the language Claude answers in. |
@@ -97,6 +97,7 @@ The original brief says paintings only. Eight of the 20 supplied works are not p
 - The High Museum's website returns 403 to automated requests. Do not work around the block, and do not scrape or hotlink museum images.
 - Currently included: Bellini *Madonna and Child*, Girodet *The Funeral of Atala*, Monet *Houses of Parliament in the Fog*, Monet *Autumn on the Seine, Argenteuil*, Sargent *Portrait of Ralph Curtis on the Beach at Scheveningen*, and Church *A Friend in Need Is a Friend Indeed* (CC0 photo of an 1888 sculpture).
 - Found but not yet added: Cassatt *Sketch of a Mother Looking Down at Thomas* (Commons file tagged public domain by age; the download was throttled by Commons and should be retried later).
+- Henan Museum: five objects have CC0 photos on Commons whose descriptions name the Henan Museum, and are included: Jiahu bone flute (01), bronze jin (05), Four Spirits mural (08), painted pottery double vessel (10), Wangsun Gao bell set (12). Ten more use CC BY-SA 4.0 photos (the owner approved attribution licenses for Henan): Fu Hao owl zun (02), Lianhe fanghu (03), Wu Zetian gold slip (04), Duling square ding (06), Ru ware vase (09), Ziwu ding (11), jade burial suit (14), sancai horn cup (15), green-glazed dog (16), sancai lion pillow (19). The photographer is named in the on-page caption, and CREDITS.md records the license and that adapted (downscaled) copies are shared under CC BY-SA 4.0 for those image files only. The High Museum rule is unchanged: public domain or CC0 only.
 - Found but deliberately excluded: O'Keeffe *Red Canna*. Its Commons file is tagged public domain only under the US pre-1923 publication rule, and O'Keeffe died in 1986, so expiry is not clear. Add it only if the owner accepts that risk.
 
 ### 4.4 Data rules
@@ -220,7 +221,7 @@ Visual direction: calm, museum-like, editorial; strong serif typography; mobile-
 
 ### Not yet verified or built
 - The Chinese interface text and the Chinese guide display values (§4.1) have not been reviewed by a native speaker. Chinese speech depends on the device having a Chinese voice and has not been tested in a browser.
-- Henan works have no images; none were sought.
+- 4 of the 19 Henan objects have no image: 07 jade-hilted sword, 17 pottery stove, 18 Fu Yi jue, 20 lotus-petal bowl. No Commons photo of the Henan Museum's object was found.
 - No live Claude call has been made. Answer quality and the prompt's classification behaviour are untested.
 - Browser speech has not been tested manually in a browser (play, pause, speed, restart, switching works).
 - Images for the other public-domain candidates (Dürer, Modigliani, Dewing, Cordier, Story) have not been found in a form that clearly shows the High's own object. The Cassatt download needs a retry.

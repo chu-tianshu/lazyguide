@@ -57,7 +57,7 @@ export function PaintingDetail({
             <a href={work.image.sourceUrl} target="_blank" rel="noreferrer">
               {t.commons}
             </a>{" "}
-            · {work.image.license}
+            {work.image.author && <> · {work.image.author}</>} · {work.image.license}
           </figcaption>
         </figure>
       ) : (
