@@ -1,26 +1,38 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import type { Painting } from "@/data/paintings";
+import type { Work } from "@/data/catalog";
+import { strings, type LanguageCode } from "@/lib/i18n";
 import { GuidePlayer, type Section } from "./GuidePlayer";
 import { FollowUpPanel } from "./FollowUpPanel";
 
 type Effort = "low" | "high";
 
-export function PaintingDetail({ painting, onBack }: { painting: Painting; onBack: () => void }) {
+export function PaintingDetail({
+  work,
+  museumId,
+  language,
+  onBack,
+}: {
+  work: Work;
+  museumId: string;
+  language: LanguageCode;
+  onBack: () => void;
+}) {
+  const t = strings[language];
   const [effort, setEffort] = useState<Effort | null>(null);
   const [expanded, setExpanded] = useState(false);
   const [listenedText, setListenedText] = useState("");
 
   const sections: Section[] | null = useMemo(() => {
-    if (effort === "high") return [{ text: painting.guide.long }];
+    if (effort === "high") return [{ text: work.guide.long }];
     if (effort === "low") {
-      const list: Section[] = [{ text: painting.guide.short }];
-      if (expanded) list.push({ heading: "Another angle", text: painting.guide.expansion });
+      const list: Section[] = [{ text: work.guide.short }];
+      if (expanded) list.push({ heading: t.anotherAngle, text: work.guide.expansion });
       return list;
     }
     return null;
-  }, [effort, expanded, painting]);
+  }, [effort, expanded, work, t.anotherAngle]);
 
   const chooseEffort = (next: Effort) => {
     setEffort(next);
@@ -30,19 +42,22 @@ export function PaintingDetail({ painting, onBack }: { painting: Painting; onBac
   return (
     <article>
       <button className="back" onClick={onBack}>
-        ← Back to collection
+        {t.backToCollection}
       </button>
 
-      {painting.image ? (
+      {work.image ? (
         <figure className="artwork">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={painting.image.src} alt={`${painting.title} by ${painting.artist}`} />
+          <img
+            src={work.image.src}
+            alt={work.artist ? `${work.title} — ${work.artist}` : work.title}
+          />
           <figcaption>
-            Image:{" "}
-            <a href={painting.image.sourceUrl} target="_blank" rel="noreferrer">
-              Wikimedia Commons
+            {t.imageCredit}:{" "}
+            <a href={work.image.sourceUrl} target="_blank" rel="noreferrer">
+              {t.commons}
             </a>{" "}
-            · {painting.image.license}
+            · {work.image.license}
           </figcaption>
         </figure>
       ) : (
@@ -50,62 +65,58 @@ export function PaintingDetail({ painting, onBack }: { painting: Painting; onBac
       )}
 
       <header className="detail-head">
-        <h1>{painting.title}</h1>
-        <p className="artist">{painting.artist}</p>
+        <h1>{work.title}</h1>
+        {work.subtitle && (
+          <p className="native-title" lang="zh-Hans">
+            {work.subtitle}
+          </p>
+        )}
+        {work.artist && <p className="artist">{work.artist}</p>}
       </header>
 
-      <dl className="meta">
-        {painting.date && (
-          <div>
-            <dt>Date</dt>
-            <dd>{painting.date}</dd>
-          </div>
-        )}
-        {painting.medium && (
-          <div>
-            <dt>Medium</dt>
-            <dd>{painting.medium}</dd>
-          </div>
-        )}
-        {painting.accessionNumber && (
-          <div>
-            <dt>Accession</dt>
-            <dd>{painting.accessionNumber}</dd>
-          </div>
-        )}
-      </dl>
+      {work.facts.length > 0 && (
+        <dl className="meta">
+          {work.facts.map((f) => (
+            <div key={f.label}>
+              <dt>{f.label}</dt>
+              <dd>{f.value}</dd>
+            </div>
+          ))}
+        </dl>
+      )}
 
-      {painting.museumObjectUrl && (
+      {work.objectUrl && (
         <p className="object-link">
-          <a href={painting.museumObjectUrl} target="_blank" rel="noreferrer">
-            View on the museum&rsquo;s website ↗
+          <a href={work.objectUrl} target="_blank" rel="noreferrer">
+            {t.viewOnMuseum}
           </a>
         </p>
       )}
 
       <section className="guide" aria-labelledby="guide-heading">
-        <h2 id="guide-heading">Audio guide</h2>
-        <div className="effort-choice" role="group" aria-label="Guide depth">
+        <h2 id="guide-heading">{t.audioGuide}</h2>
+        <div className="effort-choice" role="group" aria-label={t.guideDepth}>
           <button aria-pressed={effort === "low"} onClick={() => chooseEffort("low")}>
-            <strong>Low effort</strong>
-            <span>A concise guide · about 1 min</span>
+            <strong>{t.lowTitle}</strong>
+            <span>{t.lowDesc}</span>
           </button>
           <button aria-pressed={effort === "high"} onClick={() => chooseEffort("high")}>
-            <strong>High effort</strong>
-            <span>Deeper history and interpretation · about 2–3 min</span>
+            <strong>{t.highTitle}</strong>
+            <span>{t.highDesc}</span>
           </button>
         </div>
 
         {sections && (
           <>
             <GuidePlayer
-              key={`${painting.id}-${effort}-${expanded}`}
+              key={`${work.id}-${effort}-${expanded}`}
               sections={sections}
+              language={language}
               onListenedChange={setListenedText}
             />
             {effort === "low" && !expanded && (
               <button className="expand" onClick={() => setExpanded(true)}>
-                + Expand with another story
+                {t.expand}
               </button>
             )}
           </>
@@ -113,7 +124,13 @@ export function PaintingDetail({ painting, onBack }: { painting: Painting; onBac
       </section>
 
       {effort && (
-        <FollowUpPanel paintingId={painting.id} effort={effort} listenedText={listenedText} />
+        <FollowUpPanel
+          museumId={museumId}
+          language={language}
+          workId={work.id}
+          effort={effort}
+          listenedText={listenedText}
+        />
       )}
     </article>
   );

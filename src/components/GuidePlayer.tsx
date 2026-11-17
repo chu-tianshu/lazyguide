@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { chunkText } from "@/lib/speech";
+import { strings, type LanguageCode } from "@/lib/i18n";
 
 export interface Section {
   heading?: string;
@@ -12,12 +13,14 @@ type Status = "idle" | "playing" | "paused" | "ended";
 const RATES = [1, 1.5, 2] as const;
 type Rate = (typeof RATES)[number];
 
-function pickVoice(): SpeechSynthesisVoice | undefined {
+function pickVoice(speechLang: string): SpeechSynthesisVoice | undefined {
   // An empty voice list is fine: the browser falls back to its default voice.
   const voices = window.speechSynthesis.getVoices();
+  const exact = speechLang.toLowerCase();
+  const base = exact.split("-")[0];
   return (
-    voices.find((v) => v.lang.toLowerCase().startsWith("en-us")) ??
-    voices.find((v) => v.lang.toLowerCase().startsWith("en"))
+    voices.find((v) => v.lang.toLowerCase().replace("_", "-") === exact) ??
+    voices.find((v) => v.lang.toLowerCase().startsWith(base))
   );
 }
 
@@ -30,24 +33,29 @@ function pickVoice(): SpeechSynthesisVoice | undefined {
  */
 export function GuidePlayer({
   sections,
+  language,
   onListenedChange,
 }: {
   sections: Section[];
+  language: LanguageCode;
   /** Reports the text the visitor has heard so far (sentences up to the current one). */
   onListenedChange?: (text: string) => void;
 }) {
+  const t = strings[language];
+
   const flat = useMemo(() => {
     const items: { text: string; section: number }[] = [];
     sections.forEach((s, si) => {
-      chunkText(s.text).forEach((text) => items.push({ text, section: si }));
+      chunkText(s.text, language).forEach((text) => items.push({ text, section: si }));
     });
     return items;
-  }, [sections]);
+  }, [sections, language]);
 
   const lengths = useMemo(() => flat.map((f) => f.text.length), [flat]);
   const totalChars = useMemo(() => lengths.reduce((a, b) => a + b, 0) || 1, [lengths]);
 
   const [supported, setSupported] = useState(true);
+  const [noVoice, setNoVoice] = useState(false);
   const [status, setStatus] = useState<Status>("idle");
   const [current, setCurrent] = useState(0);
   const [within, setWithin] = useState(0); // 0–1 progress through the current sentence
@@ -72,7 +80,9 @@ export function GuidePlayer({
 
       const runId = ++runRef.current;
       const isCurrent = () => runId === runRef.current;
-      const voice = pickVoice();
+      const voice = pickVoice(t.speechLang);
+      // Only warn once voices have loaded and none matches the guide's language.
+      setNoVoice(!voice && synth.getVoices().length > 0);
 
       setStatus("playing");
       setCurrent(start);
@@ -82,7 +92,7 @@ export function GuidePlayer({
         const item = flat[index];
         const utterance = new SpeechSynthesisUtterance(item.text);
         utterance.rate = r;
-        utterance.lang = voice?.lang ?? "en-US";
+        utterance.lang = voice?.lang ?? t.speechLang;
         if (voice) utterance.voice = voice;
 
         utterance.onstart = () => {
@@ -109,7 +119,7 @@ export function GuidePlayer({
         synth.speak(utterance);
       }
     },
-    [flat, supported],
+    [flat, supported, t.speechLang],
   );
 
   const togglePlay = () => {
@@ -145,13 +155,13 @@ export function GuidePlayer({
   const isActive = status === "playing" || status === "paused";
 
   const listened = useMemo(() => {
-    if (status === "ended") return flat.map((f) => f.text).join(" ");
+    if (status === "ended") return flat.map((f) => f.text).join(t.joiner);
     if (status === "idle") return "";
     return flat
       .slice(0, current + 1)
       .map((f) => f.text)
-      .join(" ");
-  }, [flat, current, status]);
+      .join(t.joiner);
+  }, [flat, current, status, t.joiner]);
 
   useEffect(() => {
     onListenedChange?.(listened);
@@ -176,7 +186,13 @@ export function GuidePlayer({
   const percent = Math.round(progress * 100);
 
   const playLabel =
-    status === "playing" ? "Pause" : status === "paused" ? "Resume" : status === "ended" ? "Play again" : "Play";
+    status === "playing"
+      ? t.pause
+      : status === "paused"
+        ? t.resume
+        : status === "ended"
+          ? t.playAgain
+          : t.play;
 
   return (
     <div className="player">
@@ -185,9 +201,9 @@ export function GuidePlayer({
           {playLabel}
         </button>
         <button onClick={restart} disabled={!supported}>
-          Restart
+          {t.restart}
         </button>
-        <div className="speed" role="group" aria-label="Playback speed">
+        <div className="speed" role="group" aria-label={t.speedLabel}>
           {RATES.map((r) => (
             <button
               key={r}
@@ -204,7 +220,7 @@ export function GuidePlayer({
       <div
         className="progress"
         role="progressbar"
-        aria-label="Playback progress"
+        aria-label={t.progressLabel}
         aria-valuemin={0}
         aria-valuemax={100}
         aria-valuenow={percent}
@@ -214,7 +230,12 @@ export function GuidePlayer({
 
       {!supported && (
         <p className="notice" role="note">
-          Audio playback isn&rsquo;t available in this browser. The captions below still work.
+          {t.noSpeech}
+        </p>
+      )}
+      {supported && noVoice && (
+        <p className="notice" role="note">
+          {t.noVoice}
         </p>
       )}
 
@@ -239,7 +260,8 @@ export function GuidePlayer({
                     }}
                     className={cls}
                   >
-                    {item.text}{" "}
+                    {item.text}
+                    {t.joiner}
                   </span>
                 );
               })}

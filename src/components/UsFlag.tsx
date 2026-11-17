@@ -7,7 +7,7 @@ const CANTON_H = 350;
 const STRIPE_H = H / 13;
 
 // Five-pointed star centred on (cx, cy).
-function starPoints(cx: number, cy: number, outer: number, inner: number): string {
+export function starPoints(cx: number, cy: number, outer: number, inner: number): string {
   const points: string[] = [];
   for (let k = 0; k < 10; k++) {
     const r = k % 2 === 0 ? outer : inner;

@@ -1,0 +1,638 @@
+{
+  "project": "Henan Museum (河南博物院) — 20-object audio guide set",
+  "metadata_source": "Titles, periods and types follow the requested list. Where the official Henan Museum collection record was found and differs, the record is used and the difference is noted in research_flags. Accession numbers are null where no record number was verified.",
+  "guide_specification": {
+    "short": "Standalone introduction, approximately 1 minute (120–150 words)",
+    "expansion": "Adds a distinct layer of looking or context, approximately 1 minute (120–160 words)",
+    "long": "Standalone detailed guide, approximately 2–3 minutes (300–400 words)",
+    "style": "Expert art educator and Chinese art specialist; spoken, accessible, evidence-led."
+  },
+  "works": [
+    {
+      "id": 1,
+      "metadata": {
+        "title": "贾湖骨笛 (Bone Flute from Jiahu)",
+        "period": "Neolithic, Peiligang culture (c. 7000–5700 BC, site occupation range as listed)",
+        "object_type": "Bone object · musical instrument (bone flute)",
+        "material": "Wing bone (ulna) of red-crowned crane (Grus japonensis)",
+        "dimensions": "c. 23 cm long, seven finger holes (sources give 23.1 cm and 23.6 cm)",
+        "museum": "Henan Museum (河南博物院)",
+        "accession_number": null,
+        "official_record": null
+      },
+      "short": "Look closely at the small holes running along this flute. It was carved from the wing bone of a red-crowned crane, a bird whose bones are hard and hollow, which made them difficult to drill. Seven finger holes sit in a neat line along one side. Covering and opening them changes the pitch, so a player could move between notes using only the hands. The flute is about 23 centimetres long, small enough to rest in an adult's palm. It comes from Jiahu, a settlement in Wuyang, Henan Province, occupied during the early Neolithic Peiligang culture, roughly between 7000 and 5700 BC. It is among the oldest instruments of its kind, and it reminds us that music was being made in China millennia before the Shang dynasty. Look first, then imagine the sound it once made across a village.",
+      "expansion": "Its sound is the subject of serious study. In 1999, a team of Chinese and American researchers reported tests on the best-preserved Jiahu flute, which they had played and analysed. They found that its seven holes could correspond to a scale remarkably close to the Western do-re-mi eight-note scale. That claim is striking, but it rests largely on one instrument and on modern interpretation of ancient sound, so specialists treat it as provisional. The flute's context is also debated. A Henan Museum online exhibition links this example to a tomb at Jiahu and suggests it was the one most cherished by the person buried there. Other accounts of the excavations do not mention a tomb, so that connection needs checking.",
+      "long": "Start with the material. This flute was made from the wing bone of a red-crowned crane. Crane bone is hard but hollow, which is a challenge for any toolmaker. It holds a shape well, yet a drill can easily split it. Surviving examples show small marks carved above and between the holes before drilling began, a sign that the spacing was worked out in advance rather than guessed.\n\nSeven holes run in a straight line along one side. Covering and uncovering them with the fingers lets the player shift between pitches. Trial playing confirmed that the instrument is blown vertically, the same basic principle as many later flutes. Some accounts describe smaller holes beside the main seven that may have been used for tuning, but this detail comes from a single source, so treat it with care.\n\nThis example was found at Jiahu, a settlement in Wuyang County, Henan. The site was occupied during the Peiligang culture, roughly between 7000 and 5700 BC. Excavators have recovered more than thirty bone flutes there, most in fragments. According to the Henan Museum's online presentation, this flute was unearthed in 1987. Its three pieces show that it was broken and carefully mended in antiquity, so someone thought it worth keeping.\n\nHere the story becomes debated. In 1999, researchers reported that the best-preserved Jiahu flute could be played and tonally analysed, and that its seven holes might correspond to a scale close to the Western do-re-mi eight-note scale. That is a remarkable result, but it depends heavily on one instrument and on modern interpretation of ancient sound.\n\nWe do not know what these flutes were for. Some researchers suspect ritual or ceremonial use, but the site does not reveal what tunes were played or who played them. Chinese myths recorded thousands of years later link flute playing with cranes, but whether that association existed at Jiahu is not known.\n\nSo why does this object matter today? It is one of the earliest known instruments that can still produce controlled, multi-note sounds. It shows that early farming communities in the Central Plains were already working with precise acoustics, shaping a hard material into an instrument that could be tuned by hand and played by ear. Look at it first as a made object, a piece of skilled craft. Then listen to it in your imagination.",
+      "word_counts": {
+        "short": 139,
+        "expansion": 120,
+        "long": 390
+      },
+      "research_flags": [
+        "Length conflict: 23.1 cm (China Daily/Henan Museum online exhibition) vs 23.6 cm (henan.gov.cn article). Official record not reached; confirm dimensions.",
+        "Excavation year conflict: 1987 (China Daily page) vs 1986 (thepaper.cn article, which may refer to a different flute).",
+        "Tomb 282 context and 'most cherished by tomb owner' appear only in the Henan Museum online exhibition text; the 1999 Nature/ScienceDaily reports give no tomb context. Unverified.",
+        "Material: 'wing bone' (English press, Met) vs 'ulna' (Chinese sources); ulna is the forearm bone of the wing, so both are consistent.",
+        "Tuning-hole and three-piece repair details come from one source each (henan.gov.cn; China Daily) and are unconfirmed.",
+        "Date: list gives site-range c. 7000–5700 BC; the 1999 article gives flute ages of 7000–9000 years, which do not align cleanly. No flute-specific date found.",
+        "Scale claim (do-re-mi, near-eight-note scale) rests on one well-preserved flute and modern analysis; treated as provisional. Function (ritual) is speculation.",
+        "Accession number and official Henan Museum record URL not found; chnmuseum.cn not on the allowed fetch list. Metadata taken from secondary sources.",
+        "Item list says 'Object type: 骨器·乐器' and the record was not verified, so the list is used as given."
+      ]
+    },
+    {
+      "id": 2,
+      "metadata": {
+        "title": "妇好鸮尊 (Owl-shaped Zun of Lady Fu Hao)",
+        "period": "商代晚期（约公元前13—前11世纪）; Late Shang dynasty, c. 13th–11th century BCE",
+        "object_type": "青铜器·酒器 (bronze ritual wine vessel, zun in the form of an owl)",
+        "material": "Bronze (青铜)",
+        "dimensions": "通高46.3 cm (overall height); 口长16.4 cm (mouth length); weight 16 kg, per the Henan Museum record",
+        "museum": "Henan Museum (河南博物院)",
+        "accession_number": null,
+        "official_record": "https://www.chnmus.net/ch/collection/appraise/details.html?id=512159573394606792"
+      },
+      "short": "Look first at the head. Two small ears rise from a high crown, the eyes are round, the beak is broad, and the wings are folded tight against the body. This is an owl, cast in bronze in the late Shang dynasty, around 1200 BCE, and it is a ritual wine vessel. Notice how it stands. Its strong legs and broad, drooping tail meet the ground at three points, so the tail does structural work rather than merely decorating the piece. Now bend toward the rim. Just below the mouth, on the inner wall, two characters are cast: 妇好, Fu Hao. That inscription links the vessel to Fu Hao, a consort of King Wu Ding, whose tomb was excavated at Yinxu near Anyang in 1976. Roughly 3,200 years later, the owl still stands on its three points.",
+      "expansion": "The surface is as striking as the silhouette. Nearly every part is covered in thunder pattern, leiwen, 雷纹, a fine ground that gives the bronze a dense, textured look. Over it, cicadas appear on the beak and chest, a double-headed kui dragon, 夔, sits on each side of the neck, and coiled snakes curl near the wings. Taotie masks, the mysterious beast faces typical of Shang bronzes, appear among them. The result is busy, yet the owl’s outline stays clear. Curators at the museum describe the bird as sacred and linked to bravery and victory. One scholar has argued that it represents a war god, but that is an interpretation, not a settled fact. The pair also matters: the other owl is in the National Museum of China in Beijing, and the two were shown together in Henan for the first time.",
+      "long": "Start with the silhouette. This is an owl, rendered in bronze more than three thousand years ago, and it stands on three points: two thick legs and a broad, drooping tail that meets the ground as firmly as the feet. Look at the head. A high crown rises above small ears, the eyes are round, and the beak is wide. The wings are folded tightly against the sides, so the bird seems both still and alert. That tension between stillness and watchfulness is what makes the piece feel alive.\n\nIt is a zun, a ritual wine vessel. Shang bronzes of this kind were used in ritual settings, and the bird’s body is the container itself, with an opening at the top. The animal form and the working vessel are one object.\n\nThe surface is dense. Almost all of it is covered in thunder pattern, leiwen, 雷纹, a fine ground that makes the bronze look textured. Over that ground, cicadas appear on the beak and chest, double-headed kui dragons, 夔, sit on the neck, and taotie masks and coiled snakes appear elsewhere on the body. The museum describes the overall style as dignified and fierce, yet the owl’s outline stays clear.\n\nThen look just below the mouth, on the inside of the vessel. Two characters are cast there: 妇好, Fu Hao. The inscription identifies the owner. Fu Hao was a consort of King Wu Ding, and her tomb was excavated in 1976 at Yinxu, the late Shang capital near modern Anyang. The tomb was undisturbed when found and held hundreds of bronzes. Oracle bone inscriptions also name her as a military leader.\n\nWhy an owl? Curators at the museum describe the bird as sacred and link it to bravery and victory. One scholar has gone further and argued that the owl was a war-god symbol, but that reading is an interpretation rather than a settled fact. Owls also carried different reputations in later Chinese history, so their meaning should not be assumed to stay fixed.\n\nFinally, this is one of a pair. The other owl is in the National Museum of China in Beijing, and the two were shown together in Henan for the first time in a recent exhibition. Whether you stand before one owl or two, the question is the same: how did Shang workers make an animal look so watchful?",
+      "word_counts": {
+        "short": 137,
+        "expansion": 142,
+        "long": 392
+      },
+      "research_flags": [
+        "Title, late Shang date and object type match the list. A second Henan Museum page gives 商代后期前段（殷墟二期）; the record used here says 商代晚期.",
+        "Accession number is not published on the record and is left null.",
+        "The record gives no separate material field; bronze is taken from the 青铜器 category and the text (铜尊).",
+        "Tomb 5 (M5) numbering comes from a third-party source (CASS-linked page); the Henan record says only 妇好墓 and 1976. The c. 1200 BCE date is approximate and the tomb's dating has been debated.",
+        "The Henan piece is the one with the 妇好 inscription; the National Museum of China partner is 45.9 cm and 16.7 kg per a secondary source, unverified.",
+        "The museum's claim that this is the earliest bird-shaped bronze zun in China is not independently verified and is not used in the scripts.",
+        "Owl symbolism is disputed: museum curators describe a sacred bird linked to bravery and victory; scholar He Yuling reads a war-god symbol. Flagged in the long script.",
+        "The oracle-bone reference to Fu Hao as a military leader comes from secondary sources and has not been checked against primary oracle-bone texts.",
+        "Template conflict: templates ask for two scripts; the user asked for three. The three requested scripts were produced."
+      ]
+    },
+    {
+      "id": 3,
+      "metadata": {
+        "title": "莲鹤方壶 (Lianhe Fanghu, Square Hu with Lotus and Crane)",
+        "period": "Spring and Autumn period (春秋时期), late phase, roughly 6th century BCE (770–476 BCE per secondary sources; not confirmed against the official record)",
+        "object_type": "Bronze wine vessel (青铜器·盛酒器), hu type; some sources say wine or water",
+        "material": "Bronze (青铜)",
+        "dimensions": null,
+        "museum": "Henan Museum (河南博物院)",
+        "accession_number": null,
+        "official_record": null
+      },
+      "short": "Begin at the top. On the lid, a crane stands with its wings spread, as if about to take flight, and two tiers of lotus petals open around it. The petals are pierced with many tiny holes, so the lid is worked almost like lace. Now follow the eye down the body. The vessel is square in section, with a rectangular mouth, a long neck, and a belly that swells and then tapers toward the base. Dragons climb its corners, heads turned back over their shoulders, and creatures crouch beneath the foot to bear its weight. This is a hu, a vessel for holding wine or another liquid. It was cast in bronze around the sixth century BCE, in the late Spring and Autumn period, when Zhou royal authority was weakening. Notice how every line in the design rises toward the crane.",
+      "expansion": "The story of this vessel begins underground. In 1923, digging at Lijialou, near Xinzheng in Henan, uncovered bronzes from a large tomb traditionally linked to the rulers of Zheng, a small state of the period. The occupant has not been securely identified; scholars have proposed a few Zheng dukes, and the question remains open. Burial matters here. In a tomb, bronzes of this scale signaled the rank of the person buried there, but the record does not fully reveal how such a vessel was used while the living held it. The lotus and crane are commonly read as symbols of purity and longevity. That reading is plausible, yet it is an interpretation, not a documented intention. The Henan Museum holds one of a pair. The twin was separated long ago, and today the other sits in Beijing, at the Palace Museum.",
+      "long": "Start with the crane. Standing on the lid of this bronze, it has its wings spread as if about to lift off, and it rises from two tiers of lotus petals that open outward like a flower in bloom. The petals are pierced with many small holes, so the lid is a delicate openwork frame rather than a solid cap. Now look at the body. It is square in section, with a rectangular mouth, a long neck, and a belly that swells and tapers toward the foot. Dragons climb its corners with their heads turned back, and mythical creatures crouch beneath the base to support its weight. The whole thing is cast in bronze, and it is heavy. Some sources give its weight as about 64 kilograms, but published measurements vary, so treat the exact figures as provisional.\n\nThis is a hu, a vessel for holding wine or another liquid. Its shape suggests it was made for pouring, and its scale suggests it was meant to impress. It was cast during the late Spring and Autumn period, roughly the sixth century BCE, when the Zhou royal house still held nominal authority but regional states such as Zheng were asserting their own power. Bronzes of this size and finish were a statement of rank.\n\nThe vessel was found in 1923, in a field at Lijialou near Xinzheng, Henan, in what was traditionally identified as a tomb of the Zheng rulers. Finding it in a tomb tells us where it ended up, but the record does not fully reveal how it was used while the living held it. The occupant of that tomb has not been securely identified, and scholars have proposed a few Zheng dukes. The pair was later divided. One vessel is here in Zhengzhou, and the other is in Beijing's Palace Museum.\n\nThe scholar Guo Moruo gave it the name Lianhe fanghu, the lotus-and-crane square hu. The name captures the two motifs that define the design. The lotus and crane are often read as symbols of purity and longevity, a reading that is plausible but reflects later interpretation rather than a documented intention. What we can say with more confidence is that the lid, the body, and the dragons were designed as one composition, with the crane as its focal point. Pay attention to it, and you will see how nearly every line leads upward toward it.",
+      "word_counts": {
+        "short": 142,
+        "expansion": 141,
+        "long": 398
+      },
+      "research_flags": [
+        "Official Henan Museum record (henanmuseum.com) could not be accessed. Accession number and official URL are unverified.",
+        "Dimensions conflict: 117 cm (China Daily), 120 cm (Chinese news page), 122 cm (Google Arts & Culture, which names the Palace Museum), 125.7 to 126.5 cm (Shanghai Daily). Dimensions left null.",
+        "Weight of about 64 kg appears in two sources but neither confirms which of the pair it refers to.",
+        "Pair: sources agree one vessel is in Henan Museum and one in the Palace Museum, but no source confirms which jar is which.",
+        "Date: list says 6th century BCE. Sources give late Spring and Autumn (770-476 BCE); one Chinese page says mid-period and another early Spring and Autumn.",
+        "Excavation: August 1923 at Lijialou, Xinzheng. One source says a vegetable plot; another says a well dug in a drought. Tomb occupant unidentified (Duke Cheng or Duke Xi of Zheng proposed).",
+        "Decoration: lid petals described as two tiers (China Daily) and as ten sets of double-layered petals (Xinhua). Foot supports described as mythical beasts (China Daily) and lying tigers (Shanghai Daily); script says creatures.",
+        "Casting: lost-wax method and separate casting of crane and ears comes from one source only (Shanghai Daily). Not used in scripts.",
+        "Guo Moruo's naming is stated by two sources. Lotus as purity and crane as longevity are interpretive readings, not documented intent.",
+        "Function: list says wine vessel; sources say wine or water. Ritual use is not documented and is not claimed.",
+        "Shanghai Daily reports the pair was briefly reunited in Henan in 2006. Single-source, not used."
+      ]
+    },
+    {
+      "id": 4,
+      "metadata": {
+        "title": "武则天金简 (Wu Zetian Gold Slip)",
+        "period": "Tang dynasty, Wu Zhou period (武周); inscription dated 7 July 700 CE (Jiushi 1st year, 久视元年)",
+        "object_type": "金器·祭祀铭文 (gold ritual slip with inscription)",
+        "material": "Gold alloy: about 90% gold and 10% silver per a 2008 museum test as reported; one China Daily advertorial gives over 96% gold",
+        "dimensions": "36.2 cm long, 8 cm wide, about 0.1 cm thick; 223.5 g (press reports; not checked against the museum record)",
+        "museum": "Henan Museum (河南博物院)",
+        "accession_number": null,
+        "official_record": null
+      },
+      "short": "Start with the material. This narrow strip of gold, about thirty-six centimetres long, is covered in more than sixty characters, and it was never meant for a display case. It is a petition. Around the year 700, Wu Zetian, the only woman to rule China as emperor, sent a Daoist envoy to Mount Song in Henan with this slip. Its message asks the celestial authorities to pardon the empress's wrongdoings. Look at the surface and you will see the characters were not stamped but cut into the metal by hand, one stroke at a time. Earlier slips of this kind were made of jade, silver or bronze, so this is the first known gold example. Read the lines slowly, and you are reading a personal request, issued in the empress's own name, meant for the gods.",
+      "expansion": "Now look at how it was made. The gold was hammered into a sheet only about a millimetre thick, and the characters were incised as outlines, each stroke drawn with a pair of parallel lines, a technique called double-line writing. The surface was then burnished smooth. The metal is not pure gold. A 2008 test by the Henan Museum found roughly ninety percent gold and ten percent silver, a proportion reported as typical of Tang gold, though another published figure gives higher purity, so the exact composition is still open. The strip survived by chance. In 1982, a young farmer on Junji Peak, a summit of Mount Song, took it for pastry wrapping. Only after he wiped away the dirt did he see the writing. A dealer offered him 100,000 yuan, and he handed the slip to the state instead.",
+      "long": "Picture a sheet of gold, long and narrow, that you could hold in one hand. It looks like an ornament, but it was never meant for a display case. This is a petition, and its author was an empress.\n\nWu Zetian is the only woman in Chinese history to rule as emperor. She founded her own Zhou dynasty, which interrupted the Tang for about fifteen years. In the year 700, the inscription tells us, she sent a Daoist envoy named Hu Chao to Mount Song, one of China's five sacred mountains. He was to leave the slip there, asking the Three Officials and the Nine Bureaus, the celestial authorities in Daoist belief, to pardon her wrongdoings. The text is dated the seventh day of the seventh month.\n\nThe wording is short but deliberate. Five of its characters were ones Wu Zetian had created herself, including 曌, the character she devised for her own name. That suggests a personal hand in the wording, although the record names Hu Chao as the envoy who submitted it. The slip was first nicknamed after its supposed purpose, the removal of the empress's sins, and that label still shapes how people read it.\n\nHere the debate begins. The word for sin could mean a moral failing, but it could also refer to suffering, such as illness. Some writers link the slip to an illness the empress is recorded as having around that time, and to pills Hu Chao had made for her. That reading is an inference, not something the inscription says outright. Later researchers tend to read the slip as a prayer for blessing and protection.\n\nWhatever the precise motive, the object shows a ruler at the height of her power turning to the mountains and the gods, and choosing gold to do it. Whether you read it as a confession, a plea, or a prayer for health, the slip carries a voice that official histories rarely give us: a sovereign asking, in her own careful language, for forgiveness.",
+      "word_counts": {
+        "short": 136,
+        "expansion": 140,
+        "long": 335
+      },
+      "research_flags": [
+        "Official Henan Museum collection record not reached (henanmuseum.com was not accessible and no record surfaced in search). Accession number and record URL are unverified; title, period and type follow the list.",
+        "Gold purity conflicts: about 90% gold and 10% silver (2008 museum test, as reported by yzwb.net and CGTN) versus over 96% gold (China Daily advertorial). Script says the composition is open.",
+        "Dimensions and weight come from press reports only (yzwb.net, CGTN), not the museum record.",
+        "Date: the inscription's calendar line (庚子七月甲申朔七日甲寅) gives 7 July 700, Jiushi 1st year; consistent across sources.",
+        "Interpretation disputed: first named 'slip for removing sins', later read as a prayer for blessing and protection. The illness link is an inference from a Zizhi tongjian reference, not the inscription text.",
+        "Discovery on 21 May 1982 at Junji Peak, Mount Song (Dengfeng), per yzwb.net. The finder's name is omitted from the scripts.",
+        "Inscription text was quoted from a Chinese press article, not a museum transcription. The 63-character count is from CGTN and China Daily.",
+        "The 2008 test, the 'typical Tang ratio' claim and the 100,000-yuan offer rest on one Chinese press article and are not corroborated.",
+        "A Complutense University article abstract describes the slip as a first-person prayer and discusses its Daoist context; full text not accessed."
+      ]
+    },
+    {
+      "id": 5,
+      "metadata": {
+        "title": "云纹铜禁 (Bronze Jin Stand with Cloud Pattern)",
+        "period": "Late Spring and Autumn period (春秋晚期); cast no later than 552 BC, according to the excavation evidence",
+        "object_type": "Bronze ritual wine stand (jin 禁, 承酒器)",
+        "material": "Bronze (青铜)",
+        "dimensions": "Overall height 28.8 cm; body length 103 cm; width 46 cm; weight 95.5 kg (Henan Museum record)",
+        "museum": "Henan Museum (河南博物院)",
+        "accession_number": null,
+        "official_record": "https://www.chnmus.net/sitesources/hnsbwy/page_pc/dzjp/mzyp/article9ff964490b3b4f02be4f5e622a87614f.html"
+      },
+      "short": "Start with the top, because that is where your eye goes first. What looks like a solid tray turns out to be a lattice of cast cloud scrolls, pierced so you can see through to the hollow frame below. This is a jin, a bronze stand built to hold a wine vessel. It dates to the late Spring and Autumn period, around the sixth century BC, and was made for the Chu state, whose tombs at Xichuan in Henan have yielded this piece. Twelve dragon-shaped beasts cling to the sides of the frame, their open jaws and extended tongues turned toward the center. Twelve more beasts sit beneath and carry the load. The whole piece is about 29 centimeters tall, yet it weighs roughly 95 kilograms. Few bronzes manage to be this heavy and this delicate at once.",
+      "expansion": "The stand also raises a question about how it was made. The museum's record calls it one of the earliest Chinese bronzes cast by the lost-wax method. In that process, the form is modeled in wax, coated in clay, and the wax is melted out, leaving a cavity that molten bronze fills. Many scholars place the arrival of lost-wax casting in China much later, and often connect it with India. If this stand was truly lost-wax cast, the technique would be far older than the early Tang texts usually cited for it. Other researchers doubt that Bronze Age workshops used the method at all. They argue the stand was assembled from separately molded pieces joined by welding. The debate remains open. Either way, its makers controlled molten metal across a large and intricately pierced form, which is a remarkable achievement in itself.",
+      "long": "Lift your eyes to the top of this bronze. What looks like a solid tray is really a lattice of cloud scrolls, pierced so you can look straight through them to the hollow frame beneath. The whole piece is about 29 centimeters tall and weighs roughly 95 kilograms, and nearly all of that mass rests on twelve beasts crouched under the frame.\n\nIt is a jin, a stand made to hold a wine vessel. The word is usually read as \"prohibition,\" and a long-standing explanation links the name to the Zhou view that excessive drinking had doomed the Xia and Shang dynasties. That is a traditional explanation, not something the object itself proves. What the object does show is how carefully its makers handled wine. Twelve dragon-shaped beasts cling to its sides, their open mouths turned toward the center and their tongues extended. Some other accounts describe the lower beasts as tiger-like, but the museum's record calls them dragons.\n\nThe stand comes from the Chu state in the late Spring and Autumn period. It was found at Xiasi, in Xichuan county, Nanyang, Henan, and the official record dates its casting to no later than 552 BC. Local bronzes first came to light in 1977, when a drought lowered the water in the Danjiangkou reservoir. The tomb owner is commonly identified as Zi Geng, also called Prince Wuzi, a chief minister of Chu. That identification rests mainly on inscriptions on a set of ding cauldrons from the same tomb, not on the stand itself.\n\nThe bigger question is how it was cast. The museum describes it as one of the earliest Chinese bronzes made by lost-wax casting, a method in which a wax model is coated in clay and melted away to leave a cavity for molten bronze. If that is right, the technique would be far older than the Tang-dynasty texts that are usually cited for it. Many scholars instead place the arrival of lost-wax casting in China much later and connect it with India. Others doubt that the Bronze Age used the method at all, and argue that the stand was assembled from separately molded pieces joined by welding. The debate remains open.\n\nWhichever way it was made, the stand shows a workshop able to control molten metal across a large and intricately pierced form.",
+      "word_counts": {
+        "short": 138,
+        "expansion": 142,
+        "long": 386
+      },
+      "research_flags": [
+        "Accession number (藏品编号) not found in any source checked; set to null.",
+        "Dimensions: Henan Museum record gives 通高28.8 cm, 身长103 cm, 宽46 cm, 95.5 kg; a secondary article gives 通长125.5 x 宽67.6 x 高28.8 cm, 94.2 kg. Official record used.",
+        "Excavation dates conflict: a secondary article says the tomb was excavated in 1978; the official record says the cemetery was excavated from March 1979. Scripts give no excavation year beyond the 1977 discovery reported in a secondary source.",
+        "Base beasts: official record calls them dragon-shaped (龙形座兽); secondary sources describe them as tiger-like (虎形). Scripts note the discrepancy.",
+        "Lost-wax casting: official record calls it one of the earliest such bronzes and notes scholarly dispute. A secondary source's claim of 25 separately modeled wax pieces plus welded beasts is unverified and not used.",
+        "Tomb owner (Zi Geng / Prince Wuzi, 王子午) is a commonly accepted identification based on inscriptions on ding cauldrons from the same tomb, not on the stand, which has no inscription per secondary source.",
+        "Etymology of 禁 as 'prohibition' tied to the Zhou drinking-ban view is a traditional explanation, flagged as such in the script.",
+        "List said 春秋时期（公元前6世纪）; official record says 春秋晚期 with casting no later than 552 BC. Consistent; official wording used."
+      ]
+    },
+    {
+      "id": 6,
+      "metadata": {
+        "title": "杜岭方鼎 (Duling Square Ding)",
+        "period": "Early Shang dynasty (商代早期); the list gives c. 16th–15th century BCE, and secondary sources give a wider range of c. 1590–1300 BCE",
+        "object_type": "Bronze ritual vessel (青铜器·礼器), a square ding",
+        "material": "Bronze (青铜)",
+        "dimensions": "Overall height 87 cm; mouth about 61 cm square; ear height 17 cm; foot height 25.5 cm; weight about 64.25 kg",
+        "museum": "Henan Museum (河南博物院)",
+        "accession_number": null,
+        "official_record": "https://www.chnmus.net/sitesources/hnsbwy/page_pc/dzjp/zyzb/articlecc3a53c2a97149d4bf62fb583ef0dc9d.html"
+      },
+      "short": "Walk slowly around this bronze and begin with its corners. The body is square, with straight walls and a flat rim, and it stands on four hollow legs. It is a ding, a ritual vessel of the Shang dynasty used to hold food at ceremonies. This example is about 87 centimeters tall and weighs roughly 64 kilograms, so even empty it is a heavy object. It dates to the early Shang period, around 3,400 years ago. Look at the upper belly, where a fierce face called a taotie stares out of the bronze. Along the sides and lower body, small raised knobs, known as nipple bosses, break up the surface. Their purpose is debated, but their orderly placement shows how carefully the surface was planned. You are looking at the smaller of a pair of dings found together in Zhengzhou in 1974.",
+      "expansion": "Here is a question this vessel leaves open: why was something this heavy put into the ground? In September 1974, workers digging a tunnel on the Duling mound in Zhengzhou came upon it about six meters down. The mound sits roughly 300 meters outside the western wall of the early Shang city, which is one reason the find matters to historians studying how that city grew. The vessel did not come alone. A larger square ding, about a meter tall and now in the National Museum of China, was found with it, and a cattle skeleton lay among the remains. Some archaeologists have suggested that the group may have been linked to ritual sacrifice, but that idea is a hypothesis, not a proven fact. What the find does establish is the scale of the effort. Two dings this heavy required enormous quantities of metal and organized labor, whatever the reason for their deposit.",
+      "long": "Start with the corners. This bronze is built like a box rather than a bowl. Its body is square, its walls rise straight to a flat rim, and two upright ears stand on that rim. Underneath, four hollow cylindrical legs lift the vessel off the ground. The Chinese name for this type is ding, a ritual vessel used in the Shang dynasty to hold food offered during ceremonies.\n\nThis is the Duling square ding, made in the early Shang period, around 3,400 years ago. It stands about 87 centimeters high, its mouth measures roughly 61 centimeters on each side, and it weighs about 64 kilograms. Shang bronze was cast in sections of clay mould that were then assembled, and a vessel this size needed a large quantity of metal and many skilled, coordinated workers.\n\nLook at the decoration. The upper belly carries a taotie, a fierce mask with staring eyes, a motif that appears across Shang bronzes. Small raised knobs called nipple bosses cover the sides and lower body, breaking up the surface in an ordered pattern. Scholars debate what the taotie represented, and the purpose of the knobs is also uncertain. What is clear is that the surface was planned with care, so the vessel rewards a slow walk around it.\n\nIts discovery is as remarkable as its form. In September 1974, workers digging a tunnel on the Duling mound in Zhengzhou reached two square dings about six meters underground. The mound sits roughly 300 meters outside the western wall of the early Shang city. The larger of the pair, about a meter tall, is now in the National Museum of China. This smaller one is held by the Henan Museum. Accounts of who first spotted the vessels differ.\n\nThat setting raises the question of purpose. A cattle skeleton was found together with the pair, and some archaeologists have suggested that the group may have been connected to royal sacrifice. That remains a hypothesis, not a settled conclusion. The find also feeds a larger debate about Zhengzhou itself. Scholars still argue about which early Shang ruler, if any, held court here, so the vessel is evidence in an argument that is still open.\n\nWhatever its exact role, the Duling ding shows how far Shang bronze-casting had come. Circle it slowly, and notice how the square corners sharpen the whole form.",
+      "word_counts": {
+        "short": 142,
+        "expansion": 153,
+        "long": 391
+      },
+      "research_flags": [
+        "Official record found on the Henan Museum site (chnmus.net, 镇院之宝 column) with title, date, dimensions and weight, but no accession number; accession_number left null.",
+        "Dating: the list says c. 16th–15th century BCE; secondary sources give c. 1590–1300 BCE. Scripts say 'early Shang' and 'around 3,400 years ago' to stay within both.",
+        "Record confusion: the Henan Museum page gives the Duling No. 1 height as both 87 and 100 cm. Other sources say No. 1 (100 cm, 86.4 kg) is held by the National Museum of China and No. 2 (87 cm, about 64.25 kg) is the Henan Museum piece, which matches the list.",
+        "Discoverer disputed: one account credits a sanitation worker, Yuan Haijun, who later claimed the find in 2010, while another says unnamed workers. Location names also vary (Zhangzhai South/Front Street, Duling Street).",
+        "Sacrifice link: the cattle skeleton is reported, but the royal sacrifice connection is only Yang Yubin's suggestion, presented as a hypothesis.",
+        "Zhengzhou's identity as an early Shang capital and the king it belonged to are disputed; the scripts say so briefly.",
+        "The record's superlatives (earliest, largest, most perfectly cast) are not supported by evidence in the sources and are not used. Its 'nine' versus 'ten' treasure ranking is inconsistent and not used.",
+        "Casting method: piece-mould casting is described as the general Shang practice. No technical study specific to this vessel was found, so the script attributes it to Shang casting generally.",
+        "Taotie and nipple-boss meanings are presented as open to debate, not as settled symbolism."
+      ]
+    },
+    {
+      "id": 7,
+      "metadata": {
+        "title": "玉柄铁剑 (Jade-Hilted Iron Sword)",
+        "period": "Western Zhou dynasty, late period (西周晚期, c. 8th century BCE); the museum record gives 西周",
+        "object_type": "Jade and iron weapon (玉器、铁器·兵器)",
+        "material": "Iron blade; bronze core with turquoise inlay; Hetian nephrite jade hilt (和田青玉)",
+        "dimensions": "Overall length 34.2 cm; hilt length 12.2 cm (blade length of about 22 cm appears in a secondary source only)",
+        "museum": "Henan Museum (河南博物院)",
+        "accession_number": null,
+        "official_record": "https://www.chnmus.net/sitesources/hnsbwy/page_pc/bwzl/jxysyhjsqjytzgygbz/jyhy/article2ff8d5d4e3a44448b3233e8c57835a1d.html"
+      },
+      "short": "Start with the hilt, because it holds the surprise. It looks like a solid jade handle, but it is an assembly. Two hollow sections of greenish nephrite, cut from Hetian jade in China's far west, slide together over a bronze core, and small copper pins lock them in place. Turquoise strips are set into the bronze and into the top of the pommel. Now look at the blade. It is iron, and iron was far rarer than bronze in Western Zhou China. The blade is forged onto the bronze core, so the three materials meet in one continuous object. This sword came from tomb M2001 at the Guo state cemetery in Sanmenxia, Henan, excavated in 1990. Iron, bronze, and jade together make a weapon that was meant to impress as much as to fight.",
+      "expansion": "The blade is where the sword earns its place in history. Analysis by researchers at the University of Science and Technology Beijing identified the iron as bloomery carburized steel, meaning it was smelted and worked by people rather than taken from a meteorite. If that reading holds, this is among the earliest scientifically confirmed examples of artificial iron in China, and it pushes the country's iron history back by more than a century. Scholars are cautious, though. Some suggest the blade, hilt, and core were made separately and joined with lacquer, but that idea has not been tested scientifically. Ask yourself why a weapon with such costly parts was buried in a Guo lord's tomb. Prestige is the most likely answer, but the sword's exact meaning remains open.",
+      "long": "Most visitors notice the jade first, and they are right to. The handle is made of greenish nephrite, the stone known as Hetian jade, carved into two hollow sections that slide together over a bronze core. Look closely and you will see thin strips of turquoise set into the bronze and the top of the pommel. The fit is careful rather than showy. Copper pins pass through small holes on each side to lock the parts together, so the jade is held mechanically rather than hidden under decoration.\n\nThe blade is the real surprise. It is iron, forged onto the bronze core, and it came from tomb M2001 at the Guo state cemetery in Sanmenxia, Henan, excavated in 1990. Guo was a Western Zhou state, and this tomb is linked to a Guo lord known as Guo Ji. In the late Western Zhou, bronze carried the prestige. Ritual vessels and weapons for the powerful were typically cast in bronze, while iron was far scarcer. A sword with an iron blade in a lord's tomb therefore stands out.\n\nAnalysis of the blade, reported by researchers at the University of Science and Technology Beijing, identified it as bloomery carburized steel, a product of artificial smelting rather than meteorite iron. If that identification holds, the sword is one of the earliest scientifically confirmed examples of iron made by human hands in China, and it pushes the country's iron history back by more than a century. Scholars are careful here, however. The cemetery's chronology is still debated, and the cemetery as a whole runs from the late Western Zhou into the early Spring and Autumn period. Some researchers also suggest the blade, hilt, and bronze core were made separately and joined with lacquer, an idea not yet tested in a laboratory.\n\nWhat does the sword mean? The combination of materials suggests it was meant to advertise rank as much as to fight. It may have signaled the political and military power of its owner, but that reading is an interpretation, not a documented fact. What is certain is that the object brings stone, copper, and iron into one weapon, and asks you to consider which of them the owner valued most.",
+      "word_counts": {
+        "short": 134,
+        "expansion": 128,
+        "long": 367
+      },
+      "research_flags": [
+        "Period: the brief says 西周晚期 (c. 8th century BCE); the official record says only 西周. The cemetery as a whole is described as spanning late Western Zhou into early Spring and Autumn, so the date is not settled.",
+        "Accession number not found in the official record or any source checked.",
+        "Sanmenxia Guo State Museum is said to display the sword, while the official record says it is held by Henan Museum. Display or loan status is unverified.",
+        "The iron analysis (USTB, bloomery carburized steel, 'earliest scientifically confirmed' artificial iron, pushing back more than a century) rests on a popular article. The primary report was not located, and the priority claim is contested in the wider literature.",
+        "Lacquer-joining hypothesis for blade and hilt is reported as untested (PKU paper).",
+        "Attribution of tomb M2001 to Guo Ji (虢季) is as reported by sources; the relationship between Guo Ji and Guo Zhong is unclear.",
+        "Symbolism (political and military power) is an interpretation only.",
+        "Blade length of about 22 cm appears only in a secondary source; the record gives overall length 34.2 cm and hilt length 12.2 cm."
+      ]
+    },
+    {
+      "id": 8,
+      "metadata": {
+        "title": "四神云气图壁画 (Four Spirits and Clouds Mural)",
+        "period": "Early Western Han dynasty (西汉早期), c. 2nd century BCE; listed date consistent with the sources checked",
+        "object_type": "墓葬壁画 (tomb mural)",
+        "material": "Mineral pigments (cinnabar red, white, green, black) on plaster; mural cut out in its original form and transferred to the museum",
+        "dimensions": "Approx. 514 x 327 cm (16.8 m²) per Chinese-language sources; 550 x 350 cm per a China Daily page presented with Henan Museum. Not confirmed against the museum record.",
+        "museum": "Henan Museum (河南博物院)",
+        "accession_number": null,
+        "official_record": null
+      },
+      "short": "Look up at this painting. It was made for the ceiling of a royal tomb chamber, and its ground is a deep cinnabar red, a mineral pigment made from mercury sulphide. Out of that red field a great dragon coils through the centre, while a vermilion bird hovers above and a white tiger crouches below. Painted clouds fill the spaces between them, so the whole scene reads as a sky. These animals are the four directional creatures of Chinese cosmology, which give the mural its title, Four Spirits and Clouds. Made in the early Western Han dynasty, around the second century BCE, it is described by museum sources as one of the earliest and largest tomb murals found in China. Its survival is remarkable: the painted plaster was carefully cut from its tomb and brought to Henan Museum, where it is displayed today.",
+      "expansion": "This mural was never meant to decorate a house or a temple. It belonged to a royal tomb of the Liang kingdom, a Western Han state ruled by princes of the Liu family, whose burial was cut into the rock of Mangdang Mountain near Yongcheng in Henan. Museum accounts link the tomb to King Gong of Liang, Liu Mai, but other sources name King Xiao, and some name no occupant at all, so the identity is still disputed. The tomb's design made such painting possible. One account describes a shift in royal tombs from vertical shaft graves to horizontal cave chambers, which gave painters more wall and ceiling space. The mural is painted in red, white, green and black pigments on plaster, and because it covers a ceiling, visitors inside the chamber would have looked straight up at it.",
+      "long": "Begin with the ceiling. A painting like this is easy to picture on a wall, but this one was laid across the top of a burial chamber, so anyone standing inside the royal tomb would have looked straight up into it. The ground is a deep cinnabar red, made from a mineral pigment that gives the whole field its warmth. Out of that red emerge the four directional creatures of Chinese cosmology. A dragon, its body twisting through the centre, dominates the scene, its tongue curling around a strange hybrid beast. Above it a vermilion bird, the guardian of the south, pecks at one of the dragon's horns, while below a white tiger holds a long flower in its mouth. The fourth figure is usually identified as the Black Tortoise, though its form does not match that creature neatly, and scholars have not fully settled the question. Painted clouds fill the gaps among the animals, so the whole composition reads as a sky.\n\nSetting matters as much as the image. The tomb belonged to the Liang kingdom, a Western Han state ruled by princes of the Liu family, and it was cut into the rock of Mangdang Mountain near Yongcheng in Henan. Museum accounts associate the tomb with King Gong of Liang, Liu Mai, but other sources name King Xiao, and some name no occupant at all. That uncertainty matters, because the identity of the person buried here shapes how we read the painting's rank and purpose. The dating to the early Western Han, around the second century BCE, is consistent across the sources I checked. The image itself was painted with mineral pigments in red, white, green and black on plaster.\n\nIts survival is the other story. In the late 1980s the painted plaster was carefully cut out in its original form and transferred to the Henan Museum, where it now stands among the institution's celebrated treasures. Museum publications describe it as one of the earliest and largest tomb murals found in China. Standing before it, you are looking at a painted sky that was once sealed underground, and that now survives where visitors can study it at close range.",
+      "word_counts": {
+        "short": 143,
+        "expansion": 139,
+        "long": 361
+      },
+      "research_flags": [
+        "Official Henan Museum collection record not reachable (henanmuseum.com not on allowlist); accession number and official URL unverified, set to null.",
+        "Occupant disputed: Liu Mai, King Gong of Liang (most sources, incl. China Daily page presented with Henan Museum); Liang King Xiao (梁孝王) in one baijiahao article; occupant unnamed in another.",
+        "Tomb location disputed: Shiyuan tomb (柿园墓), Mangdang Mountain; China Daily page says Baoanshan, Yongcheng.",
+        "Excavation year conflicts: 1986 (Henan Daily) vs 1987 (baijiahao); script says late 1980s.",
+        "Dimensions conflict: 514 x 327 cm (Chinese sources) vs 550 x 350 cm (China Daily/Henan Museum page) and Google Arts record (327 x 514 cm, 'Henan Provincial Museum'); unresolved.",
+        "Fourth creature unidentified: sources say Black Tortoise (玄武) or 'mythical beast'; hybrid form does not match the conventional Black Tortoise; script hedges.",
+        "Claims of 'earliest and largest' tomb mural are museum/press superlatives, not independently verified.",
+        "Alamy caption links a 'Liu Fa tomb' four-spirits image; not corroborated and likely unrelated, disregarded.",
+        "Mural cut out and moved in 1980s/1990s per sources; exact transfer date and method not confirmed by an official record."
+      ]
+    },
+    {
+      "id": 9,
+      "metadata": {
+        "title": "汝窑天蓝釉刻花鹅颈瓶 (Ru Ware Sky-Blue Glazed Carved Goose-Neck Vase)",
+        "period": "Northern Song dynasty (北宋, 960-1127 per museum record; list says 11th-12th century)",
+        "object_type": "Ceramic (瓷器); display vessel (陈设器) per list, not stated in museum record",
+        "material": "Ru ware porcelain (瓷器) with sky-blue glaze over greyish-buff body (香灰色胎); glaze composition not recorded",
+        "dimensions": "Height 19.5 cm; mouth diameter 5.6 cm; foot diameter 8.2 cm (museum record)",
+        "museum": "Henan Museum (河南博物院)",
+        "accession_number": null,
+        "official_record": "https://www.chnmus.net/sitesources/hnsbwy/page_pc/dzjp/zpjc/cq/article23f85aa418494272a448ad9fceced19e.html"
+      },
+      "short": "Let the color reach you first. This slender vase is covered in a sky-blue glaze, clear and glossy, the shade of a sky after rain. It is a Ru ware piece from the Northern Song dynasty, standing just under twenty centimetres tall. Its outline is a gentle S-curve: a flared mouth, a long thin neck, and a rounded belly above a small foot. Look closely at the neck and belly. Sprays of lotus are carved into the body, but they do not sit on the surface. They show faintly beneath the blue, appearing and fading as the light shifts. Chinese connoisseurs prized this shade most highly, and only a few sky-blue Ru pieces survive. This one was excavated in 1987 at Qingliangsi village in Baofeng County, Henan. Give it a slow look, and it rewards you.",
+      "expansion": "Now turn the vase over, because the foot holds a clue to how it was made. The base is bare of glaze, and the clay beneath has a greyish tone, with fine grains of sand stuck to it. Those grains suggest the vase was fired standing on small supports rather than directly on the kiln floor. Potters usually left the foot unglazed, since glaze would fuse to whatever it touched. Look at the surface too. A fine web of crackle spreads evenly across the glaze, catching the light in a pattern of hairline lines. Then comes the harder question: when was it made? Estimates for the kiln's active years range from roughly 1086 to 1125, and specialists still debate the exact span. Some link the kiln to the reign of Emperor Huizong, though that connection remains open to discussion. Keep that uncertainty in mind as you look at the blue.",
+      "long": "Start with the color, because it is what most visitors notice first. The glaze over this vase is a clear, pale sky-blue, even and glossy, the shade that Chinese connoisseurs once called the most precious of all. This is Ru ware, a porcelain made at the Qingliangsi kiln in what is now Baofeng County, Henan, during the Northern Song dynasty. The vase is a Ru official-kiln piece, and its outline is a relaxed S-curve: a flared mouth, a long slender neck, a rounded belly and a small foot. Look carefully at the neck and belly. Sprays of lotus, carved into the body, show faintly through the glaze, as though the design floats beneath the surface and appears only when light moves across it. Museum text says this hidden lotus design is not seen on transmitted Ru pieces.\n\nTurn it over and the story becomes technical. The foot ring is bare of glaze, the clay beneath is greyish, and tiny grains of sand cling to it. Those grains show the vase was fired standing on small supports rather than directly on the kiln floor. Such traces are how specialists reconstruct the work of the potters who made it.\n\nThe kiln behind the vase was a court enterprise. Ru ware is often described as perhaps the first official ware commissioned by the imperial court. Most accounts say the finest pieces were kept for the palace, and only rejected pieces reached a wider market. Its productive life was brief. Estimates of how long it operated range from about twenty to about forty years, and most tie its output to the reign of Emperor Huizong. Scholars still debate the exact dates, and production is generally linked to the upheavals of the 1120s.\n\nThis vase was not found in a tomb or a palace. It was excavated in 1987 at the kiln site itself, in Qingliangsi village. We do not know who handled it or where it stood. One scholarly study groups goose-neck vases among display wares, which suggests a decorative role, but its original use is not recorded and should not be assumed.\n\nIts importance today lies in its rarity. Only a small number of sky-blue Ru pieces are known from collections, and the museum counts this one among its nine treasures. Its color, shape and hidden carving reward patient looking. Take your time with it.",
+      "word_counts": {
+        "short": 136,
+        "expansion": 150,
+        "long": 392
+      },
+      "research_flags": [
+        "Title: list says 汝窑天蓝釉刻花鹅颈瓶; the museum's 藏品精粹 page matches this. A second museum page (chnmus.net, 镇院之宝 series) calls it 汝官窑天蓝釉刻花鹅颈瓶.",
+        "Accession number: not found. Neither museum page gives a 编号/藏品号. Official_record URL is the 藏品精粹 page on chnmus.net (河南博物院 site), not a confirmed registration record. henanmuseum.com was not reachable.",
+        "Mouth diameter: museum page gives 口径5.6 cm; maigoo.com gives 5.9 cm. Script uses height only, so no conflict in audio, but the record value is 5.6 cm.",
+        "Excavation: 1987 at Qingliangsi village, Baofeng County is consistent across sources; thepaper.cn says excavations ran 1987-1989 and that a separate complete washer was found in 1986. Script says 1987 only.",
+        "Material: list says porcelain, but the museum record only files it under 瓷器 and describes a greyish-buff body (香灰色胎) and sky-blue glaze; glaze composition not stated. Object type 陈设器 is from the list; the record does not state it. Original use is not recorded; display-ware classification is one scholarly article's grouping (Huang & Hai, 2014).",
+        "Dating: list gives 11-12th c.; record gives 北宋 (960-1127). Kiln operating span disputed: about 20 years (Henan government), 1086-1106 (Sotheby's), c.1107-1125 (Rawson), about 40 years (Vainker). Attribution to Huizong's reign is common but not settled.",
+        "Claims to treat as museum or promotional, not verified fact: 'unseen among transmitted Ru pieces' and 'the only sky-blue piece from the excavation' or 'only carved one among five' (Henan government and press). The record calls it one of the museum's nine treasures. Headline 'worth over 100 million' and 'only one in the world' are unsupported.",
+        "Decoration: record says two groups of 折枝莲花 (lotus sprigs) on neck and belly, faint under the glaze. The 'only complete' wording applies to a 1986 washer, not clearly to this vase."
+      ]
+    },
+    {
+      "id": 10,
+      "metadata": {
+        "title": "彩陶双连壶 (Painted Pottery Double-Linked Vessel)",
+        "period": "Neolithic, Yangshao culture (新石器时代·仰韶文化); date as listed c. 3500–3000 BCE, not stated in the record",
+        "object_type": "Painted pottery drinking vessel (彩陶·饮酒器), as described in the record; list says 彩陶·生活器",
+        "material": "Fine-paste red earthenware (泥质红陶) with black painted decoration over a red slip (红衣黑彩)",
+        "dimensions": "Height 20.1 cm, base diameter 5 cm (per record)",
+        "museum": "Henan Museum (河南博物院)",
+        "accession_number": null,
+        "official_record": "https://www.chnmus.net/sitesources/hnsbwy/page_pc/bwzl/yyhxzzjd/cpsx/article02dad096e98349b19ed9feaa402f6667.html"
+      },
+      "short": "Look closely at this vessel and you are looking at two jars joined at the belly. It is a painted double-linked jar from the Yangshao culture, unearthed in 1972 at Dahecun, a Neolithic site in Zhengzhou. The two bodies are nearly identical, set side by side and connected by an oval opening. The surface is fine red earthenware, covered with black painted bands of parallel lines and clusters of short strokes. Archaeologists first found the two halves separated, then realised they fitted together exactly. The museum reads it as a drinking vessel for shared ceremonies: two people could each hold one body and drink at the same moment. Standing about twenty centimetres tall, it is small enough for two hands, and its form seems built around sharing.",
+      "expansion": "The painted pattern rewards a second look. The black marks come in two arrangements: long horizontal bands, and groups of three short strokes, drawn upright on one body and slanted on the other. Some researchers suggest the difference stands for two separate groups, perhaps two communities brought together. A former director of the Dahecun site museum has offered a version of this reading, in which rival groups reconciled by drinking from the same vessel. It is a compelling story, but it remains an interpretation, and the pottery carries no text that confirms it. The Chinese cross-cup wine toast, jiaobei jiu (交杯酒), is sometimes mentioned alongside the vessel, but scholars have not established any direct link. What the evidence firmly supports is the craft: two bodies of almost identical shape, joined and painted with a controlled design that has survived more than five thousand years underground.",
+      "long": "Start by looking at the shape. What appears to be one jar is in fact two, rising side by side from a shared base and joined at the belly by an oval opening. Each body mirrors the other, and the whole piece stands just over twenty centimetres tall, small enough to hold in two hands. This is a painted double-linked jar of the Yangshao culture, the Neolithic tradition that flourished along the middle Yellow River. Its fine red earthenware was coated with a red slip and decorated in black: coarse horizontal lines, and groups of short strokes, some drawn upright and some slanted.\n\nIts discovery is part of its story. It was unearthed in 1972 at Dahecun, a settlement site in Zhengzhou. The two halves were found apart. Only when they were reconstructed did archaeologists see that they fitted together exactly, which suggests the two bodies were made as a matched pair.\n\nSo what was it for? The Henan Museum reads it as a drinking vessel, perhaps used on ceremonial occasions, in which two people each held one body and drank at the same moment. That reading fits the design, since the shared opening links the two sides into a single object. Some researchers go further, proposing that the contrast between upright and slanted marks stands for two different groups, and that the vessel marked a pact between them. It is an appealing idea, but it is an interpretation. No inscription on the pot confirms it, and later practices such as the cross-cup wine toast are sometimes linked to vessels like this without proof.\n\nWhat the evidence firmly supports is the craftsmanship. Shaping two matching bodies, joining them, and applying an even black pattern across curved surfaces demanded real skill with clay and fire.\n\nIt matters today because it asks a question that pottery can only partly answer: how did people in the Neolithic mark a shared bond? This vessel offers a clue, not a full answer, and that is exactly why it rewards careful looking.",
+      "word_counts": {
+        "short": 127,
+        "expansion": 145,
+        "long": 336
+      },
+      "research_flags": [
+        "Title matches the list (彩陶双连壶). Record gives 1972 excavation at Dahecun (大河村遗址), Zhengzhou.",
+        "Object type differs: list says 彩陶·生活器 (daily-life vessel); the Henan Museum record describes it as a 饮酒器 (drinking vessel) used on important ceremonial occasions. Record used.",
+        "Dimensions: record says height 20.1 cm, base 5 cm; a 2024 press article gives height 20 cm and mouth diameter 6.4 cm. Record used.",
+        "Date c. 3500–3000 BCE comes from the list only. The record gives no years, and I found no dating source confirming it. Scripts use 'more than five thousand years' to stay within the range. Verify before publishing.",
+        "Accession number not found on the record page; the page also does not state the current collection unit explicitly, though it credits 河南博物院. henanmuseum.com was not reachable.",
+        "Use as a drinking vessel for alliance or shared-oath rites is scholarly interpretation, not proven. The 'clan strokes' reading is attributed to a former Dahecun museum director and is flagged as interpretation. A press legend linking the vessel to the Yan and Huang emperors was excluded as unsupported.",
+        "Link to cross-cup wine (交杯酒) and minority customs is unproven per the record's own caveat; scripts say so."
+      ]
+    },
+    {
+      "id": 11,
+      "metadata": {
+        "title": "王子午鼎 (Ding of Prince Ziwu, Wangzi Wu ding)",
+        "period": "Spring and Autumn period (770-476 BC)",
+        "object_type": "Bronze ritual vessel (ding, tripod cauldron)",
+        "material": "Bronze",
+        "dimensions": "Height 49 cm; mouth diameter 58.3 cm (sources conflict; see research_flags)",
+        "museum": "Henan Museum (河南博物院)",
+        "accession_number": null,
+        "official_record": null
+      },
+      "short": "Start with the shape. This bronze is a ding, a tripod vessel used to cook meat for sacrifice, and its heavy body rests on three legs. The Ding of Prince Ziwu was made in the Spring and Autumn period for the Chu kingdom, a powerful southern state whose bronze style developed its own character. What makes it stand out is its inscription. Cast inside the vessel, the text runs to more than eighty characters, unusually long for a ritual cauldron. It says the ding was made for ancestral sacrifices and for ceremonies that sealed alliances. Measure it against your own height: at just under half a meter tall, it is a substantial pot. Picture it on an ancestral altar, steaming with meat, and you begin to understand why a cauldron could carry so much weight.",
+      "expansion": "Now turn to where it was found. In 1978, excavators opened a Chu tomb at Xiasi, in Xichuan county, Nanyang, in southwestern Henan. Today that landscape lies within the Danjiang reservoir area of the South-to-North Water Diversion Project, a reminder of how much history can sit beneath modern engineering. The inscription names the maker as Prince Ziwu, and the museum's account links him to a son of King Zhuang of Chu. That attribution is traditional, so it is worth holding loosely. Some accounts also describe a set of seven ding of the same shape in graded sizes, though sources disagree on that count. Finally, one scholarly account notes that the inscription uses bird-and-worm script, a decorative style more often seen on weapons.",
+      "long": "Imagine a cauldron that could cook a sacrificial meal and, at the same time, announce who had commissioned it. That is the Ding of Prince Ziwu, one of the most important bronzes from the southern kingdom of Chu. Start with its shape. It is a ding, a tripod vessel with a lid and three legs, the kind of cooking pot used in Shang and Zhou ritual. Its body stands just under half a meter high, roughly 49 centimeters, and measures about 58 centimeters across the mouth, which would have made it a serious object to lift and to fill.\n\nDing were not kitchen equipment in the ordinary sense. Meat cooked in them was offered to the ancestors, and scholars generally link the number and size of ding a family owned to its rank. This one is an unusually ambitious example. Its inscription, cast inside the vessel, runs to more than eighty characters. As the museum describes it, the text records that the ding was cast for ancestral sacrifices and for ceremonies that sealed alliances. It also claims that the maker's benevolent rule has earned the love and respect of the people of Chu.\n\nThe vessel dates to the Spring and Autumn period, when Chu, a large state along the middle Yangtze and Han rivers, was expanding and developing a bronze style of its own. Prince Ziwu is traditionally identified as a son of King Zhuang of Chu, an attribution worth holding loosely.\n\nThe ding was excavated in 1978 from a tomb at Xiasi in Xichuan county, Nanyang, in southwestern Henan. Today the site lies within the Danjiang reservoir area, part of the South-to-North Water Diversion Project, so the find is a reminder of how much history can sit beneath modern engineering. Some accounts report that the tomb held a set of seven ding of the same shape in graded sizes, but the exact count, and the number of characters in the inscription, are given differently in different sources.\n\nThe inscription is also written in bird-and-worm script, a decorative style that one scholarly account notes is more often found on short weapon inscriptions than on vessels like this. Seeing it today, you are looking at a cooking pot designed to speak as much as to feed.",
+      "word_counts": {
+        "short": 135,
+        "expansion": 122,
+        "long": 375
+      },
+      "research_flags": [
+        "Official Henan Museum record not reached: henanmuseum.com is not on the session allowlist and no record URL or accession number was found. Metadata comes from a China Daily page carrying a Henan Museum copyright line and a 2022 China Daily article calling the ding a Henan Museum permanent treasure.",
+        "Date differs from list: list says 6th century BC; sources give Spring and Autumn period (770-476 BC), and one source says late Spring and Autumn. Script uses the Spring and Autumn period only.",
+        "Dimensions conflict: 49 cm high, 58.3 cm mouth (Henan Museum-linked pages, 2022 China Daily article); 67 cm high, 66 cm mouth (NYU page); 62 cm high and mouth (Xinmin PDF). Script uses 'just under half a meter' and 'about 58 cm' only in long text.",
+        "Inscription count conflicts: 83 characters (Henan Museum-linked pages) vs 88 (NYU page). Scripts say 'more than eighty'.",
+        "Holding institution conflicts: Henan Museum (China Daily, Henan Museum copyright) vs National Museum of China holding the largest of seven (NYU page). Unresolved; script treats Henan Museum as holder per the list.",
+        "Set of seven ding, bird-and-worm script, and its use on weapons: sourced only to the NYU page; hedged in expansion and long. Not independently verified.",
+        "Prince Ziwu as son of King Zhuang of Chu: traditional identification in the museum-linked text; not independently verified and its identity is debated in scholarship (not confirmed by sources reached).",
+        "Excavation site: Xiasi tomb, Xichuan county, Nanyang, 1978 (multiple sources agree). Location within Danjiang reservoir area per Xinmin PDF. Excavation urgency not stated and not claimed.",
+        "Material given as bronze; no source reached states an alloy or casting method. NYU claim of welding and lost-wax casting not used (unverified).",
+        "Ding as ritual cooking vessel for sacrifice: stated in the China Daily description; general scholarly view, not specific to this object."
+      ]
+    },
+    {
+      "id": 12,
+      "metadata": {
+        "title": "王孙诰编钟 (Wangsun Gao Bell Set)",
+        "period": "Spring and Autumn period (春秋), roughly the 6th century BCE",
+        "object_type": "Bronze percussion instrument: bell set (编钟), 26 yong bells (甬钟)",
+        "material": "Bronze",
+        "dimensions": null,
+        "museum": "Henan Museum (河南博物院)",
+        "accession_number": null,
+        "official_record": "https://www.chnmus.net/ydgyt/collection/details.html?id=7100016422079696896"
+      },
+      "short": "Before you stands a set of twenty-six bronze bells, each made to be struck and each made to sing. Archaeologists call them yong bells, after the hollow stem on top. What makes this set remarkable is that every bell sounds two pitches, depending on where it is struck. According to the Henan Museum, striking the front and side areas together produces a harmonious third. Across the set, the range spans about four and a half octaves. The museum calls it the largest and most numerous Spring and Autumn bell set yet found in China. It came from a Chu tomb at Xichuan in Henan, excavated in 1978. Listen for the two voices in each bell, and you begin to hear what these bells were built to do.",
+      "expansion": "The bells carry an inscription, which the museum records as 113 characters. It names the maker as Wang Sun Gao, and says the bells were made to delight the king of Chu, honored guests, fathers and elder brothers, and officers, for ten thousand years. Those words point to ceremony and feasting, the settings the museum associates with this kind of music. But the inscription is contested. A recent online essay by a single author argues that its text was copied from a bell now in San Francisco, and that the characters were added in modern times. That essay is unfinished and has not been peer reviewed, and it does not claim the bells themselves are fake. Treat the name Wang Sun Gao as the museum's reading, and the question as still open.",
+      "long": "Look first at the number. Twenty-six bronze bells, each a yong bell named for the hollow stem on its top. Visitors tend to stop at the shapes, but the real story is in the sound. According to the Henan Museum, each bell is cast to sound two pitches, one from its front face and one from its side, and striking both together produces a harmonious third. Across the set, the range spans about four and a half octaves. For a sixth-century BCE instrument, that is a remarkable span, and it explains why the museum describes the set as the largest, most numerous, and best-sounding bell set of the Spring and Autumn period so far found in China. Those are the museum's own superlatives, and they rest on the instruments themselves.\n\nThe bells were excavated in 1978 from a tomb at Xiasi, in Xichuan county, Henan. The tomb is a Chu tomb. Chu was a southern state whose core lay in the middle Yangzi region, and its bronzes and musical habits differ in character from those of the northern courts. Bell sets like this one were markers of rank, and the number of bells and their range signaled how important their owner was. The museum says this set was played in ritual and banquet settings.\n\nThe bells also carry an inscription of 113 characters. It names the maker as Wang Sun Gao and says the bells were made to delight the king of Chu, honored guests, fathers and elder brothers, and officers, for ten thousand years. Those words suggest a public world of ceremony and feasting, where the music was meant to be heard by many people.\n\nBut the inscription is contested. A recent online essay by a single author argues that its text was copied from a bell now in San Francisco, and that the characters were added in modern times. That essay is unfinished and has not been peer reviewed, and it does not claim the bells themselves are fake. Scholars also debate who owned the tomb. The name Wang Sun Gao and the identity of the owner therefore remain open questions.\n\nSo look at the set as a working instrument, one that was designed to be played. The maker's name may be disputed, but the sound the bells were built to make is not.",
+      "word_counts": {
+        "short": 127,
+        "expansion": 132,
+        "long": 386
+      },
+      "research_flags": [
+        "Dimensions and accession number are not given on the Henan Museum record, so both are null. Verify against the museum's catalogue if available.",
+        "The official record is hosted at chnmus.net (河南博物院 site), not henanmuseum.com as the brief implies; henanmuseum.com was not reachable. The record's title and period match the list; the list's date (6th century BCE) is consistent with the Utah record (ca. 550 BCE) and the museum's Spring and Autumn dating.",
+        "Inscription length: the museum record gives 113 characters; a 2026 online essay gives 133. Script uses the museum's count and attributes it.",
+        "Authenticity of the inscription is disputed. A single-author online essay (小俗工, July 2026, unfinished, not peer reviewed) argues the text was copied from 王孙遗者钟 (Asian Art Museum, San Francisco) and added in modern times. It does not argue the bells are fake. Flagged in the expansion and long scripts.",
+        "Tomb owner and maker identity are debated: the same essay identifies the M2 tomb with 蒍子倗 (died about 548 BCE) and rejects the name Wang Sun Gao. The museum record gives no owner. Scripts treat the name as the museum's reading.",
+        "The museum record claims equal temperament, attributed to Zhu Zaiyu, was already widely applied in this period, and it contains a probable typo (朱载土育). Not used in scripts; treat as unverified.",
+        "Museum claims about the set (26 yong bells, two pitches per bell, about four and a half octaves, largest and best-sounding Spring and Autumn set) are the museum's own and were not independently verified. Scripts attribute them.",
+        "Excavation year 1978 comes from a China Daily article and a 2026 essay; the exact excavation date was not confirmed. Excavation report: Henan Provincial Institute of Cultural Relics and Archaeology, 淅川下寺春秋楚墓 (Cultural Relics Press, 1991). Full report not consulted.",
+        "Chinadaily article on Zheng bells (2021 Henan gov page) concerns a different set and was not used."
+      ]
+    },
+    {
+      "id": 13,
+      "metadata": {
+        "title": "牛尊 (Ox-shaped zun, bronze wine vessel)",
+        "period": "Late Shang dynasty (商代晚期), c. 13th–11th century BCE, as listed; not confirmed by a Henan Museum record",
+        "object_type": "Bronze ritual wine vessel (青铜器·酒器), zun",
+        "material": "Bronze (青铜)",
+        "dimensions": "Approx. 22.5 cm high, 40 cm long, 7.1 kg (single secondary source; unverified)",
+        "museum": "Henan Museum (河南博物院) - NOT CONFIRMED; see research_flags",
+        "accession_number": null,
+        "official_record": null
+      },
+      "short": "Look first at the head. This bronze ox, made in Late Shang China about three thousand years ago, stands on short, sturdy legs. Two upright horns crown its head, its mouth sits slightly open, and its tail hangs low. Despite its animal form, it is a wine vessel, a zun, the kind of container used in ritual drinking. The whole body is the container. A lid covers an opening on the animal's back, and the surface is crowded with tigers, birds, fish and dragons. Turn your attention to the walls, which are only about three millimetres thick in most places. Casting a hollow animal of this size, with its horns and legs intact, took real control from the foundry workers who made it. It shows how Shang craftsmen turned a living creature into an instrument of ritual.",
+      "expansion": "Look closer and you will find a name. Inside the lid and on the neck, the bronze carries the inscription Ya Chang, 亚长. Archaeologists connect that name with the large tomb where the vessel was found at Huayuanzhuang, in the Yinxu area of Anyang, the last capital of the Shang. Read carefully, the bronze is less an anonymous container than a document that ties one name to one tomb. Who Ya Chang was remains debated. The character ya is often read as a rank or title in Shang inscriptions, so the vessel may record an official rather than a simple owner. The animal is also disputed. Most people call it an ox or bull, but many scholars link bronzes of this type to the xi (兕), a powerful animal named in oracle-bone inscriptions and possibly a water buffalo.",
+      "long": "Start with the head. Two upright horns rise above a broad face, the ears sit close, the legs are short and sturdy, and the tail droops down the back. The animal stands about twenty-two centimetres high, yet it was made to hold wine. Zun is the general term for the ritual wine vessels used in Shang ceremonies, and a vessel of this kind signalled rank among the people who used it. Its neck has an internal partition that helps control the flow of liquid from the mouth, a small technical detail that shows how carefully the maker thought about pouring.\n\nLook at the body next. The bronze is cast remarkably thin, only about three millimetres in most places, and it is covered in dense decoration. A phoenix sits below the ear, tigers flank the belly, and dragons, birds and fish fill the rest. Casting an animal this complex in one piece, with thin walls and a lid that fits over an opening on the back, demanded great control of the mould and the metal. Modern researchers have reconstructed its casting and cooling process, which shows how much had to go right in the foundry.\n\nThe vessel also carries a name. The inscription Ya Chang is cast inside the lid and on the neck. The vessel was found in a large tomb at Huayuanzhuang, in the Yinxu area of Anyang, the last capital of the Shang. Scholars are careful about what the name tells us. The character ya is often read as a title or rank, and it is not clear whether Chang was a personal name, a lineage name, or both. Press accounts describe Ya Chang as a military general or a tribal leader, but those labels are interpretations, not settled facts.\n\nThe animal itself is also debated. It is often described as an ox or bull, but many scholars connect bronzes of this type to the xi (兕), a powerful creature named in oracle-bone inscriptions and possibly a water buffalo. Whatever it was, the bronze turns an everyday ritual drink into a reminder of how power, animal and ancestor were bound together.",
+      "word_counts": {
+        "short": 137,
+        "expansion": 138,
+        "long": 353
+      },
+      "research_flags": [
+        "Museum mismatch: no Henan Museum (河南博物院) record for a 牛尊 was found. Searched chnmus.net treasure list and first appraisal page (of 30); the only Late Shang bull-shaped zun found is 亚长牛尊 from the Ya Chang tomb at Huayuanzhuang, Yinxu. Sources disagree on its holder: a 2025 Xinhua/chinanews photo caption says Yinxu Museum (殷墟博物馆); a Sohu article says the Institute of Archaeology, CASS. Confirm the holding before publishing under Henan Museum. Scripts omit the holder name.",
+        "Accession number and official record URL not found; both set to null.",
+        "Dimensions (22.5 cm high, 40 cm long, 7.1 kg) come from one secondary repost; unverified. Excavation year (2001 rescue dig, per the same source) also unverified.",
+        "Date: the list gives c. 13th–11th century BCE; sources say only 'over 3,000 years' and Late Shang. No precise date verified.",
+        "Ya Chang's identity is debated: press accounts call him a military general (CGTN) or a tribal leader (China Daily). The reading of 亚 as a rank is an interpretation.",
+        "Animal identity is debated: ox/bull versus xi (兕), possibly a water buffalo. Scripts present both views.",
+        "Neck partition and back-lid details come from press descriptions, not a scholarly catalogue; verify against a publication if kept.",
+        "Word counts verified by script (whitespace split): short 137, expansion 138, long 353."
+      ]
+    },
+    {
+      "id": 14,
+      "metadata": {
+        "title": "金缕玉衣 (Jade Burial Suit with Gold Thread)",
+        "period": "Western Han dynasty (西汉), per Henan Museum jade feature; catalogue range listed as 汉代 (206 BCE–220 CE) not independently verified",
+        "object_type": "玉器·葬服 (jade; funerary burial garment)",
+        "material": "jade plaques (2,008 pieces per Henan Museum account), joined with gold wire",
+        "dimensions": null,
+        "museum": "Henan Museum (河南博物院)",
+        "accession_number": null,
+        "official_record": null
+      },
+      "short": "Look closely at this burial suit and you will see that it is not carved from a single stone. It is made of 2,008 separate jade plaques, most of them a deep blue-green, joined together with fine gold wire. Its Chinese name, 金缕玉衣, jīnlǚ yùyī, means \"jade garment with gold thread.\" Makers shaped each plaque and stitched them into a body-shaped garment in five parts: a head covering, a jacket, trouser legs, hands and feet. The plaques differ in size, shape and colour, fitted to follow the head, limbs and joints. The gold thread holds the whole structure together. Han-period jade suits were funerary garments for emperors and senior nobles, made to protect the body after death. This example was excavated in 1985 from a Western Han tomb at Xishan, in Yongcheng, Henan. Look at the joins, where the making is most visible.",
+      "expansion": "Look at the small objects too. The Henan Museum account lists a jade pig to be held in the hand, a jade cicada placed in the mouth, and jade plugs for the ears and nose. The cicada is often read as a symbol of rebirth, but that is an interpretation, not an inscription, and scholars read the pig differently. Together these pieces show that the suit was meant to work as part of a complete burial set, not as clothing alone. The owner is also debated. Some accounts tie this tomb to the Liang kingdom, a princely state in this region, and others name a particular prince. Neither identification has been confirmed. Much of what we know about who was buried here depends on what excavators recorded at the time.",
+      "long": "Begin with the colour. Where you might expect a single carved figure, you find a garment built from 2,008 separate jade plaques, most of them a deep blue-green, with others in lighter and darker tones. Each plaque is a small piece of shaped jade, and together they cover the head, the jacket, the trousers, the hands and the feet. The plaques are joined with gold wire that passes through holes in each piece and holds the whole structure together. The suit was made to fit a human body, and it still keeps that shape.\n\nIts Chinese name, 金缕玉衣, jīnlǚ yùyī, means jade garment with gold thread. The thread matters. Han tombs also produced suits joined with silver or silk, and the choice of thread is generally read as a sign of rank. Gold was the costliest of these materials.\n\nThe suit was a funerary garment. Museum accounts describe such suits as burial garments for Han emperors and senior nobles, made to protect the body after death. Some sources add that the jade was believed to help the deceased reach immortality. That is a belief about the afterlife, not a demonstrated outcome, so it is best held as a belief. Its job was to protect the body.\n\nLook also at the small objects that accompanied the suit. The Henan Museum account lists a jade pig to be held in the hand, a jade cicada placed in the mouth, and jade plugs for the ears and nose. The cicada is often read as a symbol of rebirth, but that reading is an interpretation rather than something written on the object. Scholars have offered different views on the pig.\n\nThis suit was excavated in 1985 from a Western Han tomb at Xishan, in Yongcheng, Henan. Its owner is not secure. Some accounts link the tomb to the Liang kingdom, a princely state in this region, and some name a particular prince. Neither identification has been confirmed in the sources I could consult, so the person who wore the suit remains uncertain.\n\nWhy does it deserve attention today? It shows the labour and wealth a princely family could direct toward the afterlife, and the problem of fitting hard stone to the shape of a human body. Stand close, follow one gold join from plaque to plaque, and you can see the engineering that holds an entire garment together.",
+      "word_counts": {
+        "short": 143,
+        "expansion": 130,
+        "long": 394
+      },
+      "research_flags": [
+        "Official Henan Museum collection record not reached (henanmuseum.com not on allowlist; searches returned no record). Metadata drawn from Henan Museum jade feature (zzwb.zynews.cn, 2025-06-06), China Daily and CGTN (2022-2025).",
+        "Date narrowed from list range 汉代 (206 BCE–220 CE) to Western Han per Henan Museum feature.",
+        "Excavation conflict: Henan Museum feature and CGTN give 1985, Xishan No. 1 tomb, Yongcheng (Shangqiu); a 163.com article gives 1986, Xishan tomb, Liu Sui.",
+        "Owner unconfirmed: CGTN says King Liang; 163.com says Liu Sui, Prince Yi of Liang; Henan Museum feature names no owner.",
+        "Holdings conflict: a 163.com article says Henan Museum has two gold-thread suits and that its displayed Liu Mai suit is a replica; the original status of this 2,008-piece suit is unverified.",
+        "Dimensions not confirmed by the record; China Daily (2024) gives 180 x 125 cm, unverified. Accession number not found.",
+        "Piece count 2,008 is consistent across Henan Museum feature, CGTN and China Daily; a 163.com article gives 2,010 for a Shangqiu Museum suit, a different object.",
+        "Cicada-rebirth and jade-pig readings are scholarly interpretations, flagged in script."
+      ]
+    },
+    {
+      "id": 15,
+      "metadata": {
+        "title": "三彩角形杯 (Sancai Horn-Shaped Cup)",
+        "period": "Tang dynasty (唐代, 618–907)",
+        "object_type": "Sancai horn-shaped cup (drinking-vessel form); burial object (明器, mingqi) per museum record",
+        "material": "Earthenware (陶器) with three-colour (sancai) glaze of yellow, green and white over the whole body",
+        "dimensions": "Length 14 cm, height 7.0 cm, mouth diameter 7.0 cm",
+        "museum": "Henan Museum (河南博物院)",
+        "accession_number": null,
+        "official_record": "https://www.chnmus.net/ch/collection/appraise/details.html?id=512155217003765138"
+      },
+      "short": "Start with the head. At the upper end of this curved, horn-shaped cup, an animal turns its head back over its shoulder, a flower sprig held in its beak. That sprig becomes the handle. Now look at the surface. Yellow, green and white glazes flow over the whole body, and scrolling grass patterns wind across it. The shape travelled a long way to get here. Horn-shaped drinking vessels, called lai tong (来通) in Chinese, trace back to Greek rhyta and reached China along the Silk Road. Tang craftsmen took that foreign silhouette and dressed it in their own colours. At about fourteen centimetres long, it fits in one hand. Some visitors see a peacock, which gave the cup its nickname. Others read a dragon. The museum treats both readings as open, so decide for yourself.",
+      "expansion": "Now consider where it was found and why it was made. In 1976, excavators at Houwangzhuang, on the western outskirts of Zhengzhou, recovered this cup. The museum classifies it as a mingqi (明器), a burial object made to accompany the dead. It was a grave good, not a piece for the dinner table. The museum dates it to the Tang and compares it with pieces from tombs of the Gaozong and Zhongzong reigns, roughly the later seventh to early eighth century. Sancai glazes are typically lead-based, which is why the colours sit so softly on the earthenware body. Compare it with a small bird-shaped rhyton in the Metropolitan Museum of Art, made in the seventh or eighth century. It shows the same basic idea: a foreign drinking vessel reworked in Tang glaze.",
+      "long": "Pick the cup up with your eyes first. It is curved like a horn, about fourteen centimetres long and seven centimetres high, with an oval mouth at the wide end. Near the top, an animal turns its head back over its shoulder, a flower sprig held in its beak, and that sprig forms the handle. The whole earthenware body is covered in yellow, green and white glaze, with scrolling grass patterns winding across it. The colours are bright and the scale is intimate. It was made to sit comfortably in the hand.\n\nThe silhouette is the real story. Horn-shaped drinking vessels, known in Chinese as lai tong (来通), trace back to the Greek rhyton, and they reached China along the Silk Road during the Northern and Southern Dynasties. Chinese potters took that foreign form and rebuilt it in their own clay and glazes. The result looks foreign at a glance and Chinese on closer inspection, and that mix is what makes it worth a second look.\n\nThe head is the most debated detail. Many people see a peacock, and that reading gave the cup its nickname, the peacock cup. The museum also considers a dragon's head equally possible and leaves the question open. It is a useful reminder that an animal on a Tang object does not carry one fixed meaning. Treat the head as a question rather than an answer.\n\nIts purpose is more certain. The museum classifies it as a mingqi (明器), a burial object made to accompany the dead. It was not made for everyday drinking, even though its shape suggests a drinking vessel. It was excavated in 1976 at Houwangzhuang, on the western outskirts of Zhengzhou in Henan. The museum compares it with cups from tombs of the Gaozong and Zhongzong reigns, which places such pieces roughly in the later seventh and early eighth centuries. The dating rests on that comparison, because the cup itself carries only the broad label Tang.\n\nSo why does it deserve attention today? In one small vessel you can see the Tang world's appetite for foreign shapes and its confidence in remaking them. Look at the grass scrolls and the turned head, and you are looking at a Chinese answer to a Greek idea.",
+      "word_counts": {
+        "short": 135,
+        "expansion": 132,
+        "long": 373
+      },
+      "research_flags": [
+        "Title differs from the list: the list says 三彩牛角孔雀杯; the official Henan Museum record (chnmus.net, 藏品 > 文物品鉴) is titled 三彩角形杯. Another museum page is titled 三彩牛角形杯. 孔雀杯 (peacock cup) is a nickname, not the official title. Record title used.",
+        "Object type: the list says 唐三彩·酒器 (wine vessel). The record gives no 酒器 category; it classifies the cup as pottery and a burial object (随葬的明器). The drinking-vessel reading is inferred from form.",
+        "Dimensions taken from the record: length 14 cm, height 7.0 cm, mouth diameter 7.0 cm. Record does not give weight.",
+        "Accession number not found on any museum page reached. The Henan Museum homepage and its collection search were not accessible from this session, so the search-engine copy of the record was used.",
+        "Date: the record says only 唐代. The Gaozong-Zhongzong (roughly late 7th to early 8th century) dating applies to comparable tomb pieces cited by the museum, not to this cup directly.",
+        "Head motif is disputed: the museum records a peacock reading (hence 孔雀杯) but its article says a dragon-head reading is equally open. Scripts flag this.",
+        "Excavation: 1976 at Houwangzhuang (后王庄), western suburbs of Zhengzhou, per the museum record. The record uses burial-object wording (随葬) but does not explicitly describe the find spot as a tomb; scripts say grave good rather than tomb find.",
+        "Lead glaze: the record does not name the glaze composition. The lead-based statement is a general sancai description from Wikipedia's Sancai article, not verified for this object.",
+        "Horn-cup origin (Greek rhyton, Silk Road arrival in the Northern and Southern Dynasties) comes from a China News Service article and the museum's own comparison to foreign rhyta; general scholarly consensus, not a specific attribution for this cup.",
+        "Comparison: Metropolitan Museum object 26.292.50 (bird-shaped rhyton, 7th to 8th century, 12.1 cm long) is cited as a loose parallel for form and technique only."
+      ]
+    },
+    {
+      "id": 16,
+      "metadata": {
+        "title": "绿釉陶立狗 (Standing Dog with Green Glaze, translation by this guide)",
+        "period": "Han dynasty, 206 BCE–220 CE (per the item list; Western or Eastern Han not verified)",
+        "object_type": "Pottery, mingqi (burial object) (per the item list: 陶器·明器)",
+        "material": "Earthenware with green glaze (from the title; glaze composition not verified)",
+        "dimensions": null,
+        "museum": "Henan Museum (河南博物院)",
+        "accession_number": null,
+        "official_record": null
+      },
+      "short": "Start with the posture. This dog stands upright on four legs, and its body is covered in a glossy green glaze that gives plain clay a bright, glassy finish. The title, 绿釉陶立狗, tells you the essentials: green glaze, pottery, and a dog standing up.\n\nBut this is not a pet to be walked. It is a mingqi, or 明器, often translated as \"spirit utensil.\" Such pieces were made for tombs rather than homes. Han families placed models of animals, household goods, and everyday life in graves, so the dead would have what they needed in the afterlife. A dog was among the most familiar of those companions, and its role was simple: to keep its owner company in the next world.\n\nThe glaze does much of the decorative work, and the upright stance does the rest.",
+      "expansion": "Why would a family spend on a glazed figure rather than leave a plain one? In the Han dynasty, burial goods were no longer reserved for emperors and nobles alone. As government service spread to a wider class of officials, more households could afford to furnish a tomb with models of the life they hoped to continue. Clay made this possible: it was plentiful, easy to shape, and suited everything from rough earthenware to glazed pieces.\n\nThe green glaze is the other half of the story. Han green glazes were typically lead-based, fused in the kiln into a glassy coating. Glazing set certain pieces apart from plain earthenware.\n\nA word of caution. Whether this particular figure uses a lead glaze, and where and when it was buried, has not yet been confirmed against the museum's own record.",
+      "long": "Most visitors would take a figure like this for a toy or a decorative animal. Look closer. Its title, 绿釉陶立狗, describes a dog standing upright, made of pottery and covered in a green glaze. Those few characters point to a whole way of thinking about death in the Han dynasty, which lasted from 206 BCE to 220 CE.\n\nThe dog is a mingqi, or 明器, often translated as \"spirit utensil.\" The term refers to objects made for burial rather than daily use. Han families placed in their tombs replicas of what the deceased had known in life: farm buildings, livestock, household tools, and attendants. The models were meant to supply the soul with what it needed. A dog, one of the most familiar companions in a household, was a natural member of that group. Its role in the tomb was to keep its owner company in the next world.\n\nMaking such figures was economical. Clay was abundant and easy to shape, so it could serve families across a wide social range. What set some pieces apart was glaze. Han green glazes were typically lead-based, applied to the surface and fired until they formed a bright, glassy skin over the earthenware. The glaze gave the figure a richer appearance than plain pottery, even though it was made from the same humble clay.\n\nWho buried such objects? The Han period saw power spread beyond the emperor and the aristocracy. As government service reached a broader class of officials, more households could afford to furnish a tomb in this way. Tomb goods became a way of signalling status and securing comfort in death, and a glazed model of a dog could express both loyalty and a family's means.\n\nWe should be careful here. The record for this particular piece has not yet been checked against the museum's collection data, so its precise date within the Han, its findspot, and whether its glaze is lead-based all remain to be confirmed. What we can say with confidence is that it belongs to a tradition in which everyday animals and objects, shaped in clay, were given a second life underground.\n\nThat is perhaps the most affecting thing about it. A companion that was familiar in life was modelled again in clay and glaze, so that its company could continue into the afterlife.",
+      "word_counts": {
+        "short": 136,
+        "expansion": 137,
+        "long": 386
+      },
+      "research_flags": [
+        "Official Henan Museum record not found: searches of chnmus.net (site search, boutique and digital listings) and web search returned no entry for 绿釉陶立狗. Title, accession number, dimensions, findspot and provenance are unverified; the title and period above are taken from the item list.",
+        "Date range 206 BCE–220 CE is broad and spans Western and Eastern Han; it cannot be narrowed without the record.",
+        "Lead glaze is typical of Han green glazes (per Met comparable records), but it is not verified for this object.",
+        "Mingqi function and dog-companion meaning are drawn from general Han burial practice (Met comparable records), not from any documented use of this piece.",
+        "The translation 'spirit utensil' for 明器 is one scholarly rendering among several; the guide's English title is this guide's own translation."
+      ]
+    },
+    {
+      "id": 17,
+      "metadata": {
+        "title": "四神画像陶灶 (Pottery Stove with Four Spirits Decoration)",
+        "period": "Han dynasty (汉代), per a secondary source; Eastern Han (东汉, 25–220 CE) per task list, not independently verified",
+        "object_type": "陶器·明器 (pottery; burial object), per task list",
+        "material": "Pottery (陶; fired clay)",
+        "dimensions": null,
+        "museum": "Henan Museum (河南博物院)",
+        "accession_number": null,
+        "official_record": null
+      },
+      "short": "Look closely at the small clay stove in front of you. It was never meant to cook a meal. Han tomb builders placed miniature household goods, called míngqì (明器), or spirit articles, in tombs so the dead would be provided for in the afterlife. This model kitchen, with its cooking holes and smoke vent, is one such provision. What sets it apart is the decoration pressed into its surface. The Four Spirits, the Azure Dragon, White Tiger, Vermilion Bird and Black Tortoise, guarded the four directions of the sky. Here, a Black Tortoise, or Xuanwu (玄武), is molded on either side of the stove door, and a Vermilion Bird decorates the back wall. Find them, then imagine the cook these guardians were meant to protect.",
+      "expansion": "Now look at the rest of the stove. The decoration goes beyond the four directions. Above the door, an eagle is molded into the clay. On the side walls, a winged figure rides a dragon, and a warrior fights a tiger. Fish appear on the sides of the cooking top. Their meaning is open to interpretation. Some scholars relate such imagery to ideas of ascent and immortality, while others focus on the stove's everyday role. The practical details are clear enough. Two fire holes hold cauldrons, and a round vent beside them drew smoke away from the cook. Han households are known to have honored a Stove God, 灶神, near the hearth, so cooking here may have carried spiritual meaning too. Whether this stove was made with that deity in mind cannot be proven.",
+      "long": "Begin with the front. Between two molded creatures, a small semicircular opening leads into the firebox, and on either side of it a Black Tortoise, or Xuanwu (玄武), is pressed into the clay. Now picture a working kitchen from the Han period. A fire would have burned beneath cauldrons set into the cooking top, and a vent would have carried smoke away from the cook. This model copies that everyday object closely, with two fire holes and a round smoke vent beside them. Yet it was not made for cooking. Han tombs held miniature household goods, called míngqì (明器), or spirit articles, made so the dead would be supplied in the afterlife, much as the living were. A model kitchen was a way of making sure the dead would never go hungry. The Four Spirits, the Azure Dragon, White Tiger, Vermilion Bird and Black Tortoise, guarded the four directions, and by the Han they were a common way of picturing the sky and the space around a building. The Black Tortoise appears by the door, and the Vermilion Bird is placed on the back wall, opposite the entrance. The designer does not stop at the four animals, however. The side walls show a winged figure riding a dragon and a warrior fighting a tiger. An eagle is molded above the door, and fish decorate the cooking top. Their meaning is open to interpretation. Some scholars relate imagery of ascent and immortality to scenes like these, while others focus on the stove's everyday role. Han households are known to have honored a Stove God, 灶神, near the hearth, so the cooking space carried spiritual meaning as well as practical use. Whether this stove was made with that deity in mind cannot be proven. What makes the object worth attention is the way it turns a kitchen into a small cosmos. Whoever made it did not simply reproduce a stove. Look again at the guardians around the door, then at the cauldron holes, and you are seeing a household's hope for the next world, fired in clay.",
+      "word_counts": {
+        "short": 125,
+        "expansion": 134,
+        "long": 345
+      },
+      "research_flags": [
+        "NOT VERIFIED: Henan Museum collection record not found. Searches of chnmus.net and related pages did not return a record for this title; official_record, accession_number and dimensions are null.",
+        "Identity unconfirmed: the only source found describing a 四神画像陶灶 (a 2025 文博日历 article, Tencent/ismx mirrors) does not name a holding museum, size, or excavation context, so it cannot be tied to the Henan Museum object.",
+        "Decoration (Xuanwu on both door sides, Vermilion Bird on back wall, eagle above door, fish on cooking top, winged figure riding dragon and warrior fighting tiger on side walls) comes from that secondary article only. The Azure Dragon and White Tiger are not mentioned as present on the stove, so the title's full set of Four Spirits is unconfirmed; the script does not claim they appear.",
+        "Period: list says Eastern Han (东汉, 25–220 CE); the only source found says 汉代 (Han) without a sub-period. Eastern Han not confirmed.",
+        "Object type 明器 and material (pottery) follow the task list; the source describes it as 陶灶 but does not state the burial context.",
+        "Interpretation debated: meaning of the side scenes (ascent/immortality vs everyday role) is flagged as open in the scripts. The Stove God (灶神) link is general Han background, not tied to this object in any source found.",
+        "No provenance, excavation site, or maker is stated in any script, as none was verified."
+      ]
+    },
+    {
+      "id": 18,
+      "metadata": {
+        "title": "父乙角 (Fù Yǐ Jué: bronze jue wine vessel of \"Father Yi\")",
+        "period": "Early Western Zhou (西周早期); the museum record gives no year range",
+        "object_type": "Bronze wine vessel (青铜酒器), jue type (角)",
+        "material": "Bronze (青铜)",
+        "dimensions": "Overall height 29 cm; mouth length 20.3 cm; mouth width 9.8 cm",
+        "museum": "Henan Museum (河南博物院)",
+        "accession_number": null,
+        "official_record": "https://www.chnmus.net/content/redirect?id=512155913655553326"
+      },
+      "short": "Start with the lid. This bronze wine vessel from Henan Museum has a lid shaped like a roof ridge, topped by a small half-ring knob. On one side of the body, a half-ring handle ends in an animal head. Now look at the surface. Many bronzes of this age are crusted green, but this one is nearly black and glossy, close to old lacquer, with almost no corrosion. Three triangular feet lift the body, though one of them is a later replacement. Twelve characters are cast on the lid and twelve on the body, and the two texts match. They record a dedication to a father called 父乙, Fù Yǐ, which translates roughly as Father Yi. The inscription calls the vessel a precious ritual vessel. Its surface is decorated with animal faces, dragons, and cloud-and-thunder patterns, all packed into a small space.",
+      "expansion": "Now look at the inscription as a pair. The same twelve characters appear on the lid and on the body, so the two halves carry one message. That message is a dedication to a father named 父乙, and it calls the vessel a precious ritual vessel. The repetition matters because it makes the lid part of the inscribed object, not merely a cover. Then look at the feet. The replacement foot sits directly beneath the animal-headed handle. It tells you this vessel has a history after it was cast, because a part was replaced at some point, though the sources do not say when or by whom. Read the vessel as a document, not just a shape, and the feet become part of the story.",
+      "long": "Stand in front of this bronze wine vessel and start with its colour. Most bronzes of this age have turned green or crusty after millennia in the ground. This one is almost black and glossy, with barely any corrosion. The museum compares its surface to old black lacquer and notes that such a surface is uncommon among Shang and Zhou bronzes.\n\nIt is a jue, a type of wine vessel, about 29 centimeters tall. The lid rises into a shape like a roof ridge. The body flares at the mouth, pinches inward at the waist, and rests on three triangular feet. On one side, a half-ring handle ends in an animal head. Every section is decorated with animal faces, triangular patterns, dragons, and a cloud-and-thunder ground pattern, with raised ridges along the edges. The museum describes the decorative method as a three-layer technique, which suggests how the designs were built up in layers. One of the three feet, the museum notes, is a later replacement.\n\nThe most revealing part is the inscription. Twelve characters are cast on the lid and twelve on the body, and they match. Read together, they record a dedication to a father named 父乙, usually rendered Father Yi, and they describe the vessel as a precious ritual vessel. That wording ties the object to ancestral worship from the early Western Zhou, roughly three thousand years ago. The sources do not say how the vessel was used in ritual, so it is wise not to fill that gap with guesses.\n\nIts history is also unusual. In 1986, a group of fourteen bronzes was recovered from river silt near Xinyang, in southern Henan. A second, nearly identical cup was found with this one, and the museum holds this example. That near-twin matters, because it shows that the vessels were made as a set and then came out of the ground together.\n\nWhy does it deserve attention today? Because it can be read, not just admired. Its dark surface, its twelve matching characters, and its one replaced foot each tell a different part of its story. Look at it slowly, and it becomes a record of who it honoured and how carefully it was made.",
+      "word_counts": {
+        "short": 142,
+        "expansion": 125,
+        "long": 366
+      },
+      "research_flags": [
+        "Accession number not found on the museum record page or in any source reached; left null.",
+        "Date: the museum record says only 西周早期 (early Western Zhou) with no year range; the list's 约公元前11—前10世纪 is not in the record and is approximate.",
+        "Findspot spelling conflicts within the record: 狮河港 on the object card and 浉河港 elsewhere on the same record; script uses only 'Xinyang' and 'river silt'.",
+        "Inscription: record transcription 晨肇贮用乍父乙宝尊彝即册 (12 characters on lid and body). The reading of the final phrase was not checked against a second source; scripts interpret only the name 父乙 as 'Father Yi'.",
+        "Record notes one of the three feet (the one under the handle) is a later replacement.",
+        "Record says two nearly identical vessels were excavated together; the location of the second is not stated in any source reached.",
+        "The 'three-layer' decoration term (三层花) is the record's own label; its technical meaning was not confirmed in a scholarly source.",
+        "The list's type is 酒器 (wine vessel); the record calls it 青铜酒器 and 角, consistent with the list.",
+        "Most details were read via summarised fetches of the museum's Object of the Week page and a 2020 museum article; no scholarly catalogue was accessed."
+      ]
+    },
+    {
+      "id": 19,
+      "metadata": {
+        "title": "三彩狮形座枕 (Sancai Lion-Shaped Pillow with Base)",
+        "period": "宋 (Song dynasty), as recorded by the museum; 960–1279 is the dynastic span, not from the record",
+        "object_type": "瓷器 (ceramics), the museum's category; list says 陶瓷·生活器",
+        "material": "Not verified. The record gives only the category 瓷器; scholarship describes Song-period sancai as multicolour low-temperature lead-glazed wares",
+        "dimensions": null,
+        "museum": "Henan Museum (河南博物院)",
+        "accession_number": null,
+        "official_record": "https://www.chnmus.net/content/redirect?id=7066681088168431616"
+      },
+      "short": "Look at this object as a pillow first. Its title, 三彩狮形座枕, names a lion-shaped form on a base, and a pillow is a headrest, so whatever the lion looks like, its job was to support a sleeping head. The Henan Museum dates it to the Song dynasty, which lasted from 960 to 1279. Next, consider the word 三彩, sancai, which literally means three colours. It is a loose label. Scholars note that Song-period wares carrying this name are generally multicolour, low-temperature lead-glazed pieces, and the number three is not a count. As you walk around the lion, let the glaze, not the number, guide your attention. Notice how a sculpted animal becomes an everyday bedding object, serious in its form yet made for something as quiet as a night's sleep.",
+      "expansion": "The title's word, sancai, deserves a closer look, because the museum record does not settle how this piece should be described. Chinese scholars have long used the phrase Song sancai for multicolour wares of the Song period, yet one specialist study calls that usage imprecise and treats these wares as low-temperature lead-glazed objects. The museum files this one under ceramics, a broad category that does not say whether the body is porcelain or earthenware. The distinction is not pedantic. Lead glazes are fired at lower temperatures than porcelain glazes, so the body and surface tell different stories about how the piece was made. Until a material description is available, treat the body and glaze as open questions, and let your own eyes check the surface against the label.",
+      "long": "Start with the most basic fact about this object: it is a pillow, made to be slept on. Its title, 三彩狮形座枕, describes a lion-shaped form resting on a 座, a stand or base. The Henan Museum dates it to the Song dynasty, which lasted from 960 to 1279, and files it among its ceramics.\n\nThe word 三彩 needs care. It literally means three colours, but scholars point out that the label is applied loosely to Song-period wares. One specialist study describes these pieces as multicolour, low-temperature lead-glazed objects, and treats the name Song sancai as an imprecise habit. The number three is not a count. Think of the name as a family resemblance rather than a precise recipe.\n\nThe official record is also sparse. It gives the title, the period and the category, but not the dimensions, a material description, excavation details or a maker, so this guide will not supply them. Nor should we assume a meaning for the lion. The motif appears across Chinese art in Buddhist settings, imperial contexts and everyday objects, and its significance shifts with each. Without evidence from this piece's original setting, the safest reading is the simplest one.\n\nThat simple reading is useful. Notice how little it needs: no legend, no ritual, just a bed and a head. A pillow is a headrest, so the lion's form had to serve a sleeping head. The sculpted animal was not a figure standing beside a bed. It was the bed object itself, with enough weight and stability to hold the head through a night's rest. Imagine the object in use, and the decorative and the practical begin to fuse. That combination, a lion turned into something quiet and domestic, is what makes this pillow worth attention. Look at it as a tool first and a sculpture second, and its details will start to reveal how people actually lived with ceramics.",
+      "word_counts": {
+        "short": 130,
+        "expansion": 128,
+        "long": 315
+      },
+      "research_flags": [
+        "Record mismatch: the museum detail page (chnmus.net) gives 年代 as 宋 only, not 960–1279; the date range comes from the list.",
+        "Record mismatch: the list says 陶瓷·生活器; the record's category is 瓷器 (ceramics). The record gives no 'life' classification.",
+        "Material unverified: the record gives no material. Scholarship (彭善国, 金元三彩述论) describes these wares as multicolour low-temperature lead-glazed (多色低温铅釉陶器) and notes that 'Song sancai' is a loose term. Whether this object is earthenware or porcelain is unresolved.",
+        "Dimensions, accession number, kiln, excavation context and maker are not in the fetched record and were not found elsewhere; left null or omitted.",
+        "Lion motif meaning is not established for this object; the script states no symbolism.",
+        "Lally & Co. Song lion-pillow page was checked only as a comparison and is a different object; no facts were transferred."
+      ]
+    },
+    {
+      "id": 20,
+      "metadata": {
+        "title": "白釉莲瓣碗 (White-glazed lotus-petal bowl)",
+        "period": "Liao dynasty (辽代), 916–1125, per the task list; not confirmed against the museum record",
+        "object_type": "Ceramics, daily-use vessel (瓷器·生活器), per the task list; not confirmed against the museum record",
+        "material": "Ceramic with white glaze, per the task list; clay body not verified",
+        "dimensions": null,
+        "museum": "Henan Museum (河南博物院)",
+        "accession_number": null,
+        "official_record": null
+      },
+      "short": "Look at the wall of this bowl and you will find petals. Its sides are shaped like the petals of a lotus (莲瓣), each one swelling outward and curving back toward the foot, so a plain working bowl takes on the look of a half-open flower. The white glaze is worth noticing too. The bowl belongs to the Liao dynasty, the state founded by the Khitan people in the north, which governed a mixed population of Khitan, Han Chinese and others. Lotus motifs had a long life in Chinese art, most famously in Buddhist settings, but on an everyday bowl they may have been chiefly decorative. This was made to be used, washed and used again. Notice how the petals catch the light as you walk around it, and how their simple repetition gives the bowl its calm rhythm.",
+      "expansion": "Here is a question that has no settled answer: where was this bowl made? Liao territory covered much of northern China, Inner Mongolia and Manchuria, and its kilns produced white wares. Yet this bowl is in Henan, in the Central Plains, far south of the Liao heartland, and that distance sharpens the question. Scholars often connect Liao white porcelain with northern centers such as Ding in Hebei. They think white porcelain forms and techniques passed from these northern kilns to neighboring kilns during the Liao and Jin periods. So a bowl like this one may come from a Liao workshop, from a Ding-linked kiln, or from somewhere in between. Attribution here is a matter of evidence and argument. Treat the question as part of the bowl's story, because the answer changes what it tells us about how northern ceramic skills traveled.",
+      "long": "Begin with the wall beneath the rim. Run your eye around this bowl and you find a rhythm of petal-like forms, each one swelling outward and folding back toward the foot, until the whole vessel reads as a flower that has half opened. It is a simple thing to hold: a bowl for everyday use, made to be washed and used again. The lotus, though, has a long history in Chinese art. It rose to prominence through Buddhist temple decoration in the Tang period, and by the time this bowl was made, lotus petals were among the most familiar motifs on ceramics. A motif does not carry one fixed meaning from one century to the next, however. On a working bowl the petals may have been chiefly pleasing to the eye, or they may have carried a Buddhist resonance for the person who used it.\n\nThe glaze matters as much as the shape. White-glazed wares were a notable part of ceramic production in the north during the Liao dynasty, which lasted from the early tenth century to 1125. The Khitan people who founded Liao came from the steppe, and they governed a large population of Han Chinese farmers, artisans and officials. The state drew on the skills of older Central Plains workshops, and scholars often link Liao white porcelain to Ding, the famous kiln in Hebei. Ding forms and techniques seem to have passed to neighboring kilns during the Liao and Jin periods, so a bowl like this one belongs to a wider northern conversation about clay, glaze and taste.\n\nThat conversation also raises a question about this particular bowl. It is now in a museum in Henan, in the Central Plains far south of the Liao heartland. Was it made by a Liao workshop, by a kiln connected to Ding, or somewhere in between? Scholars weigh such questions against evidence. The answer shapes what the bowl tells us about how northern skills traveled.\n\nWhat, finally, does it reveal? A plain bowl from a northern state, shaped by a mixed population and by a long Buddhist and Chinese inheritance, shows how far these cultures had learned from one another. Its type points toward everyday use rather than court display, and it asks us to give a humble form real care. That is why it deserves a slow look today.",
+      "word_counts": {
+        "short": 138,
+        "expansion": 141,
+        "long": 389
+      },
+      "research_flags": [
+        "Official Henan Museum collection record not found: the museum site was not on the allowlist and searches (Chinese and English) returned no record for this bowl. Title, period, object type and material are taken from the task list, not verified.",
+        "Dimensions, accession number, excavation or findings context and provenance are unverified and left null. Scripts make no claims about them.",
+        "Kiln of origin unverified: the bowl may be Liao-made or from a northern kiln such as Ding (Hebei). Henan location is far from the Liao heartland. Scripts flag this as an open question.",
+        "Dynasty dates: the task list gives 916–1125 (Khitan imperial title from 916); the dynasty is often dated 907–1125 (founding in 907, name Liao adopted in 947). Scripts use 'the early tenth century to 1125'.",
+        "Motif meaning is debated: the lotus had Buddhist associations, but on a daily-use bowl its meaning may have been decorative. Scripts present both readings.",
+        "Scholarly basis: Ding-to-Liao/Jin transmission of white-porcelain forms and techniques, from Jang Namwon (Ewha Womans University), Journal of Korean Art & Archaeology 2011; Liao craftsmen from Ding and Cizhou kilns, from Tan Jiahui and Hu Haiquan, Shandong Ceramics 2025. Neither source discusses this object.",
+        "Lotus-petal technique (moulded or carved) and glaze composition not verified; scripts describe only the petal form implied by the title."
+      ]
+    }
+  ]
+}

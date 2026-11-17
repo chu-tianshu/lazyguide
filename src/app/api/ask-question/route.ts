@@ -1,6 +1,7 @@
 import Anthropic from "@anthropic-ai/sdk";
-import { getPaintingById } from "@/data/paintings";
+import { getCatalog, getWork } from "@/data/catalog";
 import { claudeConfig, limits } from "@/lib/config";
+import { isLanguageCode, strings, type LanguageCode } from "@/lib/i18n";
 import { SYSTEM_PROMPT, buildUserMessage } from "@/lib/prompts";
 
 export const dynamic = "force-dynamic";
@@ -12,7 +13,9 @@ interface Turn {
 }
 
 interface AskBody {
-  paintingId: string;
+  museumId: string;
+  language: LanguageCode;
+  workId: string;
   effort: "low" | "high";
   listenedText: string;
   history: Turn[];
@@ -24,27 +27,32 @@ function json(body: unknown, status = 200) {
 }
 
 function parseBody(raw: unknown): { ok: true; value: AskBody } | { ok: false; error: string } {
-  if (!raw || typeof raw !== "object") return { ok: false, error: "Invalid request." };
+  const en = strings.en.errors;
+  if (!raw || typeof raw !== "object") return { ok: false, error: en.invalid };
   const b = raw as Record<string, unknown>;
 
-  if (typeof b.paintingId !== "string" || !b.paintingId) {
-    return { ok: false, error: "Unknown work." };
+  if (!isLanguageCode(b.language)) return { ok: false, error: en.invalid };
+  const language = b.language;
+  const e = strings[language].errors; // errors are returned in the visitor's language
+
+  if (typeof b.museumId !== "string" || typeof b.workId !== "string" || !b.museumId || !b.workId) {
+    return { ok: false, error: e.unknownWork };
   }
   if (b.effort !== "low" && b.effort !== "high") {
-    return { ok: false, error: "Choose a guide depth first." };
+    return { ok: false, error: e.chooseDepth };
   }
   if (typeof b.listenedText !== "string" || b.listenedText.length > limits.listenedChars) {
-    return { ok: false, error: "The guide text is too long." };
+    return { ok: false, error: e.guideTooLong };
   }
 
   const question = typeof b.question === "string" ? b.question.trim() : "";
-  if (!question) return { ok: false, error: "Please type a question." };
+  if (!question) return { ok: false, error: e.emptyQuestion };
   if (question.length > limits.questionChars) {
-    return { ok: false, error: `Questions must be ${limits.questionChars} characters or fewer.` };
+    return { ok: false, error: e.questionTooLong(limits.questionChars) };
   }
 
   if (!Array.isArray(b.history) || b.history.length > limits.historyTurns) {
-    return { ok: false, error: "The conversation is too long. Start a new question on another work." };
+    return { ok: false, error: e.historyTooLong };
   }
   const history: Turn[] = [];
   for (const t of b.history as unknown[]) {
@@ -55,7 +63,7 @@ function parseBody(raw: unknown): { ok: true; value: AskBody } | { ok: false; er
       typeof turn.content !== "string" ||
       turn.content.length > limits.historyTurnChars
     ) {
-      return { ok: false, error: "Invalid conversation history." };
+      return { ok: false, error: e.invalidHistory };
     }
     history.push({ role: turn.role, content: turn.content });
   }
@@ -63,7 +71,9 @@ function parseBody(raw: unknown): { ok: true; value: AskBody } | { ok: false; er
   return {
     ok: true,
     value: {
-      paintingId: b.paintingId,
+      museumId: b.museumId,
+      language,
+      workId: b.workId,
       effort: b.effort,
       listenedText: b.listenedText,
       history,
@@ -77,19 +87,22 @@ export async function POST(request: Request) {
   try {
     raw = await request.json();
   } catch {
-    return json({ error: "Invalid request." }, 400);
+    return json({ error: strings.en.errors.invalid }, 400);
   }
 
   const parsed = parseBody(raw);
   if (!parsed.ok) return json({ error: parsed.error }, 400);
   const body = parsed.value;
+  const e = strings[body.language].errors;
 
-  const painting = getPaintingById(body.paintingId);
-  if (!painting) return json({ error: "Unknown work." }, 404);
+  // Facts come from the server-side catalog; the client only supplies ids.
+  const catalog = getCatalog(body.museumId, body.language);
+  const work = getWork(body.museumId, body.language, body.workId);
+  if (!catalog || !work) return json({ error: e.unknownWork }, 404);
 
   const { apiKey, model } = claudeConfig;
   if (!apiKey || !model) {
-    return json({ error: "Follow-up questions aren't set up yet on this server." }, 503);
+    return json({ error: e.notConfigured }, 503);
   }
 
   try {
@@ -106,7 +119,9 @@ export async function POST(request: Request) {
         {
           role: "user",
           content: buildUserMessage({
-            painting,
+            museumName: catalog.museumName,
+            work,
+            language: body.language,
             effort: body.effort,
             listenedText: body.listenedText,
             history: body.history,
@@ -126,6 +141,6 @@ export async function POST(request: Request) {
   } catch (err) {
     // Log only the error type; never the request, key, or provider body.
     console.error("ask-question failed:", err instanceof Error ? err.name : "unknown");
-    return json({ error: "The guide couldn't answer right now. Please try again." }, 502);
+    return json({ error: e.failed }, 502);
   }
 }

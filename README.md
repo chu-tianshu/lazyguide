@@ -1,8 +1,12 @@
 # LazyGuide
 
-Prototype web audio guide for a curated set of 30 paintings at the High Museum of Art. See [design.md](design.md) for the full brief.
+Prototype web audio guide for a curated set of works at the High Museum of Art (Atlanta) and the Henan Museum 河南博物院 (Zhengzhou). See [design.md](design.md) for the design, decisions, and open items.
 
-**Status:** Milestone 1 scaffold. The UI shell, typed catalog with test placeholders, and client-side search are in place. Guide generation, speech playback, expansion and Q&A are still placeholders.
+**What works:** museum and language selection, search, pre-written guides with a speech player (progress, captions, speed), and follow-up questions answered by Claude once the environment variables below are set.
+
+## Guide data
+
+One cleaned JSON file per museum and language lives in `src/data/guides/<museum>/<language>.json` and is registered in `src/data/catalog.ts`. Only the languages a museum has files for are offered. The original supplied files, including research notes, are archived in `research/source/` and are not shipped. Image credits are in [CREDITS.md](CREDITS.md).
 
 ## Local setup
 

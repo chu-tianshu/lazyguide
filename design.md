@@ -7,8 +7,9 @@ Living design document. It describes what is built, the decisions that changed f
 A small, polished web-based audio guide prototype, initially for the **High Museum of Art in Atlanta, Georgia**. Live at https://lazyguide.vercel.app/ (source: https://github.com/chu-tianshu/lazyguide, public).
 
 Scope of the current release:
-- One museum and one language (English), chosen on welcome screens.
-- A curated catalog of **20 works** with pre-written guides.
+- Two museums chosen on a welcome screen: the High Museum of Art (Atlanta) and the Henan Museum 河南博物院 (Zhengzhou).
+- A language screen that offers only the languages each museum has guides for: English for Atlanta; English and Simplified Chinese for Henan.
+- A curated catalog of **20 works per museum** with pre-written guides (Henan shows 19; see §4.5).
 - Search by title and artist.
 - Two guide depths: **Low effort** and **High effort**.
 - Readable captions that follow the spoken audio, using browser-native speech.
@@ -26,6 +27,7 @@ Scope of the current release:
 | No images | Public-domain images only, from Wikimedia Commons (§4.3). |
 | Single museum, no selection UI | Welcome screens for museum and language, each with one option, so more can be added. |
 | No playback speed controls, no word highlighting | Speed (1×, 1.5×, 2×), progress bar, and sentence-level captions are built. |
+| Single museum, single language | Two museums and two languages. Choosing a language also switches the interface text, the speech voice, and the language Claude answers in. |
 
 ## 3. Product and infrastructure constraints
 
@@ -49,23 +51,35 @@ If the key or model is missing, the follow-up route returns a clear "not set up 
 ## 4. Content and data
 
 ### 4.1 Catalog
-`src/data/paintings.ts` builds the catalog from `src/data/high_museum_20_audio_guides.json`.
+Guide data lives in one cleaned JSON file per museum and language:
+
+```
+src/data/guides/high-atlanta/en.json
+src/data/guides/henan/en.json
+src/data/guides/henan/zh.json
+```
+
+`src/data/catalog.ts` registers the files, serves the catalog for a museum and language, and offers only the languages a museum has files for. Adding a language or museum means adding a file and registering it there.
+
+Each file has a `museum` block (name and location in that language) and a `works` list:
 
 ```ts
-interface Painting {
-  id: string;               // slug of the accession number, e.g. "60-5"
+interface Work {
+  id: string;              // stable slug, e.g. "60-5" (High, from the accession number) or "henan-02"
   title: string;
-  artist: string;
-  date?: string;
-  medium?: string;
-  accessionNumber?: string;
-  museumObjectUrl?: string; // official High Museum object page
-  image?: PaintingImage;    // public-domain preview, when available
+  subtitle?: string;       // e.g. the Chinese name shown under an English title
+  artist?: string;         // absent for archaeological objects
+  facts: { label: string; value: string }[]; // display rows, labelled in the file's language
+  objectUrl?: string;      // official museum page
+  listed?: boolean;        // false hides the work everywhere (app and API)
+  unlistedReason?: string;
   guide: { short: string; expansion: string; long: string };
 }
 ```
 
-The `Painting` name is kept although the set includes other media.
+The shipped files contain only display data and guide text. Research flags, word counts, and the original supplied files are archived in `research/source/` and are not part of the app bundle.
+
+The facts rows are High: Date, Medium, Accession; Henan: Period, Type, Material, and Size (Size only where the source marks the figures as coming from the museum record). Display values were written from the supplied metadata with research caveats removed; the caveats remain in the archived source files.
 
 Each work has three texts:
 - `short` (about 1 minute) — the Low effort guide.
@@ -86,21 +100,29 @@ The original brief says paintings only. Eight of the 20 supplied works are not p
 - Found but deliberately excluded: O'Keeffe *Red Canna*. Its Commons file is tagged public domain only under the US pre-1923 publication rule, and O'Keeffe died in 1986, so expiry is not clear. Add it only if the owner accepts that risk.
 
 ### 4.4 Data rules
-- Each record must be an actual work in the High Museum's collection.
+- Each record must be an actual work in that museum's collection.
 - Metadata comes from the supplied file, which cites official records. It has not been independently verified against the museum's website.
 - Do not claim an artwork is currently on view.
 - Distinguish facts in the museum's records from interpretive commentary.
 
+### 4.5 Henan Museum data
+- 20 objects supplied in English and Simplified Chinese, with the same ids in both languages. Neither file has artists or accession numbers; links to the museum's records exist for some objects only (the two files were merged where one had a link and the other did not).
+- **Object 13, 牛尊 (Ox-shaped zun), is hidden** (`listed: false`). The supplied research notes found no Henan Museum record for it; sources point to the Yinxu Museum in Anyang. It stays in the data and returns once the holding is confirmed. The 19 listed objects are shown.
+- Guide texts keep their own honest hedging (for example, objects whose official record is not yet verified). Do not add or remove claims without checking the research notes.
+- The shipped metadata has not been reviewed against the museum's records.
+
 ## 5. User experience
 
 ### A. Welcome screens
-1. **Museum** — "Lazy Guide" title at the top, a short tagline, and a layered card list of museums (currently High Museum of Art, Atlanta). No heading such as "select a museum".
-2. **Language** — a "Language" heading and a card list with an inline SVG American flag for English. A back button returns to the museum screen.
+1. **Museum** — "Lazy Guide" title at the top, a short tagline, and a layered card list of museums (High Museum of Art, Atlanta; 河南博物院 Henan Museum). No heading such as "select a museum".
+2. **Language** — a "Language · 语言" heading and cards for only the languages the chosen museum offers, each with an inline SVG flag (United States for English, China for Simplified Chinese). A back button returns to the museum screen.
+
+The chosen language sets the interface text (`src/lib/i18n.ts`), the page language, the speech voice (`en-US` or `zh-CN`), the sentence splitting rules, and the language Claude answers in. If the device has no Chinese voice, the captions still work and a note says so.
 
 State is held in memory only.
 
 ### B. Collection / search
-- Museum name and a "Selected works" heading. The copy says it is a curated selection, not the full collection.
+- Museum name and a "Selected works" heading. The copy says it is a curated selection, not the full collection. An "All museums" link returns to the welcome screen.
 - Search by title or artist: client-side, case-insensitive, partial match, live as the visitor types. It never calls Claude.
 - Only matching works are shown. There is no "no results" message; the list is simply empty.
 
@@ -142,7 +164,9 @@ Shown after a depth is chosen, for both Low and High.
 Input:
 ```ts
 {
-  paintingId: string;
+  museumId: string;
+  language: "en" | "zh";
+  workId: string;
   effort: "low" | "high";
   listenedText: string;
   history: Array<{ role: "user" | "assistant"; content: string }>; // up to 6 messages
@@ -153,7 +177,8 @@ Output: `{ answer: string }` or `{ error: string }`.
 
 Server behaviour:
 - Validates every field and enforces size limits (question 500 characters, heard text 20,000, history 6 messages of up to 2,000 characters each).
-- Resolves the painting from the server-side catalog; client-supplied artwork facts are never trusted.
+- Resolves the work from the server-side catalog for the given museum and language; client-supplied facts are never trusted. Unknown or unlisted works return 404.
+- Error messages are returned in the visitor's language. The prompt tells Claude to answer in that language.
 - Never accepts a client-provided system prompt.
 - 30-second timeout, one retry. Provider errors are logged by type only and returned as a safe generic message (HTTP 502). Unknown work returns 404; invalid input 400; missing configuration 503.
 - Model and token limits are configured in `src/lib/config.ts`.
@@ -173,10 +198,11 @@ The user message passes the catalog facts, depth, heard text, and earlier questi
 ## 7. Code structure
 
 - `src/app/` — layout, page, global styles, and API routes (`health`, `ask-question`).
-- `src/components/` — `App` (flow state), `ChoicePage` (welcome cards), `UsFlag`, `CollectionPage`, `PaintingDetail`, `GuidePlayer` (audio, progress, captions), `FollowUpPanel`.
-- `src/data/` — `museums`, `languages`, `paintings`, `paintingImages`, and the guide JSON.
-- `src/lib/` — `speech` (sentence splitting), `config` (model, limits), `prompts`.
-- `public/images/paintings/` — preview images.
+- `src/components/` — `App` (flow state), `ChoicePage` (welcome cards), `UsFlag`, `CnFlag`, `CollectionPage`, `PaintingDetail`, `GuidePlayer` (audio, progress, captions), `FollowUpPanel`.
+- `src/data/` — `museums`, `languages`, `catalog` (loads and serves the guide files), `paintingImages`, and `guides/<museum>/<language>.json`.
+- `src/lib/` — `i18n` (interface text and error messages in each language), `speech` (sentence splitting), `config` (model, limits), `prompts`.
+- `public/images/paintings/` — preview images (High Museum works only).
+- `research/source/` — the original supplied JSON files with research notes; not shipped.
 
 Visual direction: calm, museum-like, editorial; strong serif typography; mobile-first; follows the system light or dark setting; accessible labels, focus states, and keyboard navigation.
 
@@ -188,11 +214,13 @@ Visual direction: calm, museum-like, editorial; strong serif typography; mobile-
 
 ### Needs the project owner
 1. Add `ANTHROPIC_API_KEY` and `ANTHROPIC_MODEL` in Vercel and redeploy; set a spending limit in the Anthropic Console.
-2. Decide whether to keep the non-paintings (§4.2).
+2. Decide whether to keep the non-paintings in the High set (§4.2), and whether the Henan ox-shaped zun (§4.5) can be confirmed as a Henan Museum object.
 3. Review the catalog metadata and guide text against the museum's records.
 4. Confirm the rule that only clearly public-domain works get images, or supply others.
 
 ### Not yet verified or built
+- The Chinese interface text and the Chinese guide display values (§4.1) have not been reviewed by a native speaker. Chinese speech depends on the device having a Chinese voice and has not been tested in a browser.
+- Henan works have no images; none were sought.
 - No live Claude call has been made. Answer quality and the prompt's classification behaviour are untested.
 - Browser speech has not been tested manually in a browser (play, pause, speed, restart, switching works).
 - Images for the other public-domain candidates (Dürer, Modigliani, Dewing, Cordier, Story) have not been found in a form that clearly shows the High's own object. The Cassatt download needs a retry.
@@ -208,14 +236,14 @@ Visual direction: calm, museum-like, editorial; strong serif typography; mobile-
 - Paid TTS or generated audio files; audio downloads; offline mode.
 - Admin dashboard or CMS.
 - Automatic museum collection scraping.
-- Additional museums or languages beyond the single entries (the screens support more; no data exists).
+- Museums or languages beyond those listed. The screens support more: add a guide file and register it in `src/data/catalog.ts`.
 - Application-level spend accounting or quota dashboards.
 - Retrieval pipelines, vector databases, or RAG infrastructure.
 
 ## 10. Definition of done
 
 A visitor can:
-1. Open https://lazyguide.vercel.app/, choose the museum and language.
+1. Open https://lazyguide.vercel.app/, choose a museum, then one of that museum's languages.
 2. Search the catalog by title or artist.
 3. Open a work and see its title, artist, date, medium, and an image where one is licensed.
 4. Choose Low or High effort, then read, hear, pause, restart, and speed up the guide, with captions following along.

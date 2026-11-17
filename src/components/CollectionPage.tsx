@@ -1,53 +1,56 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { paintings, searchPaintings } from "@/data/paintings";
-import type { Museum } from "@/data/museums";
+import { searchWorks, type Catalog } from "@/data/catalog";
+import { strings } from "@/lib/i18n";
 
 export function CollectionPage({
-  museum,
+  catalog,
   onSelect,
+  onChangeMuseum,
 }: {
-  museum: Museum;
+  catalog: Catalog;
   onSelect: (id: string) => void;
+  onChangeMuseum: () => void;
 }) {
+  const t = strings[catalog.language];
   const [query, setQuery] = useState("");
-  const results = useMemo(() => searchPaintings(paintings, query), [query]);
+  const results = useMemo(() => searchWorks(catalog.works, query), [catalog.works, query]);
+  const hasArtists = catalog.works.some((w) => w.artist);
+  const placeholder = hasArtists ? t.searchPlaceholderTitleArtist : t.searchPlaceholderTitle;
 
   return (
     <>
+      <button className="back" onClick={onChangeMuseum}>
+        {t.changeMuseum}
+      </button>
+
       <header className="masthead">
-        <p className="eyebrow">{museum.location}</p>
-        <h1>{museum.name}</h1>
-        <p className="lede">
-          An audio guide to a curated selection of works, not the museum&rsquo;s full
-          collection.
-        </p>
+        <p className="eyebrow">{catalog.museumLocation}</p>
+        <h1>{catalog.museumName}</h1>
+        <p className="lede">{t.collectionLede}</p>
       </header>
 
       <section aria-labelledby="collection-heading">
-        <h2 id="collection-heading">Selected works</h2>
+        <h2 id="collection-heading">{t.collectionHeading}</h2>
         <label className="search">
-          <span className="visually-hidden">Search by title or artist</span>
+          <span className="visually-hidden">{placeholder}</span>
           <input
             type="search"
-            placeholder="Search by title or artist"
+            placeholder={placeholder}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
         </label>
 
-        {paintings.length === 0 ? (
-          <p className="empty">The catalog hasn&rsquo;t been added yet.</p>
-        ) : results.length === 0 ? null : (
+        {results.length > 0 && (
           <ul className="results">
-            {results.map((p) => (
-              <li key={p.id}>
-                <button className="result" onClick={() => onSelect(p.id)}>
-                  <span className="result-title">{p.title}</span>
+            {results.map((w) => (
+              <li key={w.id}>
+                <button className="result" onClick={() => onSelect(w.id)}>
+                  <span className="result-title">{w.title}</span>
                   <span className="result-meta">
-                    {p.artist}
-                    {p.date ? ` · ${p.date}` : ""}
+                    {[w.artist, w.facts[0]?.value].filter(Boolean).join(" · ")}
                   </span>
                 </button>
               </li>

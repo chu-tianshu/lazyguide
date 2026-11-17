@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import { strings, type LanguageCode } from "@/lib/i18n";
 
 interface Turn {
   question: string;
@@ -10,15 +11,20 @@ interface Turn {
 const MAX_QUESTION = 500;
 
 export function FollowUpPanel({
-  paintingId,
+  museumId,
+  language,
+  workId,
   effort,
   listenedText,
 }: {
-  paintingId: string;
+  museumId: string;
+  language: LanguageCode;
+  workId: string;
   effort: "low" | "high";
   /** The guide text the visitor has heard so far. */
   listenedText: string;
 }) {
+  const t = strings[language];
   const [question, setQuestion] = useState("");
   const [turns, setTurns] = useState<Turn[]>([]);
   const [pending, setPending] = useState(false);
@@ -33,26 +39,34 @@ export function FollowUpPanel({
     setError(null);
 
     // The server accepts at most 6 history messages, i.e. the last 3 exchanges.
-    const history = turns.slice(-3).flatMap((t) => [
-      { role: "user" as const, content: t.question },
-      { role: "assistant" as const, content: t.answer },
+    const history = turns.slice(-3).flatMap((turn) => [
+      { role: "user" as const, content: turn.question },
+      { role: "assistant" as const, content: turn.answer },
     ]);
 
     try {
       const res = await fetch("/api/ask-question", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ paintingId, effort, listenedText, history, question: q }),
+        body: JSON.stringify({
+          museumId,
+          language,
+          workId,
+          effort,
+          listenedText,
+          history,
+          question: q,
+        }),
       });
       const data = (await res.json().catch(() => ({}))) as { answer?: string; error?: string };
       if (!res.ok || !data.answer) {
-        setError(data.error ?? "The guide couldn't answer right now. Please try again.");
+        setError(data.error ?? t.errors.failed);
         return;
       }
       setTurns((prev) => [...prev, { question: q, answer: data.answer as string }]);
       setQuestion("");
     } catch {
-      setError("Couldn't reach the guide. Check your connection and try again.");
+      setError(t.errors.network);
     } finally {
       setPending(false);
     }
@@ -60,14 +74,14 @@ export function FollowUpPanel({
 
   return (
     <section className="followup" aria-labelledby="followup-heading">
-      <h2 id="followup-heading">Ask about this work</h2>
+      <h2 id="followup-heading">{t.askHeading}</h2>
 
       {turns.length > 0 && (
         <ol className="turns" aria-live="polite">
-          {turns.map((t, i) => (
+          {turns.map((turn, i) => (
             <li key={i}>
-              <p className="turn-q">{t.question}</p>
-              <p className="turn-a">{t.answer}</p>
+              <p className="turn-q">{turn.question}</p>
+              <p className="turn-a">{turn.answer}</p>
             </li>
           ))}
         </ol>
@@ -75,19 +89,19 @@ export function FollowUpPanel({
 
       <form className="ask-form" onSubmit={submit}>
         <label htmlFor="question-input" className="visually-hidden">
-          Your question about this work
+          {t.askLabel}
         </label>
         <input
           id="question-input"
           type="text"
-          placeholder="e.g. Why is the sky so dark?"
+          placeholder={t.askPlaceholder}
           value={question}
           maxLength={MAX_QUESTION}
           onChange={(e) => setQuestion(e.target.value)}
           disabled={pending}
         />
         <button type="submit" disabled={pending || !question.trim()}>
-          {pending ? "Thinking…" : "Ask"}
+          {pending ? t.thinking : t.ask}
         </button>
       </form>
 
