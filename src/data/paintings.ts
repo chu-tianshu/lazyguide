@@ -1,48 +1,59 @@
+import rawCatalog from "./high_museum_20_audio_guides.json";
+
+export interface Guide {
+  /** Standalone concise guide (~1 minute). */
+  short: string;
+  /** Additional layer of looking/context (~1 minute). */
+  expansion: string;
+  /** Standalone detailed guide (~2–3 minutes). */
+  long: string;
+}
+
 export interface Painting {
-  id: string; // stable slug or museum accession identifier
+  id: string; // stable slug derived from the museum accession number
   title: string;
   artist: string;
   date?: string;
   medium?: string;
-  dimensions?: string;
-  department?: string;
-  description?: string; // concise, factual, editorially reviewed
-  museumObjectUrl?: string; // official High Museum object page, if available
-  sources?: Array<{ label: string; url: string; note?: string }>;
-  /** True for placeholder records used only to exercise the UI. */
-  isFixture?: boolean;
+  accessionNumber?: string;
+  museumObjectUrl?: string; // official High Museum object page
+  guide: Guide;
 }
 
-/**
- * TEST FIXTURES ONLY — these are NOT real High Museum collection objects.
- * Replace with the curated 30-painting catalog once it is supplied.
- */
-export const paintings: Painting[] = [
-  {
-    id: "fixture-1",
-    title: "Placeholder Landscape",
-    artist: "Test Artist A",
-    date: "n.d.",
-    medium: "Oil on canvas",
-    description: "Test fixture used to exercise the interface. Not a real artwork.",
-    isFixture: true,
-  },
-  {
-    id: "fixture-2",
-    title: "Sample Portrait Study",
-    artist: "Test Artist B",
-    medium: "Tempera on panel",
-    description: "Test fixture used to exercise the interface. Not a real artwork.",
-    isFixture: true,
-  },
-  {
-    id: "fixture-3",
-    title: "Example Still Life",
-    artist: "Test Artist A",
-    description: "Test fixture used to exercise the interface. Not a real artwork.",
-    isFixture: true,
-  },
-];
+interface RawWork {
+  metadata: {
+    title: string;
+    artist: string;
+    date?: string;
+    medium?: string;
+    accession_number?: string;
+    official_record?: string;
+  };
+  short: string;
+  expansion: string;
+  long: string;
+}
+
+function slugFromAccession(accession: string): string {
+  return accession
+    .split(" ")[0]
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+const works: RawWork[] = rawCatalog.works;
+
+export const paintings: Painting[] = works.map((w) => ({
+  id: slugFromAccession(w.metadata.accession_number ?? w.metadata.title),
+  title: w.metadata.title,
+  artist: w.metadata.artist,
+  date: w.metadata.date,
+  medium: w.metadata.medium,
+  accessionNumber: w.metadata.accession_number,
+  museumObjectUrl: w.metadata.official_record,
+  guide: { short: w.short, expansion: w.expansion, long: w.long },
+}));
 
 export function getPaintingById(id: string): Painting | undefined {
   return paintings.find((p) => p.id === id);

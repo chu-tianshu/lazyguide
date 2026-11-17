@@ -13,7 +13,6 @@ export function CollectionPage({
 }) {
   const [query, setQuery] = useState("");
   const results = useMemo(() => searchPaintings(paintings, query), [query]);
-  const hasFixtures = paintings.some((p) => p.isFixture);
 
   return (
     <>
@@ -21,19 +20,13 @@ export function CollectionPage({
         <p className="eyebrow">{museum.location}</p>
         <h1>{museum.name}</h1>
         <p className="lede">
-          An audio guide to a curated selection of paintings, not the museum&rsquo;s full
+          An audio guide to a curated selection of works, not the museum&rsquo;s full
           collection.
         </p>
       </header>
 
-      {hasFixtures && (
-        <p className="notice" role="note">
-          Prototype: the catalog currently contains test placeholders, not real collection objects.
-        </p>
-      )}
-
       <section aria-labelledby="collection-heading">
-        <h2 id="collection-heading">Selected paintings</h2>
+        <h2 id="collection-heading">Selected works</h2>
         <label className="search">
           <span className="visually-hidden">Search by title or artist</span>
           <input

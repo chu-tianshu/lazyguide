@@ -1,12 +1,29 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import type { Painting } from "@/data/paintings";
+import { GuidePlayer, type Section } from "./GuidePlayer";
 
 type Effort = "low" | "high";
 
 export function PaintingDetail({ painting, onBack }: { painting: Painting; onBack: () => void }) {
   const [effort, setEffort] = useState<Effort | null>(null);
+  const [expanded, setExpanded] = useState(false);
+
+  const sections: Section[] | null = useMemo(() => {
+    if (effort === "high") return [{ text: painting.guide.long }];
+    if (effort === "low") {
+      const list: Section[] = [{ text: painting.guide.short }];
+      if (expanded) list.push({ heading: "Another angle", text: painting.guide.expansion });
+      return list;
+    }
+    return null;
+  }, [effort, expanded, painting]);
+
+  const chooseEffort = (next: Effort) => {
+    setEffort(next);
+    setExpanded(false);
+  };
 
   return (
     <article>
@@ -19,33 +36,31 @@ export function PaintingDetail({ painting, onBack }: { painting: Painting; onBac
       <header className="detail-head">
         <h1>{painting.title}</h1>
         <p className="artist">{painting.artist}</p>
-        {painting.isFixture && <p className="notice">Test fixture, not a real artwork.</p>}
       </header>
 
       <dl className="meta">
         {painting.date && (
-          <>
+          <div>
             <dt>Date</dt>
             <dd>{painting.date}</dd>
-          </>
+          </div>
         )}
         {painting.medium && (
-          <>
+          <div>
             <dt>Medium</dt>
             <dd>{painting.medium}</dd>
-          </>
+          </div>
         )}
-        {painting.dimensions && (
-          <>
-            <dt>Dimensions</dt>
-            <dd>{painting.dimensions}</dd>
-          </>
+        {painting.accessionNumber && (
+          <div>
+            <dt>Accession</dt>
+            <dd>{painting.accessionNumber}</dd>
+          </div>
         )}
       </dl>
 
-      {painting.description && <p className="description">{painting.description}</p>}
       {painting.museumObjectUrl && (
-        <p>
+        <p className="object-link">
           <a href={painting.museumObjectUrl} target="_blank" rel="noreferrer">
             View on the museum&rsquo;s website ↗
           </a>
@@ -55,27 +70,29 @@ export function PaintingDetail({ painting, onBack }: { painting: Painting; onBac
       <section className="guide" aria-labelledby="guide-heading">
         <h2 id="guide-heading">Audio guide</h2>
         <div className="effort-choice" role="group" aria-label="Guide depth">
-          <button aria-pressed={effort === "low"} onClick={() => setEffort("low")}>
+          <button aria-pressed={effort === "low"} onClick={() => chooseEffort("low")}>
             <strong>Low effort</strong>
-            <span>A short, approachable guide · ~1–2 min</span>
+            <span>A concise guide · about 1 min</span>
           </button>
-          <button aria-pressed={effort === "high"} onClick={() => setEffort("high")}>
+          <button aria-pressed={effort === "high"} onClick={() => chooseEffort("high")}>
             <strong>High effort</strong>
-            <span>Deeper history and interpretation · ~4–6 min</span>
+            <span>Deeper history and interpretation · about 2–3 min</span>
           </button>
         </div>
 
-        {effort && (
-          <div className="guide-placeholder">
-            <p className="eyebrow">{effort === "low" ? "Low effort" : "High effort"} guide</p>
-            <p>Guide generation is coming in the next milestone.</p>
-          </div>
+        {sections && (
+          <>
+            <GuidePlayer
+              key={`${painting.id}-${effort}-${expanded}`}
+              sections={sections}
+            />
+            {effort === "low" && !expanded && (
+              <button className="expand" onClick={() => setExpanded(true)}>
+                + Expand with another story
+              </button>
+            )}
+          </>
         )}
-      </section>
-
-      <section className="followup" aria-labelledby="followup-heading">
-        <h2 id="followup-heading">Ask a question</h2>
-        <p className="muted">Follow-up questions will be available once a guide is generated.</p>
       </section>
     </article>
   );
