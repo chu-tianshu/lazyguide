@@ -7,6 +7,7 @@ import { languages } from "@/data/languages";
 import { ChoicePage } from "./ChoicePage";
 import { CollectionPage } from "./CollectionPage";
 import { PaintingDetail } from "./PaintingDetail";
+import { UsFlag } from "./UsFlag";
 
 export function App() {
   const [museumId, setMuseumId] = useState<string | null>(null);
@@ -21,18 +22,25 @@ export function App() {
   if (!museum) {
     content = (
       <ChoicePage
-        eyebrow="Welcome"
-        heading="Choose a museum"
-        options={museums.map((m) => ({ id: m.id, title: m.name, subtitle: m.location }))}
+        options={museums.map((m) => ({
+          id: m.id,
+          title: m.name,
+          subtitle: m.location,
+          visual: <span className="monogram">{m.monogram}</span>,
+        }))}
         onChoose={setMuseumId}
       />
     );
   } else if (!language) {
     content = (
       <ChoicePage
-        eyebrow={museum.name}
-        heading="Choose a language"
-        options={languages.map((l) => ({ id: l.code, title: l.label }))}
+        heading="Language"
+        options={languages.map((l) => ({
+          id: l.code,
+          title: l.label,
+          subtitle: "United States",
+          visual: l.code === "en" ? <UsFlag className="flag" /> : null,
+        }))}
         onChoose={setLanguageCode}
         onBack={() => setMuseumId(null)}
       />
