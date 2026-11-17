@@ -33,7 +33,21 @@ export function PaintingDetail({ painting, onBack }: { painting: Painting; onBac
         ← Back to collection
       </button>
 
-      <div className="placeholder-art" aria-hidden="true" />
+      {painting.image ? (
+        <figure className="artwork">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={painting.image.src} alt={`${painting.title} by ${painting.artist}`} />
+          <figcaption>
+            Image:{" "}
+            <a href={painting.image.sourceUrl} target="_blank" rel="noreferrer">
+              Wikimedia Commons
+            </a>{" "}
+            · {painting.image.license}
+          </figcaption>
+        </figure>
+      ) : (
+        <div className="placeholder-art" aria-hidden="true" />
+      )}
 
       <header className="detail-head">
         <h1>{painting.title}</h1>

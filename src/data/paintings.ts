@@ -1,4 +1,5 @@
 import rawCatalog from "./high_museum_20_audio_guides.json";
+import { paintingImages, type PaintingImage } from "./paintingImages";
 
 export interface Guide {
   /** Standalone concise guide (~1 minute). */
@@ -17,6 +18,7 @@ export interface Painting {
   medium?: string;
   accessionNumber?: string;
   museumObjectUrl?: string; // official High Museum object page
+  image?: PaintingImage; // public-domain preview, when available
   guide: Guide;
 }
 
@@ -44,16 +46,20 @@ function slugFromAccession(accession: string): string {
 
 const works: RawWork[] = rawCatalog.works;
 
-export const paintings: Painting[] = works.map((w) => ({
-  id: slugFromAccession(w.metadata.accession_number ?? w.metadata.title),
-  title: w.metadata.title,
-  artist: w.metadata.artist,
-  date: w.metadata.date,
-  medium: w.metadata.medium,
-  accessionNumber: w.metadata.accession_number,
-  museumObjectUrl: w.metadata.official_record,
-  guide: { short: w.short, expansion: w.expansion, long: w.long },
-}));
+export const paintings: Painting[] = works.map((w) => {
+  const id = slugFromAccession(w.metadata.accession_number ?? w.metadata.title);
+  return {
+    id,
+    title: w.metadata.title,
+    artist: w.metadata.artist,
+    date: w.metadata.date,
+    medium: w.metadata.medium,
+    accessionNumber: w.metadata.accession_number,
+    museumObjectUrl: w.metadata.official_record,
+    image: paintingImages[id],
+    guide: { short: w.short, expansion: w.expansion, long: w.long },
+  };
+});
 
 export function getPaintingById(id: string): Painting | undefined {
   return paintings.find((p) => p.id === id);
