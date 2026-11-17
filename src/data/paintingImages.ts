@@ -34,6 +34,12 @@ export const paintingImages: Record<string, PaintingImage> = {
       "https://commons.wikimedia.org/wiki/File:Autumn_on_the_Seine,_Argenteuil_by_Claude_Monet,_High_Museum_of_Art.jpg",
     license: "Public domain",
   },
+  "2018-41": {
+    src: "/images/paintings/2018-41.jpg",
+    sourceUrl:
+      "https://commons.wikimedia.org/wiki/File:Henry_Church_-_'A_Friend_in_Need_is_a_Friend_Indeed',_c._1888.JPG",
+    license: "CC0",
+  },
   "73-3": {
     src: "/images/paintings/73-3.jpg",
     sourceUrl:

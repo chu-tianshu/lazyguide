@@ -81,7 +81,9 @@ The original brief says paintings only. Eight of the 20 supplied works are not p
 - Images are downscaled (about 900 px wide), stored in `public/images/paintings/`, and mapped in `src/data/paintingImages.ts`.
 - Each image shows a caption linking to its Commons page and license. All are listed in `CREDITS.md`.
 - The High Museum's website returns 403 to automated requests. Do not work around the block, and do not scrape or hotlink museum images.
-- Currently included: Bellini *Madonna and Child*, Girodet *The Funeral of Atala*, Monet *Houses of Parliament in the Fog*, Monet *Autumn on the Seine, Argenteuil*, Sargent *Portrait of Ralph Curtis on the Beach at Scheveningen*.
+- Currently included: Bellini *Madonna and Child*, Girodet *The Funeral of Atala*, Monet *Houses of Parliament in the Fog*, Monet *Autumn on the Seine, Argenteuil*, Sargent *Portrait of Ralph Curtis on the Beach at Scheveningen*, and Church *A Friend in Need Is a Friend Indeed* (CC0 photo of an 1888 sculpture).
+- Found but not yet added: Cassatt *Sketch of a Mother Looking Down at Thomas* (Commons file tagged public domain by age; the download was throttled by Commons and should be retried later).
+- Found but deliberately excluded: O'Keeffe *Red Canna*. Its Commons file is tagged public domain only under the US pre-1923 publication rule, and O'Keeffe died in 1986, so expiry is not clear. Add it only if the owner accepts that risk.
 
 ### 4.4 Data rules
 - Each record must be an actual work in the High Museum's collection.
@@ -181,7 +183,7 @@ Visual direction: calm, museum-like, editorial; strong serif typography; mobile-
 ## 8. Status and open items
 
 ### Done
-- Deployed app with welcome screens, live search, detail view, player with progress, speed, restart, and captions, expansion, follow-up questions, and five public-domain images.
+- Deployed app with welcome screens, live search, detail view, player with progress, speed, restart, and captions, expansion, follow-up questions, and six public-domain or CC0 images.
 - Follow-up route tested locally for validation and the missing-key error.
 
 ### Needs the project owner
@@ -193,7 +195,7 @@ Visual direction: calm, museum-like, editorial; strong serif typography; mobile-
 ### Not yet verified or built
 - No live Claude call has been made. Answer quality and the prompt's classification behaviour are untested.
 - Browser speech has not been tested manually in a browser (play, pause, speed, restart, switching works).
-- Images for the other public-domain candidates (Dürer, Modigliani, Cassatt, Dewing, O'Keeffe, Cordier, Story, Church) have not been found in a form that clearly shows the High's own object.
+- Images for the other public-domain candidates (Dürer, Modigliani, Dewing, Cordier, Story) have not been found in a form that clearly shows the High's own object. The Cassatt download needs a retry.
 - Playback of follow-up answers through the speech player.
 - On-demand guide generation endpoints (optional).
 
