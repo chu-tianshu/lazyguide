@@ -39,9 +39,7 @@ export function CollectionPage({ onSelect }: { onSelect: (id: string) => void })
 
         {paintings.length === 0 ? (
           <p className="empty">The catalog hasn&rsquo;t been added yet.</p>
-        ) : results.length === 0 ? (
-          <p className="empty">No paintings match &ldquo;{query}&rdquo;.</p>
-        ) : (
+        ) : results.length === 0 ? null : (
           <ul className="results">
             {results.map((p) => (
               <li key={p.id}>
