@@ -1,9 +1,16 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { MUSEUM_LOCATION, MUSEUM_NAME, paintings, searchPaintings } from "@/data/paintings";
+import { paintings, searchPaintings } from "@/data/paintings";
+import type { Museum } from "@/data/museums";
 
-export function CollectionPage({ onSelect }: { onSelect: (id: string) => void }) {
+export function CollectionPage({
+  museum,
+  onSelect,
+}: {
+  museum: Museum;
+  onSelect: (id: string) => void;
+}) {
   const [query, setQuery] = useState("");
   const results = useMemo(() => searchPaintings(paintings, query), [query]);
   const hasFixtures = paintings.some((p) => p.isFixture);
@@ -11,8 +18,8 @@ export function CollectionPage({ onSelect }: { onSelect: (id: string) => void })
   return (
     <>
       <header className="masthead">
-        <p className="eyebrow">{MUSEUM_LOCATION}</p>
-        <h1>{MUSEUM_NAME}</h1>
+        <p className="eyebrow">{museum.location}</p>
+        <h1>{museum.name}</h1>
         <p className="lede">
           An audio guide to a curated selection of paintings, not the museum&rsquo;s full
           collection.

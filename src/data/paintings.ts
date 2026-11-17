@@ -13,9 +13,6 @@ export interface Painting {
   isFixture?: boolean;
 }
 
-export const MUSEUM_NAME = "High Museum of Art";
-export const MUSEUM_LOCATION = "Atlanta, Georgia";
-
 /**
  * TEST FIXTURES ONLY — these are NOT real High Museum collection objects.
  * Replace with the curated 30-painting catalog once it is supplied.
