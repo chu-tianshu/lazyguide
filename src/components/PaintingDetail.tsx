@@ -3,12 +3,14 @@
 import { useMemo, useState } from "react";
 import type { Painting } from "@/data/paintings";
 import { GuidePlayer, type Section } from "./GuidePlayer";
+import { FollowUpPanel } from "./FollowUpPanel";
 
 type Effort = "low" | "high";
 
 export function PaintingDetail({ painting, onBack }: { painting: Painting; onBack: () => void }) {
   const [effort, setEffort] = useState<Effort | null>(null);
   const [expanded, setExpanded] = useState(false);
+  const [listenedText, setListenedText] = useState("");
 
   const sections: Section[] | null = useMemo(() => {
     if (effort === "high") return [{ text: painting.guide.long }];
@@ -85,6 +87,7 @@ export function PaintingDetail({ painting, onBack }: { painting: Painting; onBac
             <GuidePlayer
               key={`${painting.id}-${effort}-${expanded}`}
               sections={sections}
+              onListenedChange={setListenedText}
             />
             {effort === "low" && !expanded && (
               <button className="expand" onClick={() => setExpanded(true)}>
@@ -94,6 +97,10 @@ export function PaintingDetail({ painting, onBack }: { painting: Painting; onBac
           </>
         )}
       </section>
+
+      {effort && (
+        <FollowUpPanel paintingId={painting.id} effort={effort} listenedText={listenedText} />
+      )}
     </article>
   );
 }

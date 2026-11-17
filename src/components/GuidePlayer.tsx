@@ -28,7 +28,14 @@ function pickVoice(): SpeechSynthesisVoice | undefined {
  *
  * Remount (via `key`) to reset playback when the guide text changes.
  */
-export function GuidePlayer({ sections }: { sections: Section[] }) {
+export function GuidePlayer({
+  sections,
+  onListenedChange,
+}: {
+  sections: Section[];
+  /** Reports the text the visitor has heard so far (sentences up to the current one). */
+  onListenedChange?: (text: string) => void;
+}) {
   const flat = useMemo(() => {
     const items: { text: string; section: number }[] = [];
     sections.forEach((s, si) => {
@@ -136,6 +143,21 @@ export function GuidePlayer({ sections }: { sections: Section[] }) {
   };
 
   const isActive = status === "playing" || status === "paused";
+
+  const listened = useMemo(() => {
+    if (status === "ended") return flat.map((f) => f.text).join(" ");
+    if (status === "idle") return "";
+    return flat
+      .slice(0, current + 1)
+      .map((f) => f.text)
+      .join(" ");
+  }, [flat, current, status]);
+
+  useEffect(() => {
+    onListenedChange?.(listened);
+    // onListenedChange is a stable state setter from the parent.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [listened]);
 
   // Keep the sentence being spoken in view.
   useEffect(() => {
