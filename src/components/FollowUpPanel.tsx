@@ -32,7 +32,8 @@ export function FollowUpPanel({
     setPending(true);
     setError(null);
 
-    const history = turns.flatMap((t) => [
+    // The server accepts at most 6 history messages, i.e. the last 3 exchanges.
+    const history = turns.slice(-3).flatMap((t) => [
       { role: "user" as const, content: t.question },
       { role: "assistant" as const, content: t.answer },
     ]);
