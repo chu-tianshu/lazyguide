@@ -73,7 +73,7 @@ export const museums: Museum[] = [
       country: "China",
       continent: "Asia",
     },
-    // Hip-and-gable roof with upturned eaves on two pillars, after a Song palace hall.
-    icon: '<path d="M2 9c4 0 7-1 10-5 3 4 6 5 10 5M6 9v10M18 9v10M10 12v7M14 12v7M3 21h18"/>',
+    // Hall with flared, upturned eaves, a ridge block and a door, after a Song palace hall.
+    icon: '<path d="M1.5 12c3.5 0 6-1.5 7-4h7c1 2.5 3.5 4 7 4M9 8l1.5-3.5h3L15 8M6 12v8h12v-8M10 20v-4h4v4"/>',
   },
 ];
