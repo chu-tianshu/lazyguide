@@ -29,17 +29,22 @@ function pickVoice(speechLang: string): SpeechSynthesisVoice | undefined {
  * of truth; speech is queued one sentence at a time so that pause, restart and
  * speed changes can resume from the current sentence.
  *
- * Remount (via `key`) to reset playback when the guide text changes.
+ * Remount (via `key`) to reset playback when the work or depth changes. Sections
+ * may be appended while mounted (the expansion); `jumpTo` then starts playing
+ * from the first sentence of that section.
  */
 export function GuidePlayer({
   sections,
   language,
   onListenedChange,
+  jumpTo,
 }: {
   sections: Section[];
   language: LanguageCode;
   /** Reports the text the visitor has heard so far (sentences up to the current one). */
   onListenedChange?: (text: string) => void;
+  /** Start playing from this section when `token` changes. */
+  jumpTo?: { section: number; token: number };
 }) {
   const t = strings[language];
 
@@ -60,9 +65,11 @@ export function GuidePlayer({
   const [current, setCurrent] = useState(0);
   const [within, setWithin] = useState(0); // 0–1 progress through the current sentence
   const [rate, setRate] = useState<Rate>(1);
+  const [heard, setHeard] = useState<ReadonlySet<number>>(() => new Set());
 
   const runRef = useRef(0); // increments on every restart; stale callbacks check it
   const captionRefs = useRef<Array<HTMLSpanElement | null>>([]);
+  const lastJump = useRef(0);
 
   useEffect(() => {
     setSupported(typeof window !== "undefined" && "speechSynthesis" in window);
@@ -73,7 +80,7 @@ export function GuidePlayer({
   }, []);
 
   const speakFrom = useCallback(
-    (start: number, r: Rate) => {
+    (start: number, r: Rate, keepHeard = false) => {
       if (!supported || flat.length === 0) return;
       const synth = window.speechSynthesis;
       synth.cancel();
@@ -87,6 +94,7 @@ export function GuidePlayer({
       setStatus("playing");
       setCurrent(start);
       setWithin(0);
+      if (!keepHeard) setHeard(new Set());
 
       for (let index = start; index < flat.length; index++) {
         const item = flat[index];
@@ -99,6 +107,7 @@ export function GuidePlayer({
           if (!isCurrent()) return;
           setCurrent(index);
           setWithin(0);
+          setHeard((prev) => (prev.has(index) ? prev : new Set(prev).add(index)));
         };
         utterance.onboundary = (e) => {
           if (!isCurrent()) return;
@@ -132,7 +141,7 @@ export function GuidePlayer({
       synth.resume();
       setStatus("playing");
     } else {
-      speakFrom(status === "ended" ? 0 : current, rate);
+      speakFrom(status === "ended" ? 0 : current, rate, status !== "ended");
     }
   };
 
@@ -144,7 +153,7 @@ export function GuidePlayer({
       // Browsers cannot change the speed of a running utterance, so the
       // current sentence is re-spoken at the new speed.
       const wasPaused = status === "paused";
-      speakFrom(current, r);
+      speakFrom(current, r, true);
       if (wasPaused) {
         window.speechSynthesis.pause();
         setStatus("paused");
@@ -154,20 +163,30 @@ export function GuidePlayer({
 
   const isActive = status === "playing" || status === "paused";
 
-  const listened = useMemo(() => {
-    if (status === "ended") return flat.map((f) => f.text).join(t.joiner);
-    if (status === "idle") return "";
-    return flat
-      .slice(0, current + 1)
-      .map((f) => f.text)
-      .join(t.joiner);
-  }, [flat, current, status, t.joiner]);
+  // Only sentences that were actually spoken count as heard, so jumping ahead
+  // to the expansion does not claim the skipped part of the first story.
+  const listened = useMemo(
+    () =>
+      flat
+        .filter((_, i) => heard.has(i))
+        .map((f) => f.text)
+        .join(t.joiner),
+    [flat, heard, t.joiner],
+  );
 
   useEffect(() => {
     onListenedChange?.(listened);
     // onListenedChange is a stable state setter from the parent.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [listened]);
+
+  useEffect(() => {
+    if (!jumpTo || jumpTo.token === lastJump.current) return;
+    const start = flat.findIndex((item) => item.section === jumpTo.section);
+    if (start < 0) return;
+    lastJump.current = jumpTo.token;
+    speakFrom(start, rate, true);
+  }, [jumpTo, flat, rate, speakFrom]);
 
   // Keep the sentence being spoken in view.
   useEffect(() => {
@@ -184,6 +203,17 @@ export function GuidePlayer({
         ? 0
         : Math.min(1, (elapsedChars + within * (lengths[current] ?? 0)) / totalChars);
   const percent = Math.round(progress * 100);
+
+  // Where each later section begins on the bar, so the expansion is visible as a segment.
+  const sectionMarks = useMemo(() => {
+    const marks: number[] = [];
+    let chars = 0;
+    flat.forEach((item, i) => {
+      if (i > 0 && item.section !== flat[i - 1].section) marks.push(chars / totalChars);
+      chars += item.text.length;
+    });
+    return marks;
+  }, [flat, totalChars]);
 
   const playLabel =
     status === "playing"
@@ -226,6 +256,9 @@ export function GuidePlayer({
         aria-valuenow={percent}
       >
         <div className="progress-fill" style={{ width: `${percent}%` }} />
+        {sectionMarks.map((m) => (
+          <div key={m} className="progress-mark" style={{ left: `${m * 100}%` }} />
+        ))}
       </div>
 
       {!supported && (

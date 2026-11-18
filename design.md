@@ -150,7 +150,11 @@ Behaviour:
 - Voice selection by the visitor and background playback are out of scope.
 
 ### E. Expansion (Low effort only)
-After a Low guide is chosen, "Expand with another story" appends the pre-written `expansion` text as a second section ("Another angle"). Playback restarts from the beginning of the combined text. There is one expansion per work; no Claude call is made.
+After a Low guide is chosen, "Expand with another story" appends the pre-written `expansion` text as a second section ("Another angle") and **starts playing it immediately**, sentence by sentence, from its first sentence. The player stays mounted, so the first story's captions, speed setting, and position are kept. If the first story is still playing, it is cut off and the expansion starts at once.
+
+The progress bar covers both stories: it measures position through the combined text (by characters), with a thin divider where the expansion begins. Before expanding it covers the first story alone, so the bar steps back (for example from 100% to about 50%) when the expansion is added.
+
+"Heard so far" for follow-up questions contains only sentences that were actually spoken, so skipping the rest of the first story by expanding early does not count it as heard. There is one expansion per work; no Claude call is made.
 
 ### F. Follow-up questions
 Shown after a depth is chosen, for both Low and High.

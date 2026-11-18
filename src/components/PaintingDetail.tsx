@@ -22,6 +22,7 @@ export function PaintingDetail({
   const t = strings[language];
   const [effort, setEffort] = useState<Effort | null>(null);
   const [expanded, setExpanded] = useState(false);
+  const [expandToken, setExpandToken] = useState(0);
   const [listenedText, setListenedText] = useState("");
 
   const sections: Section[] | null = useMemo(() => {
@@ -37,6 +38,12 @@ export function PaintingDetail({
   const chooseEffort = (next: Effort) => {
     setEffort(next);
     setExpanded(false);
+    setExpandToken(0);
+  };
+
+  const expand = () => {
+    setExpanded(true);
+    setExpandToken((n) => n + 1);
   };
 
   return (
@@ -109,13 +116,14 @@ export function PaintingDetail({
         {sections && (
           <>
             <GuidePlayer
-              key={`${work.id}-${effort}-${expanded}`}
+              key={`${work.id}-${effort}`}
               sections={sections}
               language={language}
               onListenedChange={setListenedText}
+              jumpTo={expandToken ? { section: 1, token: expandToken } : undefined}
             />
             {effort === "low" && !expanded && (
-              <button className="expand" onClick={() => setExpanded(true)}>
+              <button className="expand" onClick={expand}>
                 {t.expand}
               </button>
             )}
