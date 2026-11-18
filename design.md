@@ -115,7 +115,12 @@ The original brief says paintings only. Eight of the 20 supplied works are not p
 ## 5. User experience
 
 ### A. Welcome screens
-1. **Museum** — "Lazy Guide" title at the top, a short tagline, and a layered card list of museums (High Museum of Art, Atlanta; 河南博物院 Henan Museum). No heading such as "select a museum".
+1. **Museum (world map)** — "Lazy Guide" title and tagline at the top, then a zoomable, pannable world map filling the rest of the screen. Each museum sits at its real location. What is drawn depends on the zoom level (`src/components/MuseumMap.tsx`):
+   - Zoomed far out: a numbered badge per **continent**; closer in, per **country**; closer still, per **city**. The number is how many museums that place holds. Clicking a badge flies in to it (a single museum goes straight to its icon).
+   - Zoomed in close enough (zoom 8 and up): each museum's own **unique icon** (a distinct glyph per museum, defined in `src/data/museums.ts`).
+   - **First click** on an icon shows the museum's name card ("Click again to enter"); clicking the map background or pressing Escape dismisses it. **Second click** selects the museum and moves on to the language screen. Icons are keyboard-focusable (Enter selects, as for clicks).
+   - Adding a museum means adding its `place` (coordinates, city, country, continent) and a new unique `icon` in `src/data/museums.ts`. Counts and grouping follow automatically.
+   - The map uses Leaflet with OpenStreetMap tiles (attribution shown on the map). Tiles are loaded from OpenStreetMap's public tile server, which is intended for light use; a different tile provider would be needed for heavy traffic. The map needs a network connection.
 2. **Language** — a "Language · 语言" heading and cards for only the languages the chosen museum offers, each with an inline SVG flag (United States for English, China for Simplified Chinese). A back button returns to the museum screen.
 
 The chosen language sets the interface text (`src/lib/i18n.ts`), the page language, the speech voice (`en-US` or `zh-CN`), the sentence splitting rules, and the language Claude answers in. If the device has no Chinese voice, the captions still work and a note says so.
@@ -203,7 +208,7 @@ The user message passes the catalog facts, depth, heard text, and earlier questi
 ## 7. Code structure
 
 - `src/app/` — layout, page, global styles, and API routes (`health`, `ask-question`).
-- `src/components/` — `App` (flow state), `ChoicePage` (welcome cards), `UsFlag`, `CnFlag`, `CollectionPage`, `PaintingDetail`, `GuidePlayer` (audio, progress, captions), `FollowUpPanel`.
+- `src/components/` — `App` (flow state), `MuseumMap` (museum selection map), `ChoicePage` (language cards), `UsFlag`, `CnFlag`, `CollectionPage`, `PaintingDetail`, `GuidePlayer` (audio, progress, captions), `FollowUpPanel`.
 - `src/data/` — `museums`, `languages`, `catalog` (loads and serves the guide files), `paintingImages`, and `guides/<museum>/<language>.json`.
 - `src/lib/` — `i18n` (interface text and error messages in each language), `speech` (sentence splitting), `config` (model, limits), `prompts`.
 - `public/images/paintings/` — preview images (High Museum works only).
@@ -237,7 +242,7 @@ Visual direction: calm, museum-like, editorial; strong serif typography; mobile-
 - Database or persistent conversation storage.
 - User accounts, login, or roles.
 - Image recognition or camera-based identification; QR codes.
-- Maps, indoor navigation, or floor plans.
+- Indoor maps, navigation, or floor plans. (A world map is used for choosing a museum only.)
 - Paid TTS or generated audio files; audio downloads; offline mode.
 - Admin dashboard or CMS.
 - Automatic museum collection scraping.

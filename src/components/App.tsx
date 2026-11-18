@@ -6,6 +6,7 @@ import { languages } from "@/data/languages";
 import { museums } from "@/data/museums";
 import type { LanguageCode } from "@/lib/i18n";
 import { ChoicePage } from "./ChoicePage";
+import { MuseumMap } from "./MuseumMap";
 import { CnFlag } from "./CnFlag";
 import { CollectionPage } from "./CollectionPage";
 import { PaintingDetail } from "./PaintingDetail";
@@ -31,20 +32,21 @@ export function App() {
     setSelectedId(null);
   };
 
-  let content;
   if (!museum) {
-    content = (
-      <ChoicePage
-        options={museums.map((m) => ({
-          id: m.id,
-          title: m.name,
-          subtitle: m.subtitle,
-          visual: <span className="monogram">{m.monogram}</span>,
-        }))}
-        onChoose={setMuseumId}
-      />
+    return (
+      <main className="map-shell" lang="en">
+        <header className="brand map-brand">
+          <h1>Lazy Guide</h1>
+          <p className="brand-tag">Audio guides, at your own pace</p>
+        </header>
+        <MuseumMap museums={museums} onSelect={setMuseumId} />
+        <p className="map-hint">Zoom in to find a museum. Click its icon to see the name, then click again to enter.</p>
+      </main>
     );
-  } else if (!catalog) {
+  }
+
+  let content;
+  if (!catalog) {
     // Only the languages this museum has guides for are offered.
     const offered = availableLanguages(museum.id);
     content = (
