@@ -128,6 +128,7 @@ The chosen language sets the interface text (`src/lib/i18n.ts`), the page langua
 State is held in memory only.
 
 ### B. Collection / search
+- Works are grouped under category headings (with a count), in the order the data file lists them. Each guide file has an ordered `categories` list and every work names one. High Museum: European Art, American Art, Modern & Contemporary Art, Photography, Folk & Self-Taught Art. Henan: Bronzes, Ceramics & Pottery, Jade/Gold/Weapons, Musical Instruments, Murals (and the Chinese equivalents in the Chinese file). The assignments are the project's own judgment from each work's date, medium and origin, not the museums' official classification. Search filters within the groups and hides empty ones.
 - Museum name and a "Selected works" heading. The copy says it is a curated selection, not the full collection. An "All museums" link returns to the welcome screen.
 - Search by title or artist: client-side, case-insensitive, partial match, live as the visitor types. It never calls Claude.
 - Only matching works are shown. There is no "no results" message; the list is simply empty.

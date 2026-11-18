@@ -5,10 +5,18 @@
     "name": "河南博物院",
     "location": "河南郑州"
   },
+  "categories": [
+    "青铜器",
+    "陶瓷",
+    "玉器·金器·兵器",
+    "乐器",
+    "壁画"
+  ],
   "works": [
     {
       "id": "henan-01",
       "title": "贾湖骨笛",
+      "category": "乐器",
       "facts": [
         {
           "label": "时期",
@@ -32,6 +40,7 @@
     {
       "id": "henan-02",
       "title": "妇好鸮尊",
+      "category": "青铜器",
       "facts": [
         {
           "label": "时期",
@@ -60,6 +69,7 @@
     {
       "id": "henan-03",
       "title": "莲鹤方壶",
+      "category": "青铜器",
       "facts": [
         {
           "label": "时期",
@@ -84,6 +94,7 @@
     {
       "id": "henan-04",
       "title": "武则天金简",
+      "category": "玉器·金器·兵器",
       "facts": [
         {
           "label": "时期",
@@ -107,6 +118,7 @@
     {
       "id": "henan-05",
       "title": "云纹铜禁",
+      "category": "青铜器",
       "facts": [
         {
           "label": "时期",
@@ -135,6 +147,7 @@
     {
       "id": "henan-06",
       "title": "杜岭方鼎",
+      "category": "青铜器",
       "facts": [
         {
           "label": "时期",
@@ -163,6 +176,7 @@
     {
       "id": "henan-07",
       "title": "玉柄铁剑",
+      "category": "玉器·金器·兵器",
       "facts": [
         {
           "label": "时期",
@@ -191,6 +205,7 @@
     {
       "id": "henan-08",
       "title": "四神云气图壁画",
+      "category": "壁画",
       "facts": [
         {
           "label": "时期",
@@ -214,6 +229,7 @@
     {
       "id": "henan-09",
       "title": "汝窑天蓝釉刻花鹅颈瓶",
+      "category": "陶瓷",
       "facts": [
         {
           "label": "时期",
@@ -242,6 +258,7 @@
     {
       "id": "henan-10",
       "title": "彩陶双连壶",
+      "category": "陶瓷",
       "facts": [
         {
           "label": "时期",
@@ -270,6 +287,7 @@
     {
       "id": "henan-11",
       "title": "王子午鼎",
+      "category": "青铜器",
       "facts": [
         {
           "label": "时期",
@@ -293,6 +311,7 @@
     {
       "id": "henan-12",
       "title": "王孙诰编钟",
+      "category": "乐器",
       "facts": [
         {
           "label": "时期",
@@ -313,6 +332,7 @@
     {
       "id": "henan-13",
       "title": "牛尊（亚长牛尊）",
+      "category": "青铜器",
       "facts": [
         {
           "label": "时期",
@@ -338,6 +358,7 @@
     {
       "id": "henan-14",
       "title": "金缕玉衣",
+      "category": "玉器·金器·兵器",
       "facts": [
         {
           "label": "时期",
@@ -361,6 +382,7 @@
     {
       "id": "henan-15",
       "title": "三彩角形杯",
+      "category": "陶瓷",
       "facts": [
         {
           "label": "时期",
@@ -389,6 +411,7 @@
     {
       "id": "henan-16",
       "title": "绿釉陶立狗",
+      "category": "陶瓷",
       "facts": [
         {
           "label": "时期",
@@ -412,6 +435,7 @@
     {
       "id": "henan-17",
       "title": "四神画像陶灶",
+      "category": "陶瓷",
       "facts": [
         {
           "label": "时期",
@@ -435,6 +459,7 @@
     {
       "id": "henan-18",
       "title": "父乙角",
+      "category": "青铜器",
       "facts": [
         {
           "label": "时期",
@@ -463,6 +488,7 @@
     {
       "id": "henan-19",
       "title": "三彩狮形座枕",
+      "category": "陶瓷",
       "facts": [
         {
           "label": "时期",
@@ -483,6 +509,7 @@
     {
       "id": "henan-20",
       "title": "白釉莲瓣碗",
+      "category": "陶瓷",
       "facts": [
         {
           "label": "时期",

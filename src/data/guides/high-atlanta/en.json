@@ -5,10 +5,18 @@
     "name": "High Museum of Art",
     "location": "Atlanta, Georgia"
   },
+  "categories": [
+    "European Art",
+    "American Art",
+    "Modern & Contemporary Art",
+    "Photography",
+    "Folk & Self-Taught Art"
+  ],
   "works": [
     {
       "id": "2002-320",
       "title": "Knight, Death, and the Devil",
+      "category": "European Art",
       "artist": "Albrecht Dürer",
       "facts": [
         {
@@ -34,6 +42,7 @@
     {
       "id": "58-33",
       "title": "Madonna and Child",
+      "category": "European Art",
       "artist": "Giovanni Bellini",
       "facts": [
         {
@@ -59,6 +68,7 @@
     {
       "id": "1990-1",
       "title": "The Funeral of Atala",
+      "category": "European Art",
       "artist": "Anne-Louis Girodet de Roussy-Trioson",
       "facts": [
         {
@@ -84,6 +94,7 @@
     {
       "id": "2020-65",
       "title": "Young Abyssinian Girl",
+      "category": "European Art",
       "artist": "Charles Cordier",
       "facts": [
         {
@@ -109,6 +120,7 @@
     {
       "id": "60-5",
       "title": "Houses of Parliament in the Fog",
+      "category": "European Art",
       "artist": "Claude Monet",
       "facts": [
         {
@@ -134,6 +146,7 @@
     {
       "id": "2000-205",
       "title": "Autumn on the Seine, Argenteuil",
+      "category": "European Art",
       "artist": "Claude Monet",
       "facts": [
         {
@@ -159,6 +172,7 @@
     {
       "id": "2019-150",
       "title": "Portrait of Beatrice Hastings (Portrait de Beatrice Hastings)",
+      "category": "European Art",
       "artist": "Amedeo Modigliani",
       "facts": [
         {
@@ -184,6 +198,7 @@
     {
       "id": "73-3",
       "title": "Portrait of Ralph Curtis on the Beach at Scheveningen",
+      "category": "American Art",
       "artist": "John Singer Sargent",
       "facts": [
         {
@@ -209,6 +224,7 @@
     {
       "id": "2010-89",
       "title": "Cleopatra",
+      "category": "American Art",
       "artist": "William Wetmore Story",
       "facts": [
         {
@@ -234,6 +250,7 @@
     {
       "id": "2010-91",
       "title": "Medea",
+      "category": "American Art",
       "artist": "William Wetmore Story",
       "facts": [
         {
@@ -259,6 +276,7 @@
     {
       "id": "2005-277",
       "title": "Sketch of a Mother Looking Down at Thomas",
+      "category": "American Art",
       "artist": "Mary Cassatt",
       "facts": [
         {
@@ -284,6 +302,7 @@
     {
       "id": "2017-27",
       "title": "A Reading (or Woman in Windsor Chair)",
+      "category": "American Art",
       "artist": "Thomas Wilmer Dewing",
       "facts": [
         {
@@ -309,6 +328,7 @@
     {
       "id": "1996-18",
       "title": "Red Canna",
+      "category": "American Art",
       "artist": "Georgia O’Keeffe",
       "facts": [
         {
@@ -334,6 +354,7 @@
     {
       "id": "73-84",
       "title": "Marilyn, from a portfolio of ten screenprints",
+      "category": "Modern & Contemporary Art",
       "artist": "Andy Warhol",
       "facts": [
         {
@@ -359,6 +380,7 @@
     {
       "id": "1993-3",
       "title": "Untitled (Cadmium)",
+      "category": "Modern & Contemporary Art",
       "artist": "Jean-Michel Basquiat",
       "facts": [
         {
@@ -384,6 +406,7 @@
     {
       "id": "2007-1",
       "title": "Taago",
+      "category": "Modern & Contemporary Art",
       "artist": "El Anatsui",
       "facts": [
         {
@@ -409,6 +432,7 @@
     {
       "id": "1998-110",
       "title": "White Angel Breadline",
+      "category": "Photography",
       "artist": "Dorothea Lange",
       "facts": [
         {
@@ -434,6 +458,7 @@
     {
       "id": "1982-93",
       "title": "Untitled (Blue Man on Red Object)",
+      "category": "Folk & Self-Taught Art",
       "artist": "Bill Traylor",
       "facts": [
         {
@@ -459,6 +484,7 @@
     {
       "id": "2003-211",
       "title": "Untitled (Nellie Riding Chicken)",
+      "category": "Folk & Self-Taught Art",
       "artist": "Nellie Mae Rowe",
       "facts": [
         {
@@ -484,6 +510,7 @@
     {
       "id": "2018-41",
       "title": "A Friend in Need Is a Friend Indeed",
+      "category": "American Art",
       "artist": "Henry Church",
       "facts": [
         {

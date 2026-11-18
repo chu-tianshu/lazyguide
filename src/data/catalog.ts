@@ -22,6 +22,7 @@ export interface Guide {
 export interface Work {
   id: string;
   title: string;
+  category?: string; // one of the catalog's categories
   subtitle?: string; // e.g. the original-language name
   artist?: string;
   facts: Fact[]; // labelled in the guide's language
@@ -35,12 +36,15 @@ export interface Catalog {
   language: LanguageCode;
   museumName: string;
   museumLocation: string;
+  /** Category names in display order. */
+  categories: string[];
   works: Work[];
 }
 
 interface RawWork {
   id: string;
   title: string;
+  category?: string;
   subtitle?: string;
   artist?: string;
   facts: Fact[];
@@ -51,6 +55,7 @@ interface RawWork {
 
 interface RawFile {
   museum: { id: string; language: string; name: string; location: string };
+  categories: string[];
   works: RawWork[];
 }
 
@@ -84,11 +89,13 @@ export function getCatalog(museumId: string, language: LanguageCode): Catalog | 
     language,
     museumName: file.museum.name,
     museumLocation: file.museum.location,
+    categories: file.categories,
     works: file.works
       .filter((w) => w.listed !== false)
       .map((w) => ({
         id: w.id,
         title: w.title,
+        category: w.category,
         subtitle: w.subtitle,
         artist: w.artist,
         facts: w.facts,

@@ -5,10 +5,18 @@
     "name": "Henan Museum",
     "location": "Zhengzhou, China"
   },
+  "categories": [
+    "Bronzes",
+    "Ceramics & Pottery",
+    "Jade, Gold & Weapons",
+    "Musical Instruments",
+    "Murals"
+  ],
   "works": [
     {
       "id": "henan-01",
       "title": "Bone Flute from Jiahu",
+      "category": "Musical Instruments",
       "subtitle": "贾湖骨笛",
       "facts": [
         {
@@ -33,6 +41,7 @@
     {
       "id": "henan-02",
       "title": "Owl-shaped Zun of Lady Fu Hao",
+      "category": "Bronzes",
       "subtitle": "妇好鸮尊",
       "facts": [
         {
@@ -62,6 +71,7 @@
     {
       "id": "henan-03",
       "title": "Lianhe Fanghu (Square Hu with Lotus and Crane)",
+      "category": "Bronzes",
       "subtitle": "莲鹤方壶",
       "facts": [
         {
@@ -87,6 +97,7 @@
     {
       "id": "henan-04",
       "title": "Wu Zetian Gold Slip",
+      "category": "Jade, Gold & Weapons",
       "subtitle": "武则天金简",
       "facts": [
         {
@@ -111,6 +122,7 @@
     {
       "id": "henan-05",
       "title": "Bronze Jin Stand with Cloud Pattern",
+      "category": "Bronzes",
       "subtitle": "云纹铜禁",
       "facts": [
         {
@@ -140,6 +152,7 @@
     {
       "id": "henan-06",
       "title": "Duling Square Ding",
+      "category": "Bronzes",
       "subtitle": "杜岭方鼎",
       "facts": [
         {
@@ -169,6 +182,7 @@
     {
       "id": "henan-07",
       "title": "Jade-Hilted Iron Sword",
+      "category": "Jade, Gold & Weapons",
       "subtitle": "玉柄铁剑",
       "facts": [
         {
@@ -198,6 +212,7 @@
     {
       "id": "henan-08",
       "title": "Four Spirits and Clouds Mural",
+      "category": "Murals",
       "subtitle": "四神云气图壁画",
       "facts": [
         {
@@ -222,6 +237,7 @@
     {
       "id": "henan-09",
       "title": "Ru Ware Sky-Blue Glazed Carved Goose-Neck Vase",
+      "category": "Ceramics & Pottery",
       "subtitle": "汝窑天蓝釉刻花鹅颈瓶",
       "facts": [
         {
@@ -251,6 +267,7 @@
     {
       "id": "henan-10",
       "title": "Painted Pottery Double-Linked Vessel",
+      "category": "Ceramics & Pottery",
       "subtitle": "彩陶双连壶",
       "facts": [
         {
@@ -280,6 +297,7 @@
     {
       "id": "henan-11",
       "title": "Ding of Prince Ziwu",
+      "category": "Bronzes",
       "subtitle": "王子午鼎",
       "facts": [
         {
@@ -304,6 +322,7 @@
     {
       "id": "henan-12",
       "title": "Wangsun Gao Bell Set",
+      "category": "Musical Instruments",
       "subtitle": "王孙诰编钟",
       "facts": [
         {
@@ -325,6 +344,7 @@
     {
       "id": "henan-13",
       "title": "Ox-shaped Zun",
+      "category": "Bronzes",
       "subtitle": "牛尊（亚长牛尊）",
       "facts": [
         {
@@ -351,6 +371,7 @@
     {
       "id": "henan-14",
       "title": "Jade Burial Suit with Gold Thread",
+      "category": "Jade, Gold & Weapons",
       "subtitle": "金缕玉衣",
       "facts": [
         {
@@ -375,6 +396,7 @@
     {
       "id": "henan-15",
       "title": "Sancai Horn-Shaped Cup",
+      "category": "Ceramics & Pottery",
       "subtitle": "三彩角形杯",
       "facts": [
         {
@@ -404,6 +426,7 @@
     {
       "id": "henan-16",
       "title": "Standing Dog with Green Glaze",
+      "category": "Ceramics & Pottery",
       "subtitle": "绿釉陶立狗",
       "facts": [
         {
@@ -428,6 +451,7 @@
     {
       "id": "henan-17",
       "title": "Pottery Stove with Four Spirits Decoration",
+      "category": "Ceramics & Pottery",
       "subtitle": "四神画像陶灶",
       "facts": [
         {
@@ -452,6 +476,7 @@
     {
       "id": "henan-18",
       "title": "Fu Yi Jue (Bronze Jue of “Father Yi”)",
+      "category": "Bronzes",
       "subtitle": "父乙角",
       "facts": [
         {
@@ -481,6 +506,7 @@
     {
       "id": "henan-19",
       "title": "Sancai Lion-Shaped Pillow with Base",
+      "category": "Ceramics & Pottery",
       "subtitle": "三彩狮形座枕",
       "facts": [
         {
@@ -502,6 +528,7 @@
     {
       "id": "henan-20",
       "title": "White-glazed Lotus-Petal Bowl",
+      "category": "Ceramics & Pottery",
       "subtitle": "白釉莲瓣碗",
       "facts": [
         {
