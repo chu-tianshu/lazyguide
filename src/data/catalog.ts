@@ -5,6 +5,7 @@ import clevelandEn from "./guides/cleveland/en.json";
 import highEn from "./guides/high-atlanta/en.json";
 import henanEn from "./guides/henan/en.json";
 import henanZh from "./guides/henan/zh.json";
+import deshouZh from "./guides/deshou/zh.json";
 
 export interface Fact {
   label: string;
@@ -79,6 +80,7 @@ const files: Record<string, Partial<Record<LanguageCode, RawFile>>> = {
   "high-atlanta": { en: highEn },
   henan: { en: henanEn, zh: henanZh },
   cleveland: { en: clevelandEn },
+  deshou: { zh: deshouZh },
 };
 
 const cache = new Map<string, Catalog>();

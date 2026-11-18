@@ -35,3 +35,7 @@ Preview images are downscaled copies (about 900 px wide) of Wikimedia Commons fi
 Source files and their licenses are listed on each Commons page. The museum's website blocks automated access, so no images were taken from high.org.
 
 CC BY-SA 4.0 photos (the ten Henan rows above) are credited to their photographers in the on-page caption and are downscaled and, for one, converted from PNG to JPEG; that adapted copy is shared under the same CC BY-SA 4.0 license (https://creativecommons.org/licenses/by-sa/4.0/). The license applies to those image files only, not to the rest of the app.
+
+## Deshou Palace Site Museum 南宋德寿宫遗址博物馆 (text only)
+
+The ten Chinese guide texts were supplied for this project and drafted from published reports on the museum and its excavations (Hangzhou Daily, Hangzhou Net and the Hangzhou archaeologists' "twenty objects" list). They are not the museum's own labels, and no images are included: none has been found under a licence that allows reuse. Item deshou-08 (tea utensils) is a reconstructed display in the Chonghua Palace hall, not a set of excavated originals.

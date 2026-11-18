@@ -62,4 +62,18 @@ export const museums: Museum[] = [
     // Classical pediment and columns, after the museum's marble Beaux-Arts building.
     icon: '<path d="M3 9l9-5 9 5zM6 9v9M10 9v9M14 9v9M18 9v9M3 21h18"/>',
   },
+  {
+    id: "deshou",
+    name: "南宋德寿宫遗址博物馆",
+    subtitle: "Deshou Palace Site Museum · Hangzhou, China",
+    place: {
+      lat: 30.2432,
+      lng: 120.1717,
+      city: "Hangzhou",
+      country: "China",
+      continent: "Asia",
+    },
+    // Hip-and-gable roof with upturned eaves on two pillars, after a Song palace hall.
+    icon: '<path d="M2 9c4 0 7-1 10-5 3 4 6 5 10 5M6 9v10M18 9v10M10 12v7M14 12v7M3 21h18"/>',
+  },
 ];

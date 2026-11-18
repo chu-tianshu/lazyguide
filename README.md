@@ -1,6 +1,6 @@
 # LazyGuide
 
-Prototype web audio guide for a curated set of works at the High Museum of Art (Atlanta), the Henan Museum 河南博物院 (Zhengzhou), and the Cleveland Museum of Art (whose guide texts and images are the museum's own, released under CC0). See [design.md](design.md) for the design, decisions, and open items.
+Prototype web audio guide for a curated set of works at the High Museum of Art (Atlanta), the Henan Museum 河南博物院 (Zhengzhou), the Southern Song Deshou Palace Site Museum 南宋德寿宫遗址博物馆 (Hangzhou), and the Cleveland Museum of Art (whose guide texts and images are the museum's own, released under CC0). See [design.md](design.md) for the design, decisions, and open items.
 
 **What works:** museum and language selection, search, pre-written guides with a speech player (progress, captions, speed), and follow-up questions answered by Claude once the environment variables below are set.
 
