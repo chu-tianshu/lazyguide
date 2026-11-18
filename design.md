@@ -7,11 +7,11 @@ Living design document. It describes what is built, the decisions that changed f
 A small, polished web-based audio guide prototype, initially for the **High Museum of Art in Atlanta, Georgia**. Live at https://lazyguide.vercel.app/ (source: https://github.com/chu-tianshu/lazyguide, public).
 
 Scope of the current release:
-- Two museums chosen on a welcome screen: the High Museum of Art (Atlanta) and the Henan Museum 河南博物院 (Zhengzhou).
-- A language screen that offers only the languages each museum has guides for: English for Atlanta; English and Simplified Chinese for Henan.
-- A curated catalog of **20 works per museum** with pre-written guides (Henan shows 19; see §4.5).
+- Three museums chosen on a world map: the High Museum of Art (Atlanta), the Henan Museum 河南博物院 (Zhengzhou), and the Cleveland Museum of Art.
+- A language screen that offers only the languages each museum has guides for: English for Atlanta and Cleveland; English and Simplified Chinese for Henan.
+- A curated catalog of 20 works each for Atlanta and Henan (Henan shows 19; see §4.5) with guides written for this app, and 179 works for Cleveland whose guide texts are the museum's own (§4.6).
 - Search by title and artist.
-- Two guide depths: **Low effort** and **High effort**.
+- Two guide depths for the guides written for this app: **Low effort** and **High effort**. Cleveland's guides are the museum's own single text, with no depths.
 - Readable captions that follow the spoken audio, using browser-native speech.
 - Low-effort guides can be expanded with one additional pre-written story.
 - Visitors can ask follow-up questions, answered by Claude.
@@ -111,6 +111,16 @@ The original brief says paintings only. Eight of the 20 supplied works are not p
 - **Object 13, 牛尊 (Ox-shaped zun), is hidden** (`listed: false`). The supplied research notes found no Henan Museum record for it; sources point to the Yinxu Museum in Anyang. It stays in the data and returns once the holding is confirmed. The 19 listed objects are shown.
 - Guide texts keep their own honest hedging (for example, objects whose official record is not yet verified). Do not add or remove claims without checking the research notes.
 - The shipped metadata has not been reviewed against the museum's records.
+
+### 4.6 Cleveland Museum of Art data (museum's own text)
+- **Why this museum:** the Cleveland Museum of Art releases its open-access dataset under CC0 ("has waived all copyright and related or neighboring rights to this dataset", https://github.com/ClevelandMuseumArt/openaccess), and its Terms and Conditions (https://www.clevelandart.org/terms-and-conditions) allow CC0 content to be used commercially and non-commercially without permission or attribution. Text and images were chosen from this museum because of that licence; other museums checked (High Museum, Henan Museum, Kunsthaus Zürich) do not allow reuse of their text.
+- **Source and rules:** the text comes only from the museum's open-access API (`https://openaccess-api.clevelandart.org/api/artworks/` with `cc0=1&highlight=1&has_image=1`), field `description`, never from pages of clevelandart.org (website text is not CC0). Every record has `share_license_status: CC0`, no copyright field, a description, and a web image; the build script enforces this.
+- **Text is used as supplied:** the only change is removing the markup (`<em>`, `<br>`) and decoding `&amp;`. A check compares each stored text with the museum's text after the same cleaning (0 differences). No text is paraphrased, shortened or added to.
+- **Selection:** the API lists 249 CC0 highlights. 179 are used, spread across the museum's 18 departments in proportion to their size (largest remainder), taking the lowest accession numbers within each department. The remaining 70 were left out only to respect the 179 cap and can be added.
+- **Single guide, no depths:** guide files may give a work `guide: { text }` instead of `{ short, expansion, long }`. Such a work shows its player immediately, with no Low/High choice and no expansion button, and credits the source under the player (`museum.textCredit`). Follow-up questions work as for the other museums; the question prompt tells Claude the text is the museum's own.
+- **Categories** are the museum's own departments, ordered by number of works. The artist line is the museum's creator description (name, nationality, dates); where there is no creator, the facts show the culture instead.
+- **Images:** the museum's own 900 px CC0 web images, re-encoded lightly (JPEG quality 82), in `public/images/cleveland/`. Each caption links to the museum's object page.
+- The data file is `src/data/guides/cleveland/en.json`. English only.
 
 ## 5. User experience
 
