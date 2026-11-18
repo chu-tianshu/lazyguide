@@ -376,9 +376,10 @@ button, input { font: inherit; color: inherit; }
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.15s ease;
+  transition: opacity 0.15s ease, border-color 0.15s ease;
 }
 .map-pin-label strong { font: 600 1.05rem var(--serif); }
 .map-pin-label em { font-style: normal; font-size: 0.8rem; color: var(--muted); }
-.map-pin-label small { margin-top: 0.2rem; font-size: 0.72rem; color: var(--accent); }
-.map-pin.is-active .map-pin-label { opacity: 1; }
+.map-pin-label strong::after { content: " →"; color: var(--accent); }
+.map-pin.is-active .map-pin-label { opacity: 1; pointer-events: auto; cursor: pointer; }
+.map-pin.is-active .map-pin-label:hover { border-color: var(--accent); }

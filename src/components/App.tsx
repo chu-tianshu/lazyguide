@@ -40,7 +40,7 @@ export function App() {
           <p className="brand-tag">Audio guides, at your own pace</p>
         </header>
         <MuseumMap museums={museums} onSelect={setMuseumId} />
-        <p className="map-hint">Zoom in to find a museum. Click its icon to see the name, then click again to enter.</p>
+        <p className="map-hint">Zoom in to find a museum. Click its icon to see the name, then click the name to enter.</p>
       </main>
     );
   }

@@ -33,8 +33,8 @@ const esc = (s: string) =>
 
 /**
  * World map of museums. Zoomed out it shows a count per continent, country, or
- * city; zoomed in, each museum's own icon. The first click on an icon shows the
- * museum's name, the second selects it.
+ * city; zoomed in, each museum's own icon. Clicking an icon shows the museum's
+ * name card; clicking the card selects the museum.
  */
 export function MuseumMap({
   museums,
@@ -112,14 +112,25 @@ export function MuseumMap({
                 `<span class="map-pin-glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" ` +
                 `stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${m.icon}</svg></span>` +
                 `<span class="map-pin-label"><strong>${esc(m.name)}</strong>` +
-                `<em>${esc(m.subtitle)}</em><small>Click again to enter</small></span></div>`,
+                `<em>${esc(m.subtitle)}</em></span></div>`,
             });
             const marker = L.marker([m.place.lat, m.place.lng], {
               icon,
               title: m.name,
               zIndexOffset: previewId === m.id ? 1000 : 0,
             });
-            marker.on("click", () => {
+            // Mouse and touch: the icon shows the name card; the card selects.
+            marker.on("click", (e) => {
+              const target = (e.originalEvent as Event).target;
+              if (target instanceof Element && target.closest(".map-pin-label")) onSelectRef.current(m.id);
+              else setPreview(m.id);
+            });
+            // Keyboard users cannot click the card, so Enter or Space on an icon
+            // whose card is already showing selects. Leaflet does not turn these into clicks.
+            marker.on("keypress", (e) => {
+              const key = e.originalEvent as KeyboardEvent;
+              if (key.key !== "Enter" && key.key !== " ") return;
+              key.preventDefault();
               if (previewId === m.id) onSelectRef.current(m.id);
               else setPreview(m.id);
             });
