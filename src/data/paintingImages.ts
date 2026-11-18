@@ -8,6 +8,7 @@ export interface PaintingImage {
   sourceUrl: string; // Wikimedia Commons file page
   license: string;
   author?: string; // photographer credit, shown in the caption (required by CC BY-SA)
+  sourceLabel?: string; // name of the source site, when it is not Wikimedia Commons
 }
 
 export const paintingImages: Record<string, PaintingImage> = {

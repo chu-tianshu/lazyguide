@@ -31,11 +31,17 @@ const LANGUAGE_NAME: Record<LanguageCode, string> = {
   zh: "Simplified Chinese (简体中文)",
 };
 
+const GUIDE_DEPTH = {
+  low: "Low effort (short guide)",
+  high: "High effort (detailed guide)",
+  full: "The museum's own description of the work, used as supplied (a single version)",
+} as const;
+
 export interface FollowUpInput {
   museumName: string;
   work: Work;
   language: LanguageCode;
-  effort: "low" | "high";
+  effort: "low" | "high" | "full";
   listenedText: string;
   history: Array<{ role: "user" | "assistant"; content: string }>;
   question: string;
@@ -68,7 +74,7 @@ export function buildUserMessage(input: FollowUpInput): string {
   return [
     `<answer_language>${LANGUAGE_NAME[language]}</answer_language>`,
     `<work>\n${facts}\n</work>`,
-    `<guide_depth>${effort === "low" ? "Low effort (short guide)" : "High effort (detailed guide)"}</guide_depth>`,
+    `<guide_depth>${GUIDE_DEPTH[effort]}</guide_depth>`,
     `<guide_text_heard_so_far>\n${heard}\n</guide_text_heard_so_far>`,
     `<earlier_questions>\n${transcript}\n</earlier_questions>`,
     `<visitor_question>\n${question}\n</visitor_question>`,

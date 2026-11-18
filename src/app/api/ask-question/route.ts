@@ -16,7 +16,7 @@ interface AskBody {
   museumId: string;
   language: LanguageCode;
   workId: string;
-  effort: "low" | "high";
+  effort: "low" | "high" | "full";
   listenedText: string;
   history: Turn[];
   question: string;
@@ -38,7 +38,7 @@ function parseBody(raw: unknown): { ok: true; value: AskBody } | { ok: false; er
   if (typeof b.museumId !== "string" || typeof b.workId !== "string" || !b.museumId || !b.workId) {
     return { ok: false, error: e.unknownWork };
   }
-  if (b.effort !== "low" && b.effort !== "high") {
+  if (b.effort !== "low" && b.effort !== "high" && b.effort !== "full") {
     return { ok: false, error: e.chooseDepth };
   }
   if (typeof b.listenedText !== "string" || b.listenedText.length > limits.listenedChars) {

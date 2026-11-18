@@ -20,7 +20,7 @@ export function FollowUpPanel({
   museumId: string;
   language: LanguageCode;
   workId: string;
-  effort: "low" | "high";
+  effort: "low" | "high" | "full";
   /** The guide text the visitor has heard so far. */
   listenedText: string;
 }) {

@@ -48,4 +48,18 @@ export const museums: Museum[] = [
     // Stepped pyramid with a spire, after the museum's square-cone main hall.
     icon: '<path d="M3 20h18M5 20v-4h14v4M8 16v-4h8v4M10.5 12V8h3v4M12 8V4"/>',
   },
+  {
+    id: "cleveland",
+    name: "Cleveland Museum of Art",
+    subtitle: "Cleveland, Ohio",
+    place: {
+      lat: 41.509,
+      lng: -81.6117,
+      city: "Cleveland",
+      country: "United States",
+      continent: "North America",
+    },
+    // Classical pediment and columns, after the museum's marble Beaux-Arts building.
+    icon: '<path d="M3 9l9-5 9 5zM6 9v9M10 9v9M14 9v9M18 9v9M3 21h18"/>',
+  },
 ];

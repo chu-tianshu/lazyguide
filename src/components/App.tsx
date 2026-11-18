@@ -71,6 +71,7 @@ export function App() {
         work={work}
         museumId={museum.id}
         language={catalog.language}
+        textCredit={catalog.textCredit}
         onBack={() => setSelectedId(null)}
       />
     );

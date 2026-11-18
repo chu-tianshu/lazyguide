@@ -7,16 +7,20 @@ import { GuidePlayer, type Section } from "./GuidePlayer";
 import { FollowUpPanel } from "./FollowUpPanel";
 
 type Effort = "low" | "high";
+/** "full" is a museum's own single text; it has no depths or expansion. */
+type Mode = Effort | "full";
 
 export function PaintingDetail({
   work,
   museumId,
   language,
+  textCredit,
   onBack,
 }: {
   work: Work;
   museumId: string;
   language: LanguageCode;
+  textCredit?: string;
   onBack: () => void;
 }) {
   const t = strings[language];
@@ -25,15 +29,20 @@ export function PaintingDetail({
   const [expandToken, setExpandToken] = useState(0);
   const [listenedText, setListenedText] = useState("");
 
+  const guide = work.guide;
+  const isSingle = "text" in guide;
+  const mode: Mode | null = isSingle ? "full" : effort;
+
   const sections: Section[] | null = useMemo(() => {
-    if (effort === "high") return [{ text: work.guide.long }];
+    if ("text" in guide) return [{ text: guide.text }];
+    if (effort === "high") return [{ text: guide.long }];
     if (effort === "low") {
-      const list: Section[] = [{ text: work.guide.short }];
-      if (expanded) list.push({ heading: t.anotherAngle, text: work.guide.expansion });
+      const list: Section[] = [{ text: guide.short }];
+      if (expanded) list.push({ heading: t.anotherAngle, text: guide.expansion });
       return list;
     }
     return null;
-  }, [effort, expanded, work, t.anotherAngle]);
+  }, [effort, expanded, guide, t.anotherAngle]);
 
   const chooseEffort = (next: Effort) => {
     setEffort(next);
@@ -62,7 +71,7 @@ export function PaintingDetail({
           <figcaption>
             {t.imageCredit}:{" "}
             <a href={work.image.sourceUrl} target="_blank" rel="noreferrer">
-              {t.commons}
+              {work.image.sourceLabel ?? t.commons}
             </a>{" "}
             {work.image.author && <> · {work.image.author}</>} · {work.image.license}
           </figcaption>
@@ -102,6 +111,7 @@ export function PaintingDetail({
 
       <section className="guide" aria-labelledby="guide-heading">
         <h2 id="guide-heading">{t.audioGuide}</h2>
+        {!isSingle && (
         <div className="effort-choice" role="group" aria-label={t.guideDepth}>
           <button aria-pressed={effort === "low"} onClick={() => chooseEffort("low")}>
             <strong>{t.lowTitle}</strong>
@@ -112,16 +122,18 @@ export function PaintingDetail({
             <span>{t.highDesc}</span>
           </button>
         </div>
+        )}
 
         {sections && (
           <>
             <GuidePlayer
-              key={`${work.id}-${effort}`}
+              key={`${work.id}-${mode}`}
               sections={sections}
               language={language}
               onListenedChange={setListenedText}
               jumpTo={expandToken ? { section: 1, token: expandToken } : undefined}
             />
+            {textCredit && isSingle && <p className="text-credit">{textCredit}</p>}
             {effort === "low" && !expanded && (
               <button className="expand" onClick={expand}>
                 {t.expand}
@@ -131,12 +143,12 @@ export function PaintingDetail({
         )}
       </section>
 
-      {effort && (
+      {mode && (
         <FollowUpPanel
           museumId={museumId}
           language={language}
           workId={work.id}
-          effort={effort}
+          effort={mode}
           listenedText={listenedText}
         />
       )}

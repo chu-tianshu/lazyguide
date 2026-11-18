@@ -1,6 +1,7 @@
 import type { LanguageCode } from "@/lib/i18n";
 import { languages } from "./languages";
 import { paintingImages, type PaintingImage } from "./paintingImages";
+import clevelandEn from "./guides/cleveland/en.json";
 import highEn from "./guides/high-atlanta/en.json";
 import henanEn from "./guides/henan/en.json";
 import henanZh from "./guides/henan/zh.json";
@@ -10,7 +11,8 @@ export interface Fact {
   value: string;
 }
 
-export interface Guide {
+/** Guides written for this app: a short and a long version plus an expansion. */
+export interface TieredGuide {
   /** Standalone concise guide (about 1 minute). */
   short: string;
   /** Additional layer of looking and context (about 1 minute). */
@@ -18,6 +20,13 @@ export interface Guide {
   /** Standalone detailed guide (about 2–3 minutes). */
   long: string;
 }
+
+/** A guide that is the museum's own text, used as supplied: one text, no depths. */
+export interface SingleGuide {
+  text: string;
+}
+
+export type Guide = TieredGuide | SingleGuide;
 
 export interface Work {
   id: string;
@@ -36,6 +45,8 @@ export interface Catalog {
   language: LanguageCode;
   museumName: string;
   museumLocation: string;
+  /** Credit line shown with a museum's own guide texts, when there is one. */
+  textCredit?: string;
   /** Category names in display order. */
   categories: string[];
   works: Work[];
@@ -49,12 +60,13 @@ interface RawWork {
   artist?: string;
   facts: Fact[];
   objectUrl?: string;
+  image?: PaintingImage;
   listed?: boolean;
   guide: Guide;
 }
 
 interface RawFile {
-  museum: { id: string; language: string; name: string; location: string };
+  museum: { id: string; language: string; name: string; location: string; textCredit?: string };
   categories: string[];
   works: RawWork[];
 }
@@ -66,6 +78,7 @@ interface RawFile {
 const files: Record<string, Partial<Record<LanguageCode, RawFile>>> = {
   "high-atlanta": { en: highEn },
   henan: { en: henanEn, zh: henanZh },
+  cleveland: { en: clevelandEn },
 };
 
 const cache = new Map<string, Catalog>();
@@ -89,6 +102,7 @@ export function getCatalog(museumId: string, language: LanguageCode): Catalog | 
     language,
     museumName: file.museum.name,
     museumLocation: file.museum.location,
+    textCredit: file.museum.textCredit,
     categories: file.categories,
     works: file.works
       .filter((w) => w.listed !== false)
@@ -100,7 +114,7 @@ export function getCatalog(museumId: string, language: LanguageCode): Catalog | 
         artist: w.artist,
         facts: w.facts,
         objectUrl: w.objectUrl,
-        image: paintingImages[w.id],
+        image: w.image ?? paintingImages[w.id],
         guide: w.guide,
       })),
   };

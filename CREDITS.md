@@ -1,4 +1,10 @@
-# Image credits
+# Credits
+
+## Cleveland Museum of Art (text and images)
+
+The 179 Cleveland guide texts and images come from the Cleveland Museum of Art's Open Access dataset, which the museum has released under CC0 (https://github.com/ClevelandMuseumArt/openaccess, https://openaccess-api.clevelandart.org). CC0 does not require attribution; the credit is given anyway: *Cleveland Museum of Art, Open Access, CC0.* Each work's page in the app links to the museum's own page for the object. Images are the museum's 900 px web versions, re-encoded as JPEG.
+
+# Image credits (Wikimedia Commons)
 
 Preview images are downscaled copies (about 900 px wide) of Wikimedia Commons files. Each file is marked **Public domain**, CC0, or (Henan Museum objects only) **CC BY-SA 4.0** on Commons and identifies the museum's own object. High Museum works still under copyright have no image; Henan Museum objects only have one where a CC0 photo was found.
 
