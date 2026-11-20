@@ -1,0 +1,617 @@
+{
+  "museum": {
+    "id": "nga-dc",
+    "language": "en",
+    "name": "National Gallery of Art",
+    "location": "Washington, D.C."
+  },
+  "categories": [
+    "Italian Renaissance",
+    "Northern European Painting",
+    "Spanish, French and British Painting",
+    "Impressionism and Post-Impressionism",
+    "American Painting"
+  ],
+  "works": [
+    {
+      "id": "nga-01",
+      "title": "Ginevra de’ Benci",
+      "category": "Italian Renaissance",
+      "artist": "Leonardo da Vinci (Italian, 1452–1519)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "c. 1474/1478"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on panel"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "nga-02",
+      "title": "The Feast of the Gods",
+      "category": "Italian Renaissance",
+      "artist": "Giovanni Bellini and Titian (Italian)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1514/1529"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "nga-03",
+      "title": "Venus with a Mirror",
+      "category": "Italian Renaissance",
+      "artist": "Titian (Italian, c. 1488–1576)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "c. 1555"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "nga-04",
+      "title": "Adoration of the Magi",
+      "category": "Italian Renaissance",
+      "artist": "Sandro Botticelli (Italian, 1444/1445–1510)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "c. 1478/1482"
+        },
+        {
+          "label": "Medium",
+          "value": "tempera on panel"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "nga-05",
+      "title": "Saint George and the Dragon",
+      "category": "Italian Renaissance",
+      "artist": "Raphael (Italian, 1483–1520)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "c. 1506"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on panel"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "nga-06",
+      "title": "The Alba Madonna",
+      "category": "Italian Renaissance",
+      "artist": "Raphael (Italian, 1483–1520)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "c. 1510"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on panel transferred to canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "nga-07",
+      "title": "The Adoration of the Magi",
+      "category": "Italian Renaissance",
+      "artist": "Fra Angelico and Fra Filippo Lippi (Italian)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "c. 1440/1460"
+        },
+        {
+          "label": "Medium",
+          "value": "tempera on panel"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "nga-08",
+      "title": "The Annunciation",
+      "category": "Northern European Painting",
+      "artist": "Jan van Eyck (Flemish, c. 1390–1441)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "c. 1434/1436"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on panel transferred to canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "nga-09",
+      "title": "The Mill",
+      "category": "Northern European Painting",
+      "artist": "Rembrandt van Rijn (Dutch, 1606–1669)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1645/1648"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "nga-10",
+      "title": "Self-Portrait",
+      "category": "Northern European Painting",
+      "artist": "Rembrandt van Rijn (Dutch, 1606–1669)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1659"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "nga-11",
+      "title": "Woman Holding a Balance",
+      "category": "Northern European Painting",
+      "artist": "Johannes Vermeer (Dutch, 1632–1675)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "c. 1664"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "nga-12",
+      "title": "Girl with the Red Hat",
+      "category": "Northern European Painting",
+      "artist": "Johannes Vermeer (Dutch, 1632–1675)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "c. 1666/1667"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on panel"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "nga-13",
+      "title": "A Lady Writing",
+      "category": "Northern European Painting",
+      "artist": "Johannes Vermeer (Dutch, 1632–1675)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "c. 1665"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "nga-14",
+      "title": "The Water Seller of Seville",
+      "category": "Spanish, French and British Painting",
+      "artist": "Diego Velázquez (Spanish, 1599–1660)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "c. 1620"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "nga-15",
+      "title": "Laocoön",
+      "category": "Spanish, French and British Painting",
+      "artist": "El Greco (Spanish, 1541–1614)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "c. 1610/1614"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "nga-16",
+      "title": "The Repentant Magdalen",
+      "category": "Spanish, French and British Painting",
+      "artist": "Georges de La Tour (French, 1593–1652)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "c. 1640"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "nga-17",
+      "title": "The Swing",
+      "category": "Spanish, French and British Painting",
+      "artist": "Jean-Honoré Fragonard (French, 1732–1806)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "c. 1775/1780"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "nga-18",
+      "title": "Watson and the Shark",
+      "category": "Spanish, French and British Painting",
+      "artist": "John Singleton Copley (American, 1738–1815)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1778"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "nga-19",
+      "title": "The Railway",
+      "category": "Impressionism and Post-Impressionism",
+      "artist": "Édouard Manet (French, 1832–1883)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1873"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "nga-20",
+      "title": "Woman with a Parasol — Madame Monet and Her Son",
+      "category": "Impressionism and Post-Impressionism",
+      "artist": "Claude Monet (French, 1840–1926)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1875"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "nga-21",
+      "title": "Rouen Cathedral, West Façade, Sunlight",
+      "category": "Impressionism and Post-Impressionism",
+      "artist": "Claude Monet (French, 1840–1926)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1894"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "nga-22",
+      "title": "The Japanese Footbridge",
+      "category": "Impressionism and Post-Impressionism",
+      "artist": "Claude Monet (French, 1840–1926)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1899"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "nga-23",
+      "title": "A Girl with a Watering Can",
+      "category": "Impressionism and Post-Impressionism",
+      "artist": "Pierre-Auguste Renoir (French, 1841–1919)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1876"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "nga-24",
+      "title": "Self-Portrait",
+      "category": "Impressionism and Post-Impressionism",
+      "artist": "Vincent van Gogh (Dutch, 1853–1890)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1889"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "nga-25",
+      "title": "The Voyage of Life: Childhood",
+      "category": "American Painting",
+      "artist": "Thomas Cole (American, 1801–1848)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1842"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "nga-26",
+      "title": "Breezing Up (A Fair Wind)",
+      "category": "American Painting",
+      "artist": "Winslow Homer (American, 1836–1910)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1873–1876"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "nga-27",
+      "title": "Symphony in White, No. 1: The White Girl",
+      "category": "American Painting",
+      "artist": "James McNeill Whistler (American, 1834–1903)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1862"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "nga-28",
+      "title": "The Boating Party",
+      "category": "American Painting",
+      "artist": "Mary Cassatt (American, 1844–1926)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1893/1894"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "nga-29",
+      "title": "Cape Cod Evening",
+      "category": "American Painting",
+      "artist": "Edward Hopper (American, 1882–1967)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1939"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "nga-30",
+      "title": "Number 1, 1950 (Lavender Mist)",
+      "category": "American Painting",
+      "artist": "Jackson Pollock (American, 1912–1956)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1950"
+        },
+        {
+          "label": "Medium",
+          "value": "oil, enamel, and aluminum paint on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    }
+  ]
+}

@@ -34,9 +34,11 @@ export function PaintingDetail({
 
   const guide = work.guide;
   const isSingle = "text" in guide;
+  const unavailable = "unavailable" in guide && guide.unavailable === true;
   const mode: Mode | null = isSingle ? "full" : effort;
 
   const sections: Section[] | null = useMemo(() => {
+    if (unavailable) return null;
     if ("text" in guide) return [{ text: guide.text }];
     if (effort === "high") return [{ text: guide.long }];
     if (effort === "low") {
@@ -45,7 +47,7 @@ export function PaintingDetail({
       return list;
     }
     return null;
-  }, [effort, expanded, guide, t.anotherAngle]);
+  }, [effort, expanded, guide, unavailable, t.anotherAngle]);
 
   const chooseEffort = (next: Effort) => {
     setEffort(next);
@@ -120,6 +122,7 @@ export function PaintingDetail({
 
       <section className="guide" aria-labelledby="guide-heading">
         <h2 id="guide-heading">{t.audioGuide}</h2>
+        {unavailable && <p className="muted">{t.guideUnavailable}</p>}
         {!isSingle && (
         <div className="effort-choice" role="group" aria-label={t.guideDepth}>
           <button aria-pressed={effort === "low"} onClick={() => chooseEffort("low")}>
@@ -152,7 +155,7 @@ export function PaintingDetail({
         )}
       </section>
 
-      {mode && (
+      {mode && !unavailable && (
         <FollowUpPanel
           museumId={museumId}
           language={language}

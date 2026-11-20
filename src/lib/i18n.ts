@@ -11,6 +11,7 @@ export interface Strings {
   backToCollection: string;
   changeMuseum: string;
   audioGuide: string;
+  guideUnavailable: string;
   guideDepth: string;
   lowTitle: string;
   lowDesc: string;
@@ -63,6 +64,7 @@ export const strings: Record<LanguageCode, Strings> = {
     backToCollection: "← Back to collection",
     changeMuseum: "← All museums",
     audioGuide: "Audio guide",
+    guideUnavailable: "The audio guide for this work is unavailable for now.",
     guideDepth: "Guide depth",
     lowTitle: "Low effort",
     lowDesc: "A concise guide · about 1 min",
@@ -113,6 +115,7 @@ export const strings: Record<LanguageCode, Strings> = {
     backToCollection: "← 返回展品列表",
     changeMuseum: "← 全部博物馆",
     audioGuide: "语音导览",
+    guideUnavailable: "这件展品的语音导览暂未提供。",
     guideDepth: "导览深度",
     lowTitle: "轻松版",
     lowDesc: "简短导览 · 约1分钟",

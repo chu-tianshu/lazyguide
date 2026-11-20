@@ -6,6 +6,14 @@ import highEn from "./guides/high-atlanta/en.json";
 import henanEn from "./guides/henan/en.json";
 import henanZh from "./guides/henan/zh.json";
 import deshouZh from "./guides/deshou/zh.json";
+import seattleEn from "./guides/seattle/en.json";
+import ngaEn from "./guides/nga-dc/en.json";
+import momaEn from "./guides/moma/en.json";
+import aicEn from "./guides/aic/en.json";
+import louvreEn from "./guides/louvre/en.json";
+import orsayEn from "./guides/orsay/en.json";
+import pradoEn from "./guides/prado/en.json";
+import nglEn from "./guides/national-gallery-london/en.json";
 
 export interface Fact {
   label: string;
@@ -25,6 +33,8 @@ export interface TieredGuide {
 /** A guide that is the museum's own text, used as supplied: one text, no depths. */
 export interface SingleGuide {
   text: string;
+  /** Placeholder for a work with no audio guide yet: the page shows a notice instead of a player. */
+  unavailable?: boolean;
 }
 
 export type Guide = TieredGuide | SingleGuide;
@@ -81,6 +91,14 @@ const files: Record<string, Partial<Record<LanguageCode, RawFile>>> = {
   henan: { en: henanEn, zh: henanZh },
   cleveland: { en: clevelandEn },
   deshou: { zh: deshouZh },
+  seattle: { en: seattleEn },
+  "nga-dc": { en: ngaEn },
+  moma: { en: momaEn },
+  aic: { en: aicEn },
+  louvre: { en: louvreEn },
+  orsay: { en: orsayEn },
+  prado: { en: pradoEn },
+  "national-gallery-london": { en: nglEn },
 };
 
 const cache = new Map<string, Catalog>();

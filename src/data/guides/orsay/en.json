@@ -1,0 +1,616 @@
+{
+  "museum": {
+    "id": "orsay",
+    "language": "en",
+    "name": "Musée d’Orsay",
+    "location": "Paris, France"
+  },
+  "categories": [
+    "Realism and Academic Painting",
+    "Édouard Manet",
+    "Impressionism",
+    "Post-Impressionism"
+  ],
+  "works": [
+    {
+      "id": "orsay-01",
+      "title": "The Gleaners",
+      "category": "Realism and Academic Painting",
+      "artist": "Jean-François Millet (French, 1814–1875)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1857"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "orsay-02",
+      "title": "The Angelus",
+      "category": "Realism and Academic Painting",
+      "artist": "Jean-François Millet (French, 1814–1875)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1857–59"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "orsay-03",
+      "title": "A Burial at Ornans",
+      "category": "Realism and Academic Painting",
+      "artist": "Gustave Courbet (French, 1819–1877)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1849–50"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "orsay-04",
+      "title": "The Origin of the World",
+      "category": "Realism and Academic Painting",
+      "artist": "Gustave Courbet (French, 1819–1877)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1866"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "orsay-05",
+      "title": "The Painter’s Studio",
+      "category": "Realism and Academic Painting",
+      "artist": "Gustave Courbet (French, 1819–1877)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1855"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "orsay-06",
+      "title": "The Birth of Venus",
+      "category": "Realism and Academic Painting",
+      "artist": "Alexandre Cabanel (French, 1823–1889)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1863"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "orsay-07",
+      "title": "The Romans of the Decadence",
+      "category": "Realism and Academic Painting",
+      "artist": "Thomas Couture (French, 1815–1879)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1847"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "orsay-08",
+      "title": "Arrangement in Grey and Black No. 1 (Whistler’s Mother)",
+      "category": "Realism and Academic Painting",
+      "artist": "James McNeill Whistler (American, 1834–1903)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1871"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "orsay-09",
+      "title": "Luncheon on the Grass (Le Déjeuner sur l’herbe)",
+      "category": "Édouard Manet",
+      "artist": "Édouard Manet (French, 1832–1883)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1863"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "orsay-10",
+      "title": "Olympia",
+      "category": "Édouard Manet",
+      "artist": "Édouard Manet (French, 1832–1883)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1863"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "orsay-11",
+      "title": "The Balcony",
+      "category": "Édouard Manet",
+      "artist": "Édouard Manet (French, 1832–1883)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1868–69"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "orsay-12",
+      "title": "The Fifer",
+      "category": "Édouard Manet",
+      "artist": "Édouard Manet (French, 1832–1883)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1866"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "orsay-13",
+      "title": "Poppy Field",
+      "category": "Impressionism",
+      "artist": "Claude Monet (French, 1840–1926)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1873"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "orsay-14",
+      "title": "Gare Saint-Lazare",
+      "category": "Impressionism",
+      "artist": "Claude Monet (French, 1840–1926)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1877"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "orsay-15",
+      "title": "Blue Water Lilies",
+      "category": "Impressionism",
+      "artist": "Claude Monet (French, 1840–1926)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "c. 1916–19"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "orsay-16",
+      "title": "Bal du moulin de la Galette",
+      "category": "Impressionism",
+      "artist": "Pierre-Auguste Renoir (French, 1841–1919)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1876"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "orsay-17",
+      "title": "Girls at the Piano",
+      "category": "Impressionism",
+      "artist": "Pierre-Auguste Renoir (French, 1841–1919)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1892"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "orsay-18",
+      "title": "L’Absinthe (In a Café)",
+      "category": "Impressionism",
+      "artist": "Edgar Degas (French, 1834–1917)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1875–76"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "orsay-19",
+      "title": "The Dance Class",
+      "category": "Impressionism",
+      "artist": "Edgar Degas (French, 1834–1917)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "c. 1873–76"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "orsay-20",
+      "title": "The Floor Scrapers",
+      "category": "Impressionism",
+      "artist": "Gustave Caillebotte (French, 1848–1894)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1875"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "orsay-21",
+      "title": "Starry Night over the Rhône",
+      "category": "Post-Impressionism",
+      "artist": "Vincent van Gogh (Dutch, 1853–1890)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1888"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "orsay-22",
+      "title": "The Church at Auvers",
+      "category": "Post-Impressionism",
+      "artist": "Vincent van Gogh (Dutch, 1853–1890)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1890"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "orsay-23",
+      "title": "Portrait of Dr. Gachet",
+      "category": "Post-Impressionism",
+      "artist": "Vincent van Gogh (Dutch, 1853–1890)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1890"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "orsay-24",
+      "title": "Self-Portrait",
+      "category": "Post-Impressionism",
+      "artist": "Vincent van Gogh (Dutch, 1853–1890)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1889"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "orsay-25",
+      "title": "The Card Players",
+      "category": "Post-Impressionism",
+      "artist": "Paul Cézanne (French, 1839–1906)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "c. 1890–95"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "orsay-26",
+      "title": "Apples and Oranges",
+      "category": "Post-Impressionism",
+      "artist": "Paul Cézanne (French, 1839–1906)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "c. 1899"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "orsay-27",
+      "title": "Arearea (Joyfulness)",
+      "category": "Post-Impressionism",
+      "artist": "Paul Gauguin (French, 1848–1903)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1892"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "orsay-28",
+      "title": "The Circus",
+      "category": "Post-Impressionism",
+      "artist": "Georges Seurat (French, 1859–1891)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1890–91"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "orsay-29",
+      "title": "The Snake Charmer",
+      "category": "Post-Impressionism",
+      "artist": "Henri Rousseau (French, 1844–1910)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1907"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "orsay-30",
+      "title": "Jane Avril Dancing",
+      "category": "Post-Impressionism",
+      "artist": "Henri de Toulouse-Lautrec (French, 1864–1901)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "c. 1892"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on cardboard"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    }
+  ]
+}
