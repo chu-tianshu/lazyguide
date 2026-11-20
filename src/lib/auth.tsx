@@ -10,7 +10,7 @@ interface AuthValue {
   /** No-op (with a console warning) if Supabase isn't configured. */
   signInWithGoogle: () => Promise<void>;
   /** Signs in as a new anonymous Supabase user and logs the signup (see supabase/schema.sql). */
-  continueAsGuest: () => Promise<void>;
+  continueAsGuest: () => Promise<string | undefined>;
   signOut: () => Promise<void>;
 }
 
@@ -48,10 +48,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     continueAsGuest: async () => {
       if (!supabase) {
         console.warn("Supabase isn't configured; guest sign-in is unavailable.");
-        return;
+        return "Guest sign-in isn't set up on this server.";
       }
       const { data, error } = await supabase.auth.signInAnonymously();
-      if (error || !data.user) return;
+      if (error || !data.user) return error?.message ?? "Guest sign-in failed.";
       // Documents how many anonymous users have signed in; ignored if it somehow runs twice for the same user.
       await supabase
         .from("anonymous_logins")

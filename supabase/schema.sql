@@ -12,12 +12,15 @@ create table if not exists public.visits (
 
 alter table public.visits enable row level security;
 
+drop policy if exists "select own visits" on public.visits;
 create policy "select own visits" on public.visits
   for select using (auth.uid() = user_id);
 
+drop policy if exists "insert own visits" on public.visits;
 create policy "insert own visits" on public.visits
   for insert with check (auth.uid() = user_id);
 
+drop policy if exists "update own visits" on public.visits;
 create policy "update own visits" on public.visits
   for update using (auth.uid() = user_id);
 
@@ -32,5 +35,12 @@ create table if not exists public.anonymous_logins (
 
 alter table public.anonymous_logins enable row level security;
 
+drop policy if exists "insert own anonymous login" on public.anonymous_logins;
 create policy "insert own anonymous login" on public.anonymous_logins
   for insert with check (auth.uid() = user_id);
+
+-- Newer Supabase projects do not grant new tables to the API roles automatically.
+-- Row-level security above still limits every row to its own user.
+grant usage on schema public to anon, authenticated;
+grant select, insert, update on public.visits to authenticated;
+grant insert on public.anonymous_logins to authenticated;

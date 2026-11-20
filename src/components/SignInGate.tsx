@@ -1,10 +1,12 @@
 "use client";
 
+import { useState } from "react";
 import { useAuth } from "@/lib/auth";
 
 /** Shown before anything else: a visitor must sign in with Google or continue as a guest. */
 export function SignInGate() {
   const { signInWithGoogle, continueAsGuest } = useAuth();
+  const [error, setError] = useState<string>();
 
   return (
     <main className="map-shell" lang="en">
@@ -17,10 +19,15 @@ export function SignInGate() {
           <button className="gate-primary" onClick={() => signInWithGoogle()}>
             Sign in with Google
           </button>
-          <button className="gate-secondary" onClick={() => continueAsGuest()}>
+          <button className="gate-secondary" onClick={async () => setError(await continueAsGuest())}>
             Continue without an account
           </button>
         </div>
+        {error && (
+          <p className="muted" role="alert">
+            Couldn’t continue as a guest: {error}
+          </p>
+        )}
       </div>
     </main>
   );
