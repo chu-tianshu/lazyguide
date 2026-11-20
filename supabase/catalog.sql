@@ -64,3 +64,8 @@ create policy "public read catalogs" on public.catalogs for select using (true);
 
 drop policy if exists "public read works" on public.works;
 create policy "public read works" on public.works for select using (true);
+
+-- Newer Supabase projects do not grant new tables to the API roles automatically.
+-- Row-level security above still decides which rows are visible (all of them, read-only).
+grant usage on schema public to anon, authenticated;
+grant select on public.museums, public.catalogs, public.works to anon, authenticated;
