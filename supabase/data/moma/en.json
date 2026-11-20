@@ -1,0 +1,663 @@
+{
+  "museum": {
+    "id": "moma",
+    "language": "en",
+    "name": "The Museum of Modern Art",
+    "location": "New York, New York"
+  },
+  "categories": [
+    "Post-Impressionism and Early Modern",
+    "Cubism, Fauvism and Early Abstraction",
+    "Surrealism and Interwar Modernism",
+    "American Modernism",
+    "Abstract Expressionism",
+    "Pop Art"
+  ],
+  "works": [
+    {
+      "id": "moma-01",
+      "title": "The Starry Night",
+      "category": "Post-Impressionism and Early Modern",
+      "artist": "Vincent van Gogh (Dutch, 1853–1890)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1889"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      },
+      "image": {
+        "src": "/images/moma/moma-01.jpg",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg",
+        "license": "Public domain"
+      }
+    },
+    {
+      "id": "moma-02",
+      "title": "Olive Trees",
+      "category": "Post-Impressionism and Early Modern",
+      "artist": "Vincent van Gogh (Dutch, 1853–1890)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1889"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      },
+      "image": {
+        "src": "/images/moma/moma-02.jpg",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Van_Gogh_The_Olive_Trees..jpg",
+        "license": "Public domain"
+      }
+    },
+    {
+      "id": "moma-03",
+      "title": "The Bather",
+      "category": "Post-Impressionism and Early Modern",
+      "artist": "Paul Cézanne (French, 1839–1906)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "c. 1885"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      },
+      "image": {
+        "src": "/images/moma/moma-03.jpg",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Paul_C%C3%A9zanne_-_Le_Grand_Baigneur_-_Google_Art_Project.jpg",
+        "license": "Public domain"
+      }
+    },
+    {
+      "id": "moma-04",
+      "title": "The Sleeping Gypsy",
+      "category": "Post-Impressionism and Early Modern",
+      "artist": "Henri Rousseau (French, 1844–1910)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1897"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      },
+      "image": {
+        "src": "/images/moma/moma-04.jpg",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:La_Boh%C3%A9mienne_endormie.jpg",
+        "license": "Public domain"
+      }
+    },
+    {
+      "id": "moma-05",
+      "title": "Water Lilies",
+      "category": "Post-Impressionism and Early Modern",
+      "artist": "Claude Monet (French, 1840–1926)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "c. 1914–26"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas, triptych"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "moma-06",
+      "title": "Les Demoiselles d’Avignon",
+      "category": "Cubism, Fauvism and Early Abstraction",
+      "artist": "Pablo Picasso (Spanish, 1881–1973)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1907"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "moma-07",
+      "title": "Girl before a Mirror",
+      "category": "Cubism, Fauvism and Early Abstraction",
+      "artist": "Pablo Picasso (Spanish, 1881–1973)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1932"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "moma-08",
+      "title": "Three Musicians",
+      "category": "Cubism, Fauvism and Early Abstraction",
+      "artist": "Pablo Picasso (Spanish, 1881–1973)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1921"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "moma-09",
+      "title": "Dance (I)",
+      "category": "Cubism, Fauvism and Early Abstraction",
+      "artist": "Henri Matisse (French, 1869–1954)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1909"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      },
+      "image": {
+        "src": "/images/moma/moma-09.jpg",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:La_Danse_I,_par_Henri_Matisse.jpg",
+        "license": "Public domain"
+      }
+    },
+    {
+      "id": "moma-10",
+      "title": "The Red Studio",
+      "category": "Cubism, Fauvism and Early Abstraction",
+      "artist": "Henri Matisse (French, 1869–1954)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1911"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "moma-11",
+      "title": "I and the Village",
+      "category": "Cubism, Fauvism and Early Abstraction",
+      "artist": "Marc Chagall (French, born Belarus, 1887–1985)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1911"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      },
+      "image": {
+        "src": "/images/moma/moma-11.jpg",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Marc_Chagall,_I_and_the_Village_(50394064557).jpg",
+        "license": "Public domain"
+      }
+    },
+    {
+      "id": "moma-12",
+      "title": "Picture with an Archer",
+      "category": "Cubism, Fauvism and Early Abstraction",
+      "artist": "Wassily Kandinsky (Russian, 1866–1944)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1909"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "moma-13",
+      "title": "The Persistence of Memory",
+      "category": "Surrealism and Interwar Modernism",
+      "artist": "Salvador Dalí (Spanish, 1904–1989)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1931"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "moma-14",
+      "title": "The Birth of the World",
+      "category": "Surrealism and Interwar Modernism",
+      "artist": "Joan Miró (Spanish, 1893–1983)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1925"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "moma-15",
+      "title": "The Menaced Assassin",
+      "category": "Surrealism and Interwar Modernism",
+      "artist": "René Magritte (Belgian, 1898–1967)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1927"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "moma-16",
+      "title": "Self-Portrait with Cropped Hair",
+      "category": "Surrealism and Interwar Modernism",
+      "artist": "Frida Kahlo (Mexican, 1907–1954)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1940"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "moma-17",
+      "title": "Twittering Machine",
+      "category": "Surrealism and Interwar Modernism",
+      "artist": "Paul Klee (Swiss, 1879–1940)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1922"
+        },
+        {
+          "label": "Medium",
+          "value": "oil transfer and watercolor on paper"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "moma-18",
+      "title": "Suprematist Composition: White on White",
+      "category": "Surrealism and Interwar Modernism",
+      "artist": "Kazimir Malevich (Russian, 1879–1935)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1918"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      },
+      "image": {
+        "src": "/images/moma/moma-18.jpg",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:White_on_White_(Malevich,_1918).png",
+        "license": "Public domain"
+      }
+    },
+    {
+      "id": "moma-19",
+      "title": "Broadway Boogie Woogie",
+      "category": "Surrealism and Interwar Modernism",
+      "artist": "Piet Mondrian (Dutch, 1872–1944)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1942–43"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      },
+      "image": {
+        "src": "/images/moma/moma-19.jpg",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Piet_Mondrian,_1942_-_Broadway_Boogie_Woogie.jpg",
+        "license": "Public domain"
+      }
+    },
+    {
+      "id": "moma-20",
+      "title": "House by the Railroad",
+      "category": "American Modernism",
+      "artist": "Edward Hopper (American, 1882–1967)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1925"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      },
+      "image": {
+        "src": "/images/moma/moma-20.jpg",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:The_House_by_the_Railroad_by_Edward_Hopper_1925.jpg",
+        "license": "Public domain"
+      }
+    },
+    {
+      "id": "moma-21",
+      "title": "Christina’s World",
+      "category": "American Modernism",
+      "artist": "Andrew Wyeth (American, 1917–2009)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1948"
+        },
+        {
+          "label": "Medium",
+          "value": "tempera on panel"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "moma-22",
+      "title": "The Migration Series",
+      "category": "American Modernism",
+      "artist": "Jacob Lawrence (American, 1917–2000)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1940–41"
+        },
+        {
+          "label": "Medium",
+          "value": "casein tempera on hardboard"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "moma-23",
+      "title": "One: Number 31, 1950",
+      "category": "Abstract Expressionism",
+      "artist": "Jackson Pollock (American, 1912–1956)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1950"
+        },
+        {
+          "label": "Medium",
+          "value": "oil and enamel on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "moma-24",
+      "title": "Woman, I",
+      "category": "Abstract Expressionism",
+      "artist": "Willem de Kooning (American, born Netherlands, 1904–1997)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1950–52"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "moma-25",
+      "title": "No. 3/No. 13",
+      "category": "Abstract Expressionism",
+      "artist": "Mark Rothko (American, born Latvia, 1903–1970)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1949"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "moma-26",
+      "title": "Vir Heroicus Sublimis",
+      "category": "Abstract Expressionism",
+      "artist": "Barnett Newman (American, 1905–1970)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1950–51"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "moma-27",
+      "title": "Campbell’s Soup Cans",
+      "category": "Pop Art",
+      "artist": "Andy Warhol (American, 1928–1987)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1962"
+        },
+        {
+          "label": "Medium",
+          "value": "synthetic polymer paint on thirty-two canvases"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "moma-28",
+      "title": "Gold Marilyn Monroe",
+      "category": "Pop Art",
+      "artist": "Andy Warhol (American, 1928–1987)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1962"
+        },
+        {
+          "label": "Medium",
+          "value": "silkscreen ink and oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "moma-29",
+      "title": "Flag",
+      "category": "Pop Art",
+      "artist": "Jasper Johns (American, born 1930)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1954–55"
+        },
+        {
+          "label": "Medium",
+          "value": "encaustic, oil, and collage on fabric mounted on plywood"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "moma-30",
+      "title": "Drowning Girl",
+      "category": "Pop Art",
+      "artist": "Roy Lichtenstein (American, 1923–1997)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1963"
+        },
+        {
+          "label": "Medium",
+          "value": "oil and synthetic polymer paint on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    }
+  ]
+}

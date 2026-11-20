@@ -1,19 +1,13 @@
 import type { LanguageCode } from "@/lib/i18n";
-import { languages } from "./languages";
-import { paintingImages, type PaintingImage } from "./paintingImages";
-import clevelandEn from "./guides/cleveland/en.json";
-import highEn from "./guides/high-atlanta/en.json";
-import henanEn from "./guides/henan/en.json";
-import henanZh from "./guides/henan/zh.json";
-import deshouZh from "./guides/deshou/zh.json";
-import seattleEn from "./guides/seattle/en.json";
-import ngaEn from "./guides/nga-dc/en.json";
-import momaEn from "./guides/moma/en.json";
-import aicEn from "./guides/aic/en.json";
-import louvreEn from "./guides/louvre/en.json";
-import orsayEn from "./guides/orsay/en.json";
-import pradoEn from "./guides/prado/en.json";
-import nglEn from "./guides/national-gallery-london/en.json";
+
+/** Preview image: a file under public/images, with where it came from. */
+export interface PaintingImage {
+  src: string;
+  sourceUrl: string; // Wikimedia Commons file page, or the museum's own page
+  license: string;
+  author?: string; // photographer credit, shown in the caption (required by CC BY-SA)
+  sourceLabel?: string; // name of the source site, when it is not Wikimedia Commons
+}
 
 export interface Fact {
   label: string;
@@ -39,7 +33,8 @@ export interface SingleGuide {
 
 export type Guide = TieredGuide | SingleGuide;
 
-export interface Work {
+/** What the collection list needs. Guides are loaded separately, when a work is opened. */
+export interface WorkSummary {
   id: string;
   title: string;
   category?: string; // one of the catalog's categories
@@ -47,7 +42,10 @@ export interface Work {
   artist?: string;
   facts: Fact[]; // labelled in the guide's language
   objectUrl?: string; // official museum page
-  image?: PaintingImage; // public-domain preview, when available
+  image?: PaintingImage;
+}
+
+export interface Work extends WorkSummary {
   guide: Guide;
 }
 
@@ -60,93 +58,10 @@ export interface Catalog {
   textCredit?: string;
   /** Category names in display order. */
   categories: string[];
-  works: Work[];
+  works: WorkSummary[];
 }
 
-interface RawWork {
-  id: string;
-  title: string;
-  category?: string;
-  subtitle?: string;
-  artist?: string;
-  facts: Fact[];
-  objectUrl?: string;
-  image?: PaintingImage;
-  listed?: boolean;
-  guide: Guide;
-}
-
-interface RawFile {
-  museum: { id: string; language: string; name: string; location: string; textCredit?: string };
-  categories: string[];
-  works: RawWork[];
-}
-
-/**
- * One cleaned JSON file per museum and language, in src/data/guides/<museum>/<lang>.json.
- * To add a language or museum, add the file and register it here.
- */
-const files: Record<string, Partial<Record<LanguageCode, RawFile>>> = {
-  "high-atlanta": { en: highEn },
-  henan: { en: henanEn, zh: henanZh },
-  cleveland: { en: clevelandEn },
-  deshou: { zh: deshouZh },
-  seattle: { en: seattleEn },
-  "nga-dc": { en: ngaEn },
-  moma: { en: momaEn },
-  aic: { en: aicEn },
-  louvre: { en: louvreEn },
-  orsay: { en: orsayEn },
-  prado: { en: pradoEn },
-  "national-gallery-london": { en: nglEn },
-};
-
-const cache = new Map<string, Catalog>();
-
-/** Languages a museum has guides for, in display order. */
-export function availableLanguages(museumId: string): LanguageCode[] {
-  const offered = files[museumId] ?? {};
-  return languages.map((l) => l.code).filter((code) => offered[code]);
-}
-
-export function getCatalog(museumId: string, language: LanguageCode): Catalog | undefined {
-  const key = `${museumId}/${language}`;
-  const cached = cache.get(key);
-  if (cached) return cached;
-
-  const file = files[museumId]?.[language];
-  if (!file) return undefined;
-
-  const catalog: Catalog = {
-    museumId,
-    language,
-    museumName: file.museum.name,
-    museumLocation: file.museum.location,
-    textCredit: file.museum.textCredit,
-    categories: file.categories,
-    works: file.works
-      .filter((w) => w.listed !== false)
-      .map((w) => ({
-        id: w.id,
-        title: w.title,
-        category: w.category,
-        subtitle: w.subtitle,
-        artist: w.artist,
-        facts: w.facts,
-        objectUrl: w.objectUrl,
-        image: w.image ?? paintingImages[w.id],
-        guide: w.guide,
-      })),
-  };
-  cache.set(key, catalog);
-  return catalog;
-}
-
-export function getWork(museumId: string, language: LanguageCode, workId: string): Work | undefined {
-  return getCatalog(museumId, language)?.works.find((w) => w.id === workId);
-}
-
-export function searchWorks(works: Work[], query: string): Work[] {
+export function searchWorks<T extends WorkSummary>(works: T[], query: string): T[] {
   const q = query.trim().toLowerCase();
   if (!q) return works;
   return works.filter((w) =>

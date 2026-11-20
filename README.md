@@ -1,12 +1,16 @@
 # LazyGuide
 
-Prototype web audio guide for a curated set of works at the High Museum of Art (Atlanta), the Henan Museum 河南博物院 (Zhengzhou), the Southern Song Deshou Palace Site Museum 南宋德寿宫遗址博物馆 (Hangzhou), and the Cleveland Museum of Art (whose guide texts and images are the museum's own, released under CC0). See [design.md](design.md) for the design, decisions, and open items.
+Prototype web audio guide for a curated set of works at the High Museum of Art (Atlanta), the Henan Museum 河南博物院 (Zhengzhou), the Southern Song Deshou Palace Site Museum 南宋德寿宫遗址博物馆 (Hangzhou), and the Cleveland Museum of Art (whose guide texts and images are the museum's own, released under CC0), plus eight more art museums (Seattle, National Gallery of Art, MoMA, Art Institute of Chicago, Louvre, Orsay, Prado, National Gallery London) that so far have catalog metadata and images but no guide texts. See [design.md](design.md) for the design, decisions, and open items.
 
 **What works:** museum and language selection, search, pre-written guides with a speech player (progress, captions, speed), and follow-up questions answered by Claude once the environment variables below are set.
 
-## Guide data
+## Catalog data (Postgres)
 
-One cleaned JSON file per museum and language lives in `src/data/guides/<museum>/<language>.json` and is registered in `src/data/catalog.ts`. Only the languages a museum has files for are offered. The original supplied files, including research notes, are archived in `research/source/` and are not shipped. Image credits are in [CREDITS.md](CREDITS.md).
+The museum catalog lives in Supabase Postgres, not in the app bundle: `museums` (map pins and icons), `catalogs` (one per museum and language: names, credit line, category order) and `works` (title, artist, category, facts, image, and the guide text as `jsonb`). The tables are public-read under row-level security with no write policies ([`supabase/catalog.sql`](supabase/catalog.sql)). The app reads them through [`src/lib/catalogApi.ts`](src/lib/catalogApi.ts): the collection list leaves out the guide texts and each work's guide is fetched when it is opened. A work whose guide is `{"text": "...", "unavailable": true}` shows a notice instead of the player.
+
+The editable source is JSON in `supabase/data/`: `museums.json`, and one `<museum>/<language>.json` per catalog. Generate SQL from it with `node scripts/build-seed.mjs`, which writes `supabase/seed/*.sql` (upserts, safe to re-run); run `00_museums.sql` first, then the per-museum files, in the Supabase SQL editor.
+
+Preview images are plain files in `public/images/<museum>/`, referenced from each work's `image` column. Only Public domain or CC0 files are used. The original supplied files, including research notes, are archived in `research/source/` and are not shipped. Image credits are in [CREDITS.md](CREDITS.md).
 
 ## Local setup
 
@@ -34,7 +38,7 @@ The first screen is a sign-in gate: **Sign in with Google**, or **Continue witho
 One-time setup:
 
 1. **Create a Supabase project** at [supabase.com](https://supabase.com) (free tier is fine).
-2. **Run the schema**: open the SQL editor in the Supabase dashboard and run [`supabase/schema.sql`](supabase/schema.sql). This creates the `visits` and `anonymous_logins` tables and their row-level security policies.
+2. **Run the schemas**: open the SQL editor in the Supabase dashboard and run [`supabase/schema.sql`](supabase/schema.sql) (the `visits` and `anonymous_logins` tables and their row-level security policies), then [`supabase/catalog.sql`](supabase/catalog.sql) and the files in `supabase/seed/` (the museum catalog, see above). The app shows nothing until the catalog is loaded.
 3. **Enable anonymous sign-ins**: in the Supabase dashboard, go to Authentication → Sign In / Providers and turn on "Allow anonymous sign-ins". Without this, "Continue without an account" fails.
 4. **Create a Google OAuth client**: in [Google Cloud Console](https://console.cloud.google.com/apis/credentials), create an OAuth 2.0 Client ID (type: Web application). Set its **Authorized redirect URI** to `https://<your-project-ref>.supabase.co/auth/v1/callback` (find your project ref in the Supabase dashboard URL or Project Settings → API).
 5. **Enable Google sign-in in Supabase**: in the Supabase dashboard, go to Authentication → Providers → Google, enable it, and paste in the Google client ID and client secret from step 4.

@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { museums } from "@/data/museums";
+import type { Museum } from "@/data/museums";
+import { fetchMuseums } from "@/lib/catalogApi";
 import { useAuth } from "@/lib/auth";
 import { fetchVisits, type Visit } from "@/lib/visits";
 
@@ -13,7 +14,7 @@ interface MuseumVisit {
   workCount: number;
 }
 
-function groupByMuseum(visits: Visit[]): MuseumVisit[] {
+function groupByMuseum(visits: Visit[], museums: Museum[]): MuseumVisit[] {
   const byMuseum = new Map<string, Visit[]>();
   for (const v of visits) {
     const list = byMuseum.get(v.museumId) ?? [];
@@ -34,6 +35,7 @@ function groupByMuseum(visits: Visit[]): MuseumVisit[] {
 export function VisitsPage({ onBack }: { onBack: () => void }) {
   const { user, loading: authLoading } = useAuth();
   const [visits, setVisits] = useState<Visit[] | null>(null);
+  const [museums, setMuseums] = useState<Museum[]>([]);
 
   useEffect(() => {
     if (!user) {
@@ -43,7 +45,12 @@ export function VisitsPage({ onBack }: { onBack: () => void }) {
     fetchVisits().then(setVisits);
   }, [user]);
 
-  const grouped = useMemo(() => groupByMuseum(visits ?? []), [visits]);
+  useEffect(() => {
+    // Only used to show museum names; ids are shown if this fails.
+    fetchMuseums().then(setMuseums, () => {});
+  }, []);
+
+  const grouped = useMemo(() => groupByMuseum(visits ?? [], museums), [visits, museums]);
 
   return (
     <main className="shell" lang="en">

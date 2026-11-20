@@ -1,0 +1,748 @@
+{
+  "museum": {
+    "id": "louvre",
+    "language": "en",
+    "name": "Musée du Louvre",
+    "location": "Paris, France"
+  },
+  "categories": [
+    "Italian Renaissance",
+    "Early Italian Painting",
+    "Baroque",
+    "French 18th Century",
+    "Neoclassicism",
+    "Romanticism"
+  ],
+  "works": [
+    {
+      "id": "louvre-01",
+      "title": "Mona Lisa (La Gioconda)",
+      "category": "Italian Renaissance",
+      "artist": "Leonardo da Vinci (Italian, 1452–1519)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "c. 1503–19"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on poplar panel"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      },
+      "image": {
+        "src": "/images/louvre/louvre-01.jpg",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Mona_Lisa,_by_Leonardo_da_Vinci,_from_C2RMF_retouched.jpg",
+        "license": "Public domain"
+      }
+    },
+    {
+      "id": "louvre-02",
+      "title": "The Virgin of the Rocks",
+      "category": "Italian Renaissance",
+      "artist": "Leonardo da Vinci (Italian, 1452–1519)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "c. 1483–86"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on panel transferred to canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      },
+      "image": {
+        "src": "/images/louvre/louvre-02.jpg",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Leonardo_Da_Vinci_-_Vergine_delle_Rocce_(Louvre).jpg",
+        "license": "Public domain"
+      }
+    },
+    {
+      "id": "louvre-03",
+      "title": "Saint John the Baptist",
+      "category": "Italian Renaissance",
+      "artist": "Leonardo da Vinci (Italian, 1452–1519)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "c. 1513–16"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on walnut panel"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      },
+      "image": {
+        "src": "/images/louvre/louvre-03.jpg",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Leonardo_da_Vinci_-_Saint_John_the_Baptist_C2RMF_retouched.jpg",
+        "license": "Public domain"
+      }
+    },
+    {
+      "id": "louvre-04",
+      "title": "La Belle Ferronnière",
+      "category": "Italian Renaissance",
+      "artist": "Leonardo da Vinci (Italian, 1452–1519)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "c. 1490–97"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on walnut panel"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      },
+      "image": {
+        "src": "/images/louvre/louvre-04.jpg",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:La_Belle_Ferroni%C3%A8re_-_Google_Arts.jpg",
+        "license": "Public domain"
+      }
+    },
+    {
+      "id": "louvre-05",
+      "title": "The Virgin and Child with Saint Anne",
+      "category": "Italian Renaissance",
+      "artist": "Leonardo da Vinci (Italian, 1452–1519)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "c. 1503–19"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on panel"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      },
+      "image": {
+        "src": "/images/louvre/louvre-05.jpg",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Sainte_Anne_Leonard.jpg",
+        "license": "Public domain"
+      }
+    },
+    {
+      "id": "louvre-06",
+      "title": "La Belle Jardinière",
+      "category": "Italian Renaissance",
+      "artist": "Raphael (Italian, 1483–1520)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1507"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on panel"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      },
+      "image": {
+        "src": "/images/louvre/louvre-06.jpg",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:La_Vierge_%C3%A0_l%27Enfant_avec_le_petit_saint_Jean_Baptiste_-_Rapha%C3%ABl_-_Mus%C3%A9e_du_Louvre_Peintures_INV_602_;_MR_433.jpg",
+        "license": "Public domain"
+      }
+    },
+    {
+      "id": "louvre-07",
+      "title": "Portrait of Baldassare Castiglione",
+      "category": "Italian Renaissance",
+      "artist": "Raphael (Italian, 1483–1520)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "c. 1514–15"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      },
+      "image": {
+        "src": "/images/louvre/louvre-07.jpg",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Baldassare_Castiglione,_by_Raffaello_Sanzio,_from_C2RMF_retouched.jpg",
+        "license": "Public domain"
+      }
+    },
+    {
+      "id": "louvre-08",
+      "title": "Man with a Glove",
+      "category": "Italian Renaissance",
+      "artist": "Titian (Italian, c. 1488–1576)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "c. 1520–23"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      },
+      "image": {
+        "src": "/images/louvre/louvre-08.jpg",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Tizian_079.jpg",
+        "license": "Public domain"
+      }
+    },
+    {
+      "id": "louvre-09",
+      "title": "The Wedding Feast at Cana",
+      "category": "Italian Renaissance",
+      "artist": "Paolo Veronese (Italian, 1528–1588)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1562–63"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      },
+      "image": {
+        "src": "/images/louvre/louvre-09.jpg",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Les_Noces_de_Cana_-_Paolo_Veronese_-_Mus%C3%A9e_du_Louvre_Peintures_INV_142_;_MR_384.jpg",
+        "license": "Public domain"
+      }
+    },
+    {
+      "id": "louvre-10",
+      "title": "Calvary",
+      "category": "Italian Renaissance",
+      "artist": "Andrea Mantegna (Italian, c. 1431–1506)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1457–60"
+        },
+        {
+          "label": "Medium",
+          "value": "tempera on panel"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "louvre-11",
+      "title": "Saint Francis of Assisi Receiving the Stigmata",
+      "category": "Early Italian Painting",
+      "artist": "Giotto (Italian, c. 1267–1337)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "c. 1295–1300"
+        },
+        {
+          "label": "Medium",
+          "value": "tempera on panel"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      },
+      "image": {
+        "src": "/images/louvre/louvre-11.jpg",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Saint_Fran%C3%A7ois_d%27Assise_recevant_les_stigmates_-_Giotto_-_Mus%C3%A9e_du_Louvre_Peintures_INV_309_;_MR_253_-_detoure_fond_blanc.jpg",
+        "license": "Public domain"
+      }
+    },
+    {
+      "id": "louvre-12",
+      "title": "Maestà (Madonna and Child in Majesty)",
+      "category": "Early Italian Painting",
+      "artist": "Cimabue (Italian, c. 1240–1302)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "c. 1280"
+        },
+        {
+          "label": "Medium",
+          "value": "tempera on panel"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "louvre-13",
+      "title": "Death of the Virgin",
+      "category": "Baroque",
+      "artist": "Caravaggio (Italian, 1571–1610)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1601–06"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      },
+      "image": {
+        "src": "/images/louvre/louvre-13.jpg",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Death_of_the_Virgin-Caravaggio_(1606).jpg",
+        "license": "Public domain"
+      }
+    },
+    {
+      "id": "louvre-14",
+      "title": "The Fortune Teller",
+      "category": "Baroque",
+      "artist": "Caravaggio (Italian, 1571–1610)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "c. 1595"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      },
+      "image": {
+        "src": "/images/louvre/louvre-14.jpg",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:The_Fortune_Teller-Caravaggio_(Louvre).jpg",
+        "license": "Public domain"
+      }
+    },
+    {
+      "id": "louvre-15",
+      "title": "Bathsheba at Her Bath",
+      "category": "Baroque",
+      "artist": "Rembrandt van Rijn (Dutch, 1606–1669)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1654"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      },
+      "image": {
+        "src": "/images/louvre/louvre-15.jpg",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Bethsab%C3%A9e_au_bain_tenant_la_lettre_du_roi_David_-_Rembrandt_-_Mus%C3%A9e_du_Louvre_Peintures_MI_957.jpg",
+        "license": "Public domain"
+      }
+    },
+    {
+      "id": "louvre-16",
+      "title": "The Lacemaker",
+      "category": "Baroque",
+      "artist": "Johannes Vermeer (Dutch, 1632–1675)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "c. 1669–70"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas mounted on panel"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      },
+      "image": {
+        "src": "/images/louvre/louvre-16.jpg",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Johannes_Vermeer_-_The_lacemaker_(c.1669-1671).jpg",
+        "license": "Public domain"
+      }
+    },
+    {
+      "id": "louvre-17",
+      "title": "The Astronomer",
+      "category": "Baroque",
+      "artist": "Johannes Vermeer (Dutch, 1632–1675)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1668"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      },
+      "image": {
+        "src": "/images/louvre/louvre-17.jpg",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Johannes_Vermeer_-_The_Astronomer_-_1668.jpg",
+        "license": "Public domain"
+      }
+    },
+    {
+      "id": "louvre-18",
+      "title": "The Arrival of Marie de’ Medici at Marseille",
+      "category": "Baroque",
+      "artist": "Peter Paul Rubens (Flemish, 1577–1640)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1622–25"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "louvre-19",
+      "title": "Et in Arcadia Ego (The Arcadian Shepherds)",
+      "category": "Baroque",
+      "artist": "Nicolas Poussin (French, 1594–1665)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "c. 1637–38"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      },
+      "image": {
+        "src": "/images/louvre/louvre-19.jpg",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Les_Bergers_d%27Arcadie_-_Nicolas_Poussin_-_Mus%C3%A9e_du_Louvre_Peintures_INV_7300_;_MR_2339.jpg",
+        "license": "Public domain"
+      }
+    },
+    {
+      "id": "louvre-20",
+      "title": "The Embarkation for Cythera",
+      "category": "French 18th Century",
+      "artist": "Jean-Antoine Watteau (French, 1684–1721)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1717"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      },
+      "image": {
+        "src": "/images/louvre/louvre-20.jpg",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:L%27Embarquement_pour_Cyth%C3%A8re,_by_Antoine_Watteau,_from_C2RMF_retouched.jpg",
+        "license": "Public domain"
+      }
+    },
+    {
+      "id": "louvre-21",
+      "title": "Gilles (Pierrot)",
+      "category": "French 18th Century",
+      "artist": "Jean-Antoine Watteau (French, 1684–1721)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "c. 1718–19"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "louvre-22",
+      "title": "The Ray",
+      "category": "French 18th Century",
+      "artist": "Jean-Siméon Chardin (French, 1699–1779)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1728"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      },
+      "image": {
+        "src": "/images/louvre/louvre-22.jpg",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:La_Raie_-_Jean_Baptiste_Sim%C3%A9on_Chardin_-_Mus%C3%A9e_du_Louvre_Peintures_INV_3197.jpg",
+        "license": "Public domain"
+      }
+    },
+    {
+      "id": "louvre-23",
+      "title": "The Oath of the Horatii",
+      "category": "Neoclassicism",
+      "artist": "Jacques-Louis David (French, 1748–1825)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1784"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      },
+      "image": {
+        "src": "/images/louvre/louvre-23.jpg",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Le_Serment_des_Horaces_-_Jacques-Louis_David_-_Mus%C3%A9e_du_Louvre_Peintures_INV_3692_;_MR_1432.jpg",
+        "license": "Public domain"
+      }
+    },
+    {
+      "id": "louvre-24",
+      "title": "The Coronation of Napoleon",
+      "category": "Neoclassicism",
+      "artist": "Jacques-Louis David (French, 1748–1825)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1805–07"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      },
+      "image": {
+        "src": "/images/louvre/louvre-24.jpg",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Le_Sacre_de_Napol%C3%A9on_-_Jacques-Louis_David_-_Mus%C3%A9e_du_Louvre_Peintures_INV_3699_;_MR_1437.jpg",
+        "license": "Public domain"
+      }
+    },
+    {
+      "id": "louvre-25",
+      "title": "Madame Récamier",
+      "category": "Neoclassicism",
+      "artist": "Jacques-Louis David (French, 1748–1825)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1800"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      },
+      "image": {
+        "src": "/images/louvre/louvre-25.jpg",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Juliette_R%C3%A9camier,_n%C3%A9e_Bernard_-_Jacques-Louis_David_-_Mus%C3%A9e_duLouvre_Peintures_INV_3708.jpg",
+        "license": "Public domain"
+      }
+    },
+    {
+      "id": "louvre-26",
+      "title": "La Grande Odalisque",
+      "category": "Neoclassicism",
+      "artist": "Jean-Auguste-Dominique Ingres (French, 1780–1867)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1814"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      },
+      "image": {
+        "src": "/images/louvre/louvre-26.jpg",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:La_grande_odalisque_-_Jean-Auguste_Dominique_Ingres_-_Mus%C3%A9e_du_Louvre_Peintures_RF_1158.jpg",
+        "license": "Public domain"
+      }
+    },
+    {
+      "id": "louvre-27",
+      "title": "The Valpinçon Bather",
+      "category": "Neoclassicism",
+      "artist": "Jean-Auguste-Dominique Ingres (French, 1780–1867)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1808"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      },
+      "image": {
+        "src": "/images/louvre/louvre-27.jpg",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Jean-Auguste-Dominique_Ingres_-_La_Baigneuse_Valpin%C3%A7on.jpg",
+        "license": "Public domain"
+      }
+    },
+    {
+      "id": "louvre-28",
+      "title": "The Raft of the Medusa",
+      "category": "Romanticism",
+      "artist": "Théodore Géricault (French, 1791–1824)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1818–19"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      },
+      "image": {
+        "src": "/images/louvre/louvre-28.jpg",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:JEAN_LOUIS_TH%C3%89ODORE_G%C3%89RICAULT_-_La_Balsa_de_la_Medusa_(Museo_del_Louvre,_1818-19).jpg",
+        "license": "Public domain"
+      }
+    },
+    {
+      "id": "louvre-29",
+      "title": "Liberty Leading the People",
+      "category": "Romanticism",
+      "artist": "Eugène Delacroix (French, 1798–1863)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1830"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      },
+      "image": {
+        "src": "/images/louvre/louvre-29.jpg",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:La_Libert%C3%A9_guidant_le_peuple_-_Eug%C3%A8ne_Delacroix_-_Mus%C3%A9e_du_Louvre_Peintures_RF_129_-_apr%C3%A8s_restauration_2024.jpg",
+        "license": "Public domain"
+      }
+    },
+    {
+      "id": "louvre-30",
+      "title": "The Barque of Dante",
+      "category": "Romanticism",
+      "artist": "Eugène Delacroix (French, 1798–1863)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1822"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      },
+      "image": {
+        "src": "/images/louvre/louvre-30.jpg",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Eug%C3%A8ne_Delacroix_-_The_Barque_of_Dante.jpg",
+        "license": "Public domain"
+      }
+    }
+  ]
+}

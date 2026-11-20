@@ -1,0 +1,712 @@
+{
+  "museum": {
+    "id": "aic",
+    "language": "en",
+    "name": "The Art Institute of Chicago",
+    "location": "Chicago, Illinois"
+  },
+  "categories": [
+    "Impressionism",
+    "Post-Impressionism",
+    "European Modernism",
+    "European Old Masters",
+    "American Art"
+  ],
+  "works": [
+    {
+      "id": "aic-01",
+      "title": "Paris Street; Rainy Day",
+      "category": "Impressionism",
+      "artist": "Gustave Caillebotte (French, 1848–1894)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1877"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      },
+      "image": {
+        "src": "/images/aic/aic-01.jpg",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Gustave_Caillebotte_-_Paris_Street,_Rainy_Day_-_1964.336_-_Art_Institute_of_Chicago.jpg",
+        "license": "Public domain"
+      }
+    },
+    {
+      "id": "aic-02",
+      "title": "A Sunday on La Grande Jatte — 1884",
+      "category": "Impressionism",
+      "artist": "Georges Seurat (French, 1859–1891)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1884–86"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      },
+      "image": {
+        "src": "/images/aic/aic-02.jpg",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:A_Sunday_on_La_Grande_Jatte,_Georges_Seurat,_1884.jpg",
+        "license": "Public domain"
+      }
+    },
+    {
+      "id": "aic-03",
+      "title": "Stacks of Wheat (End of Summer)",
+      "category": "Impressionism",
+      "artist": "Claude Monet (French, 1840–1926)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1890–91"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      },
+      "image": {
+        "src": "/images/aic/aic-03.jpg",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Claude_Monet_-_Stacks_of_Wheat_(End_of_Summer)_-_1985.1103_-_Art_Institute_of_Chicago.jpg",
+        "license": "Public domain"
+      }
+    },
+    {
+      "id": "aic-04",
+      "title": "Water Lilies",
+      "category": "Impressionism",
+      "artist": "Claude Monet (French, 1840–1926)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1906"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      },
+      "image": {
+        "src": "/images/aic/aic-04.jpg",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Claude_Monet_-_Water_Lilies_-_1906,_Ryerson.jpg",
+        "license": "Public domain"
+      }
+    },
+    {
+      "id": "aic-05",
+      "title": "Arrival of the Normandy Train, Gare Saint-Lazare",
+      "category": "Impressionism",
+      "artist": "Claude Monet (French, 1840–1926)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1877"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      },
+      "image": {
+        "src": "/images/aic/aic-05.jpg",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Claude_Monet_-_Arrival_of_the_Normandy_Train,_Gare_Saint-Lazare_-_Google_Art_Project.jpg",
+        "license": "Public domain"
+      }
+    },
+    {
+      "id": "aic-06",
+      "title": "Two Sisters (On the Terrace)",
+      "category": "Impressionism",
+      "artist": "Pierre-Auguste Renoir (French, 1841–1919)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1881"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      },
+      "image": {
+        "src": "/images/aic/aic-06.jpg",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Pierre-Auguste_Renoir_-_Two_Sisters_(On_the_Terrace)_-_1933.455_-_Art_Institute_of_Chicago.jpg",
+        "license": "Public domain"
+      }
+    },
+    {
+      "id": "aic-07",
+      "title": "The Child’s Bath",
+      "category": "Impressionism",
+      "artist": "Mary Cassatt (American, 1844–1926)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1893"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      },
+      "image": {
+        "src": "/images/aic/aic-07.jpg",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:The_Child%27s_Bath_by_Mary_Cassatt_1893.jpg",
+        "license": "Public domain"
+      }
+    },
+    {
+      "id": "aic-08",
+      "title": "The Millinery Shop",
+      "category": "Impressionism",
+      "artist": "Edgar Degas (French, 1834–1917)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "c. 1879–86"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      },
+      "image": {
+        "src": "/images/aic/aic-08.jpg",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Edgar_Degas_-_The_Millinery_Shop_-_Google_Art_Project.jpg",
+        "license": "Public domain"
+      }
+    },
+    {
+      "id": "aic-09",
+      "title": "The Bedroom",
+      "category": "Post-Impressionism",
+      "artist": "Vincent van Gogh (Dutch, 1853–1890)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1889"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      },
+      "image": {
+        "src": "/images/aic/aic-09.jpg",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Vincent_van_Gogh_-_The_Bedroom_-_Google_Art_Project.jpg",
+        "license": "Public domain"
+      }
+    },
+    {
+      "id": "aic-10",
+      "title": "Self-Portrait",
+      "category": "Post-Impressionism",
+      "artist": "Vincent van Gogh (Dutch, 1853–1890)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1887"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on artist’s board mounted on cradled panel"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      },
+      "image": {
+        "src": "/images/aic/aic-10.jpg",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Vincent_van_Gogh_-_Self-Portrait_-_1954.326_-_Art_Institute_of_Chicago.jpg",
+        "license": "Public domain"
+      }
+    },
+    {
+      "id": "aic-11",
+      "title": "Madame Roulin Rocking the Cradle (La Berceuse)",
+      "category": "Post-Impressionism",
+      "artist": "Vincent van Gogh (Dutch, 1853–1890)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1889"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      },
+      "image": {
+        "src": "/images/aic/aic-11.jpg",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Vincent_van_Gogh_-_Madame_Roulin_Rocking_the_Cradle_(La_berceuse)_-_1926.200_-_Art_Institute_of_Chicago.jpg",
+        "license": "Public domain"
+      }
+    },
+    {
+      "id": "aic-12",
+      "title": "The Basket of Apples",
+      "category": "Post-Impressionism",
+      "artist": "Paul Cézanne (French, 1839–1906)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "c. 1893"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      },
+      "image": {
+        "src": "/images/aic/aic-12.jpg",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Paul_C%C3%A9zanne_-_The_Basket_of_Apples_-_1926.252_-_Art_Institute_of_Chicago.jpg",
+        "license": "Public domain"
+      }
+    },
+    {
+      "id": "aic-13",
+      "title": "The Day of the God (Mahana no atua)",
+      "category": "Post-Impressionism",
+      "artist": "Paul Gauguin (French, 1848–1903)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1894"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      },
+      "image": {
+        "src": "/images/aic/aic-13.jpg",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Paul_Gauguin_-_Mahana_no_atua_(Day_of_the_God)_-_1926.198_-_Art_Institute_of_Chicago.jpg",
+        "license": "Public domain"
+      }
+    },
+    {
+      "id": "aic-14",
+      "title": "At the Moulin Rouge",
+      "category": "Post-Impressionism",
+      "artist": "Henri de Toulouse-Lautrec (French, 1864–1901)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1895"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      },
+      "image": {
+        "src": "/images/aic/aic-14.jpg",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Henri_de_Toulouse-Lautrec_-_At_the_Moulin_Rouge_-_1928.610_-_Art_Institute_of_Chicago.jpg",
+        "license": "Public domain"
+      }
+    },
+    {
+      "id": "aic-15",
+      "title": "The Waterfall",
+      "category": "Post-Impressionism",
+      "artist": "Henri Rousseau (French, 1844–1910)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1910"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      },
+      "image": {
+        "src": "/images/aic/aic-15.jpg",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Henri_Rousseau_-_The_Waterfall_-_Google_Art_Project.jpg",
+        "license": "Public domain"
+      }
+    },
+    {
+      "id": "aic-16",
+      "title": "The Old Guitarist",
+      "category": "European Modernism",
+      "artist": "Pablo Picasso (Spanish, 1881–1973)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1903–04"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on panel"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "aic-17",
+      "title": "Mother and Child",
+      "category": "European Modernism",
+      "artist": "Pablo Picasso (Spanish, 1881–1973)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1921"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "aic-18",
+      "title": "Bathers by a River",
+      "category": "European Modernism",
+      "artist": "Henri Matisse (French, 1869–1954)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1909–10, 1913, 1916–17"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "aic-19",
+      "title": "White Crucifixion",
+      "category": "European Modernism",
+      "artist": "Marc Chagall (French, born Belarus, 1887–1985)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1938"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "aic-20",
+      "title": "Time Transfixed",
+      "category": "European Modernism",
+      "artist": "René Magritte (Belgian, 1898–1967)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1938"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "aic-21",
+      "title": "The Assumption of the Virgin",
+      "category": "European Old Masters",
+      "artist": "El Greco (Spanish, 1541–1614)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1577–79"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      },
+      "image": {
+        "src": "/images/aic/aic-21.jpg",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Domenikos_Theotok%C3%B3poulos,_called_El_Greco_-_The_Assumption_of_the_Virgin_-_Google_Art_Project.jpg",
+        "license": "Public domain"
+      }
+    },
+    {
+      "id": "aic-22",
+      "title": "Old Man with a Gold Chain",
+      "category": "European Old Masters",
+      "artist": "Rembrandt van Rijn (Dutch, 1606–1669)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "c. 1631"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on panel"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      },
+      "image": {
+        "src": "/images/aic/aic-22.jpg",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Rembrandt_Harmensz._van_Rijn_-_Old_Man_with_a_Gold_Chain_-_Google_Art_Project.jpg",
+        "license": "Public domain"
+      }
+    },
+    {
+      "id": "aic-23",
+      "title": "American Gothic",
+      "category": "American Art",
+      "artist": "Grant Wood (American, 1891–1942)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1930"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on beaverboard"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      },
+      "image": {
+        "src": "/images/aic/aic-23.jpg",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Grant_Wood_-_American_Gothic_(1930).jpg",
+        "license": "Public domain"
+      }
+    },
+    {
+      "id": "aic-24",
+      "title": "Nighthawks",
+      "category": "American Art",
+      "artist": "Edward Hopper (American, 1882–1967)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1942"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "aic-25",
+      "title": "The Herring Net",
+      "category": "American Art",
+      "artist": "Winslow Homer (American, 1836–1910)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1885"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      },
+      "image": {
+        "src": "/images/aic/aic-25.jpg",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Winslow_Homer_-_The_Herring_Net_-_Google_Art_Project.jpg",
+        "license": "Public domain"
+      }
+    },
+    {
+      "id": "aic-26",
+      "title": "Mrs. George Swinton (Elizabeth Ebsworth)",
+      "category": "American Art",
+      "artist": "John Singer Sargent (American, 1856–1925)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1897"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "aic-27",
+      "title": "Daughters of Revolution",
+      "category": "American Art",
+      "artist": "Grant Wood (American, 1891–1942)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1932"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "aic-28",
+      "title": "Nightlife",
+      "category": "American Art",
+      "artist": "Archibald Motley Jr. (American, 1891–1981)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1943"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "aic-29",
+      "title": "Greyed Rainbow",
+      "category": "American Art",
+      "artist": "Jackson Pollock (American, 1912–1956)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1953"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    },
+    {
+      "id": "aic-30",
+      "title": "Sky above Clouds IV",
+      "category": "American Art",
+      "artist": "Georgia O’Keeffe (American, 1887–1986)",
+      "facts": [
+        {
+          "label": "Date",
+          "value": "1965"
+        },
+        {
+          "label": "Medium",
+          "value": "oil on canvas"
+        }
+      ],
+      "guide": {
+        "text": "Audio guide unavailable.",
+        "unavailable": true
+      }
+    }
+  ]
+}
