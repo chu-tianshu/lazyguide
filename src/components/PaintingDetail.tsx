@@ -1,8 +1,10 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { Work } from "@/data/catalog";
 import { strings, type LanguageCode } from "@/lib/i18n";
+import { useAuth } from "@/lib/auth";
+import { recordVisit } from "@/lib/visits";
 import { GuidePlayer, type Section } from "./GuidePlayer";
 import { FollowUpPanel } from "./FollowUpPanel";
 
@@ -24,6 +26,7 @@ export function PaintingDetail({
   onBack: () => void;
 }) {
   const t = strings[language];
+  const { user } = useAuth();
   const [effort, setEffort] = useState<Effort | null>(null);
   const [expanded, setExpanded] = useState(false);
   const [expandToken, setExpandToken] = useState(0);
@@ -54,6 +57,12 @@ export function PaintingDetail({
     setExpanded(true);
     setExpandToken((n) => n + 1);
   };
+
+  // Counts as "visited" once the guide actually has something to show.
+  useEffect(() => {
+    if (!sections || !user) return;
+    recordVisit(museumId, work.id);
+  }, [sections, user, museumId, work.id]);
 
   return (
     <article>

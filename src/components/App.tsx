@@ -11,6 +11,9 @@ import { CnFlag } from "./CnFlag";
 import { CollectionPage } from "./CollectionPage";
 import { PaintingDetail } from "./PaintingDetail";
 import { UsFlag } from "./UsFlag";
+import { UserBar } from "./UserBar";
+import { VisitsPage } from "./VisitsPage";
+import { AuthProvider } from "@/lib/auth";
 
 const flags: Record<LanguageCode, React.ReactNode> = {
   en: <UsFlag className="flag" />,
@@ -18,9 +21,18 @@ const flags: Record<LanguageCode, React.ReactNode> = {
 };
 
 export function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
+  );
+}
+
+function AppContent() {
   const [museumId, setMuseumId] = useState<string | null>(null);
   const [languageCode, setLanguageCode] = useState<LanguageCode | null>(null);
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [showVisits, setShowVisits] = useState(false);
 
   const museum = museums.find((m) => m.id === museumId);
   const catalog = museum && languageCode ? getCatalog(museum.id, languageCode) : undefined;
@@ -32,6 +44,10 @@ export function App() {
     setSelectedId(null);
   };
 
+  if (showVisits) {
+    return <VisitsPage onBack={() => setShowVisits(false)} />;
+  }
+
   if (!museum) {
     return (
       <main className="map-shell" lang="en">
@@ -39,6 +55,7 @@ export function App() {
           <h1>Lazy Guide</h1>
           <p className="brand-tag">Audio guides, at your own pace</p>
         </header>
+        <UserBar onShowVisits={() => setShowVisits(true)} />
         <MuseumMap museums={museums} onSelect={setMuseumId} />
         <p className="map-hint">Zoom in to find a museum. Click its icon to see the name, then click the name to enter.</p>
       </main>

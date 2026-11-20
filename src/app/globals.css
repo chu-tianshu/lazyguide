@@ -315,6 +315,36 @@ button, input { font: inherit; color: inherit; }
 .effort-choice button[aria-pressed="true"] { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
 
 
+/* Accounts and visit history */
+.user-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 0 1rem 0.6rem;
+  font-size: 0.85rem;
+}
+.user-avatar { width: 1.6rem; height: 1.6rem; border-radius: 50%; }
+.user-name { color: var(--muted); }
+.user-signin, .user-link {
+  padding: 0.4rem 0.8rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  cursor: pointer;
+}
+.user-link { border: 0; background: none; padding: 0.2rem; color: var(--accent); }
+
+.visit-list { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--line); }
+.visit-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 1rem 0.25rem;
+  border-bottom: 1px solid var(--line);
+}
+
 /* World map (museum selection) */
 .map-shell { height: 100dvh; display: flex; flex-direction: column; }
 .map-brand { margin: 0; padding: 0.9rem 1rem 0.8rem; }
