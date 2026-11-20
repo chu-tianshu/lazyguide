@@ -2,22 +2,14 @@
 
 import { useAuth } from "@/lib/auth";
 
+/** Only ever rendered once AppContent has confirmed a user is signed in (Google or guest). */
 export function UserBar({ onShowVisits }: { onShowVisits: () => void }) {
-  const { user, loading, signInWithGoogle, signOut } = useAuth();
+  const { user, signOut } = useAuth();
+  if (!user) return null;
 
-  if (loading) return null;
-
-  if (!user) {
-    return (
-      <div className="user-bar">
-        <button className="user-signin" onClick={() => signInWithGoogle()}>
-          Sign in with Google
-        </button>
-      </div>
-    );
-  }
-
-  const name = (user.user_metadata?.full_name as string | undefined) ?? user.email ?? "Signed in";
+  const name = user.is_anonymous
+    ? "Guest"
+    : (user.user_metadata?.full_name as string | undefined) ?? user.email ?? "Signed in";
   const avatar = user.user_metadata?.avatar_url as string | undefined;
 
   return (

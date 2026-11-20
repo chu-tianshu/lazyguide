@@ -29,18 +29,21 @@ npm run dev                  # http://localhost:3000
 
 ## Accounts and visit history
 
-Signing in is optional — browsing and guides work the same with or without an account. Signed-in visitors get a Google login and the museums/works they've actually opened a guide for are tracked (`src/lib/visits.ts`) and shown on the "My visits" screen. The data lives in Supabase (Postgres), accessed directly from the browser and scoped per-user by row-level security — there's no custom backend for this.
+The first screen is a sign-in gate: **Sign in with Google**, or **Continue without an account** (an anonymous Supabase user, created fresh each time someone picks this on a new browser/device, persisted after that so they aren't re-counted every visit). Either way, the museums/works a visitor actually opens a guide for are tracked (`src/lib/visits.ts`) and shown on the "My visits" screen. The data lives in Supabase (Postgres), accessed directly from the browser and scoped per-user by row-level security — there's no custom backend for this. Anonymous sign-ins are additionally logged to `anonymous_logins` purely as a count of how many guest sessions have been created; there's no app-facing read of that table, it's for checking in the Supabase dashboard.
 
 One-time setup:
 
 1. **Create a Supabase project** at [supabase.com](https://supabase.com) (free tier is fine).
-2. **Run the schema**: open the SQL editor in the Supabase dashboard and run [`supabase/schema.sql`](supabase/schema.sql). This creates the `visits` table and its row-level security policies.
-3. **Create a Google OAuth client**: in [Google Cloud Console](https://console.cloud.google.com/apis/credentials), create an OAuth 2.0 Client ID (type: Web application). Set its **Authorized redirect URI** to `https://<your-project-ref>.supabase.co/auth/v1/callback` (find your project ref in the Supabase dashboard URL or Project Settings → API).
-4. **Enable Google sign-in in Supabase**: in the Supabase dashboard, go to Authentication → Providers → Google, enable it, and paste in the Google client ID and client secret from step 3.
-5. **Allow redirect URLs**: in Supabase, go to Authentication → URL Configuration and add both `http://localhost:3000` and your production URL (e.g. `https://lazyguide.vercel.app`) to the allowed redirect URLs.
-6. **Set the two `NEXT_PUBLIC_SUPABASE_*` env vars** (from Project Settings → API in Supabase) in `.env.local` for local dev, and in Vercel → Project → Settings → Environment Variables for production.
+2. **Run the schema**: open the SQL editor in the Supabase dashboard and run [`supabase/schema.sql`](supabase/schema.sql). This creates the `visits` and `anonymous_logins` tables and their row-level security policies.
+3. **Enable anonymous sign-ins**: in the Supabase dashboard, go to Authentication → Sign In / Providers and turn on "Allow anonymous sign-ins". Without this, "Continue without an account" fails.
+4. **Create a Google OAuth client**: in [Google Cloud Console](https://console.cloud.google.com/apis/credentials), create an OAuth 2.0 Client ID (type: Web application). Set its **Authorized redirect URI** to `https://<your-project-ref>.supabase.co/auth/v1/callback` (find your project ref in the Supabase dashboard URL or Project Settings → API).
+5. **Enable Google sign-in in Supabase**: in the Supabase dashboard, go to Authentication → Providers → Google, enable it, and paste in the Google client ID and client secret from step 4.
+6. **Allow redirect URLs**: in Supabase, go to Authentication → URL Configuration and add both `http://localhost:3000` and your production URL (e.g. `https://lazyguide.vercel.app`) to the allowed redirect URLs.
+7. **Set the two `NEXT_PUBLIC_SUPABASE_*` env vars** (from Project Settings → API in Supabase) in `.env.local` for local dev, and in Vercel → Project → Settings → Environment Variables for production.
 
-If these env vars are unset, the sign-in button is still shown but does nothing — the rest of the app is unaffected.
+If these env vars are unset, the gate is still shown but neither button works — the rest of the app is unreachable until they're set, since signing in (or continuing as a guest) is now required.
+
+To see how many anonymous sessions have been created, run `select count(*) from anonymous_logins;` in the Supabase SQL editor.
 
 ## Deploying to Vercel
 

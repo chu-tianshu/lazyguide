@@ -13,7 +13,8 @@ import { PaintingDetail } from "./PaintingDetail";
 import { UsFlag } from "./UsFlag";
 import { UserBar } from "./UserBar";
 import { VisitsPage } from "./VisitsPage";
-import { AuthProvider } from "@/lib/auth";
+import { SignInGate } from "./SignInGate";
+import { AuthProvider, useAuth } from "@/lib/auth";
 
 const flags: Record<LanguageCode, React.ReactNode> = {
   en: <UsFlag className="flag" />,
@@ -29,6 +30,7 @@ export function App() {
 }
 
 function AppContent() {
+  const { user, loading } = useAuth();
   const [museumId, setMuseumId] = useState<string | null>(null);
   const [languageCode, setLanguageCode] = useState<LanguageCode | null>(null);
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -43,6 +45,9 @@ function AppContent() {
     setLanguageCode(null);
     setSelectedId(null);
   };
+
+  if (loading) return null;
+  if (!user) return <SignInGate />;
 
   if (showVisits) {
     return <VisitsPage onBack={() => setShowVisits(false)} />;

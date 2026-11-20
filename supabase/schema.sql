@@ -20,3 +20,17 @@ create policy "insert own visits" on public.visits
 
 create policy "update own visits" on public.visits
   for update using (auth.uid() = user_id);
+
+-- Documents how many anonymous ("continue without an account") sign-ins have
+-- happened. No select policy: this is read from the Supabase dashboard
+-- (table editor / SQL editor), not from the app.
+create table if not exists public.anonymous_logins (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null unique references auth.users (id) on delete cascade,
+  created_at timestamptz not null default now()
+);
+
+alter table public.anonymous_logins enable row level security;
+
+create policy "insert own anonymous login" on public.anonymous_logins
+  for insert with check (auth.uid() = user_id);
