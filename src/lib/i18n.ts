@@ -9,6 +9,7 @@ export interface Strings {
   searchPlaceholderTitleArtist: string;
   searchPlaceholderTitle: string;
   noCachedMatch: (query: string) => string;
+  moreMatches: (query: string) => string;
   searchOffer: (sources: string) => string;
   searchOnline: string;
   searching: string;
@@ -79,6 +80,7 @@ export const strings: Record<LanguageCode, Strings> = {
     searchPlaceholderTitleArtist: "Search by title or artist",
     searchPlaceholderTitle: "Search by title",
     noCachedMatch: (q) => `Nothing in the collection we have on hand matches “${q}”.`,
+    moreMatches: (q) => `Not seeing what you want for “${q}”?`,
     searchOffer: (s) => `We can look for it by title in ${s}. Matches are added to this collection.`,
     searchOnline: "Search online",
     searching: "Searching…",
@@ -147,6 +149,7 @@ export const strings: Record<LanguageCode, Strings> = {
     searchPlaceholderTitleArtist: "按名称或艺术家搜索",
     searchPlaceholderTitle: "按名称搜索",
     noCachedMatch: (q) => `目前已有的藏品中没有与“${q}”匹配的内容。`,
+    moreMatches: (q) => `没有找到想要的“${q}”？`,
     searchOffer: (s) => `我们可以在${s}中按名称查找，找到的展品会加入本藏品列表。`,
     searchOnline: "在线搜索",
     searching: "正在搜索…",

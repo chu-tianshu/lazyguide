@@ -60,8 +60,14 @@ export function CollectionPage({
     try {
       const res = await searchSources(catalog.museumId, catalog.language, phrase);
       if (res.status === "found") {
-        onAddWorks(res.works);
-        setOnline(null);
+        const have = new Set(catalog.works.map((w) => w.id));
+        if (res.works.every((w) => have.has(w.id))) {
+          // Everything found is already listed, so nothing is added.
+          setOnline({ query: phrase, phase: "none" });
+        } else {
+          onAddWorks(res.works);
+          setOnline(null);
+        }
       } else {
         setOnline({ query: phrase, phase: res.status === "none" ? "none" : "unavailable" });
       }
@@ -117,9 +123,9 @@ export function CollectionPage({
           />
         </label>
 
-        {results.length === 0 && phrase && sourceNames && (
+        {phrase && sourceNames && (results.length === 0 || sourceNames.length > 0) && (
           <div className="online-search" role="status">
-            <p className="online-title">{t.noCachedMatch(phrase)}</p>
+            <p className="online-title">{results.length === 0 ? t.noCachedMatch(phrase) : t.moreMatches(phrase)}</p>
             {sourceNames.length === 0 ? (
               <p className="muted">{t.searchNoSource}</p>
             ) : outcome === "none" ? (
