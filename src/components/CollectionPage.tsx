@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { searchWorks, type Catalog, type WorkSummary } from "@/data/catalog";
 import { fetchSourceNames, searchSources } from "@/lib/catalogApi";
 import { strings } from "@/lib/i18n";
+import { museumHeader } from "@/data/museumImages";
 
 export function CollectionPage({
   catalog,
@@ -17,6 +18,7 @@ export function CollectionPage({
   onAddWorks: (works: WorkSummary[]) => void;
 }) {
   const t = strings[catalog.language];
+  const header = museumHeader(catalog.museumId);
   const [query, setQuery] = useState("");
   const results = useMemo(() => searchWorks(catalog.works, query), [catalog.works, query]);
 
@@ -70,6 +72,18 @@ export function CollectionPage({
       <button className="back" onClick={onChangeMuseum}>
         {t.changeMuseum}
       </button>
+
+      {header && (
+        <figure className="museum-header">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={header.src} alt={catalog.museumName} loading="eager" />
+          <figcaption>
+            <a href={header.creditUrl} target="_blank" rel="noreferrer">
+              Photo: Wikimedia Commons
+            </a>
+          </figcaption>
+        </figure>
+      )}
 
       <header className="masthead">
         <p className="eyebrow">{catalog.museumLocation}</p>

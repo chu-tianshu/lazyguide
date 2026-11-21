@@ -488,3 +488,30 @@ button, input { font: inherit; color: inherit; }
 .personal-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
 .personal-actions .expand { margin-top: 0; }
 .personal-actions .expand:disabled { opacity: 0.6; cursor: progress; }
+
+.museum-header {
+  position: relative;
+  margin: 0 0 1.25rem;
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(128, 128, 128, 0.15);
+}
+.museum-header img {
+  display: block;
+  width: 100%;
+  height: clamp(160px, 32vw, 280px);
+  object-fit: cover;
+}
+.museum-header figcaption {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  padding: 2px 8px;
+  font-size: 0.7rem;
+  background: rgba(0, 0, 0, 0.55);
+  border-top-left-radius: 8px;
+}
+.museum-header figcaption a {
+  color: #fff;
+  text-decoration: none;
+}
