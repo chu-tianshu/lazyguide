@@ -4,14 +4,22 @@ import type { Found } from "./types";
 export const USER_AGENT = "LazyGuide/0.1 (https://github.com/chu-tianshu/lazyguide)";
 const TIMEOUT_MS = 8_000;
 
-export async function getJson<T>(url: string, headers: Record<string, string> = {}): Promise<T> {
+/** Like getJson, but also returns the response headers (for paging). */
+export async function getJsonResponse<T>(
+  url: string,
+  headers: Record<string, string> = {},
+): Promise<{ data: T; headers: Headers }> {
   const res = await fetch(url, {
     headers: { "User-Agent": USER_AGENT, Accept: "application/json", ...headers },
     signal: AbortSignal.timeout(TIMEOUT_MS),
     cache: "no-store",
   });
   if (!res.ok) throw new Error(`${new URL(url).host} answered ${res.status}`);
-  return (await res.json()) as T;
+  return { data: (await res.json()) as T, headers: res.headers };
+}
+
+export async function getJson<T>(url: string, headers: Record<string, string> = {}): Promise<T> {
+  return (await getJsonResponse<T>(url, headers)).data;
 }
 
 const ENTITIES: Record<string, string> = { amp: "&", lt: "<", gt: ">", quot: '"', apos: "'", nbsp: " " };

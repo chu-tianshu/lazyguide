@@ -1,7 +1,7 @@
 import type { PaintingImage } from "@/data/catalog";
 import type { LanguageCode } from "@/lib/i18n";
 
-export type SourceKind = "cleveland" | "aic" | "wikidata";
+export type SourceKind = "cleveland" | "aic" | "high" | "wikidata";
 
 /** A row of museum_sources (supabase/sources.sql). */
 export interface MuseumSource {
@@ -12,7 +12,7 @@ export interface MuseumSource {
   config: Record<string, unknown>;
 }
 
-export type FactKey = "date" | "medium" | "dimensions" | "culture" | "type" | "accession" | "location";
+export type FactKey = "date" | "medium" | "dimensions" | "culture" | "type" | "accession" | "location" | "credit";
 
 /** One work a source returned, before it is shaped into a catalog row. */
 export interface Found {

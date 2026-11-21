@@ -6,6 +6,7 @@ import type { Fact, SingleGuide } from "@/data/catalog";
 import type { LanguageCode } from "@/lib/i18n";
 import { searchAic } from "./aic";
 import { searchCleveland } from "./cleveland";
+import { searchHigh } from "./high";
 import type { Adapter, FactKey, Found, MuseumSource, SourceKind } from "./types";
 import { pickTitleMatches } from "./util";
 import { searchWikidata } from "./wikidata";
@@ -13,6 +14,7 @@ import { searchWikidata } from "./wikidata";
 const adapters: Record<SourceKind, Adapter> = {
   cleveland: searchCleveland,
   aic: searchAic,
+  high: searchHigh,
   wikidata: searchWikidata,
 };
 
@@ -20,8 +22,8 @@ const adapters: Record<SourceKind, Adapter> = {
 export const MAX_STORED = 3;
 
 const factLabels: Record<LanguageCode, Record<FactKey, string>> = {
-  en: { date: "Date", medium: "Medium", dimensions: "Size", culture: "Culture", type: "Type", accession: "Accession", location: "Location" },
-  zh: { date: "年代", medium: "材质", dimensions: "尺寸", culture: "文化", type: "类别", accession: "编号", location: "位置" },
+  en: { date: "Date", medium: "Medium", dimensions: "Size", culture: "Culture", type: "Type", accession: "Accession", location: "Location", credit: "Credit" },
+  zh: { date: "年代", medium: "材质", dimensions: "尺寸", culture: "文化", type: "类别", accession: "编号", location: "位置", credit: "来源" },
 };
 
 export interface SourceResult {
