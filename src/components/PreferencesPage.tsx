@@ -1,6 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { languages } from "@/data/languages";
+import { CnFlag } from "./CnFlag";
+import { UsFlag } from "./UsFlag";
 import {
   DEFAULT_PREFERENCES,
   LENGTHS,
@@ -22,12 +25,17 @@ export function PreferencesPage({
   onSaved,
   onBack,
 }: {
-  initial: Preferences | null;
+  initial: Partial<Preferences> | null;
   onboarding: boolean;
   onSaved: (prefs: Preferences) => void;
   onBack?: () => void;
 }) {
-  const [prefs, setPrefs] = useState<Preferences>(initial ?? DEFAULT_PREFERENCES);
+  const [prefs, setPrefs] = useState<Preferences>(() => ({
+    ...DEFAULT_PREFERENCES,
+    // A first-time visitor starts from their browser's language.
+    language: typeof navigator !== "undefined" && navigator.language.toLowerCase().startsWith("zh") ? "zh" : "en",
+    ...initial,
+  }));
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string>();
 
@@ -65,6 +73,26 @@ export function PreferencesPage({
             : "Guide preferences. They apply to guides you generate or rewrite."}
         </p>
       </header>
+
+      <section className="pref-section" aria-labelledby="pref-language">
+        <h2 id="pref-language">Language · 语言</h2>
+        <p className="muted">For guide pages and guides. If a museum has no guides in this language, we show what it has.</p>
+        <div className="pref-grid" role="radiogroup" aria-labelledby="pref-language">
+          {languages.map((l) => (
+            <button
+              key={l.code}
+              role="radio"
+              aria-checked={prefs.language === l.code}
+              onClick={() => setPrefs((p) => ({ ...p, language: l.code }))}
+              lang={l.code === "zh" ? "zh-Hans" : "en"}
+            >
+              {l.code === "zh" ? <CnFlag className="flag" /> : <UsFlag className="flag" />}
+              <strong>{l.label}</strong>
+              <span>{l.subtitle}</span>
+            </button>
+          ))}
+        </div>
+      </section>
 
       <section className="pref-section" aria-labelledby="pref-length">
         <h2 id="pref-length">Length</h2>

@@ -23,7 +23,7 @@ export async function generateGuide(
     res = await fetch("/api/generate-guide", {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-      body: JSON.stringify({ museumId, workId, language, ...prefs }),
+      body: JSON.stringify({ ...prefs, museumId, workId, language }),
     });
   } catch {
     throw new Error(e.network);

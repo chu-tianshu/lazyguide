@@ -43,12 +43,12 @@ export async function POST(request: Request) {
     !b.museumId ||
     !b.workId ||
     !isLanguageCode(b.language) ||
-    !isPreferences({ length: b.length, style: b.style, topics: b.topics })
+    !isPreferences({ language: b.language, length: b.length, style: b.style, topics: b.topics })
   ) {
     return json({ error: en.invalid }, 400);
   }
   const { museumId, workId, language } = b;
-  const prefs = { length: b.length, style: b.style, topics: b.topics } as Preferences;
+  const prefs = { language, length: b.length, style: b.style, topics: b.topics } as Preferences;
   const key = topicsKey(prefs.topics);
   const e = strings[language].errors;
 

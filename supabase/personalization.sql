@@ -9,6 +9,9 @@ create table if not exists public.user_preferences (
   updated_at timestamptz not null default now()
 );
 
+-- Added after the first version; null until the visitor picks one (they are asked again on next sign-in).
+alter table public.user_preferences add column if not exists language text check (language in ('en', 'zh'));
+
 alter table public.user_preferences enable row level security;
 
 drop policy if exists "select own preferences" on public.user_preferences;

@@ -3,6 +3,7 @@
  * `user_preferences` (supabase/personalization.sql); row-level security scopes every query
  * to the current user, so these are plain client-side calls.
  */
+import { isLanguageCode, type LanguageCode } from "./i18n";
 import { supabase } from "./supabaseClient";
 
 export const LENGTHS = ["short", "medium", "long"] as const;
@@ -14,6 +15,8 @@ export type GuideStyle = (typeof STYLES)[number];
 export type GuideTopic = (typeof TOPICS)[number];
 
 export interface Preferences {
+  /** Language of the guides and of the guide pages. */
+  language: LanguageCode;
   length: GuideLength;
   style: GuideStyle;
   topics: GuideTopic[];
@@ -42,6 +45,7 @@ export const OPTION_LABELS = {
 } as const;
 
 export const DEFAULT_PREFERENCES: Preferences = {
+  language: "en",
   length: "medium",
   style: "conversational",
   topics: ["history", "symbolism"],
@@ -56,6 +60,7 @@ export function isPreferences(v: unknown): v is Preferences {
   if (!v || typeof v !== "object") return false;
   const p = v as Partial<Preferences>;
   return (
+    isLanguageCode(p.language) &&
     LENGTHS.includes(p.length as GuideLength) &&
     STYLES.includes(p.style as GuideStyle) &&
     Array.isArray(p.topics) &&
@@ -65,13 +70,29 @@ export function isPreferences(v: unknown): v is Preferences {
   );
 }
 
-/** The signed-in visitor's saved preferences; null if none saved yet. Throws if the lookup fails. */
-export async function fetchPreferences(): Promise<Preferences | null> {
-  if (!supabase) return null;
-  const { data, error } = await supabase.from("user_preferences").select("length, style, topics").maybeSingle();
+/**
+ * The signed-in visitor's saved preferences. `prefs` is null until they have saved a complete set
+ * (a row saved before language existed counts as incomplete); `draft` carries whatever was saved, to prefill
+ * the form. Throws if the lookup fails.
+ */
+export async function fetchPreferences(): Promise<{ prefs: Preferences | null; draft: Partial<Preferences> | null }> {
+  if (!supabase) return { prefs: null, draft: null };
+  const { data, error } = await supabase
+    .from("user_preferences")
+    .select("language, length, style, topics")
+    .maybeSingle();
   if (error) throw error;
-  if (!data || !isPreferences(data)) return null;
-  return { length: data.length, style: data.style, topics: data.topics };
+  if (!data) return { prefs: null, draft: null };
+  if (isPreferences(data)) return { prefs: data, draft: null };
+  return {
+    prefs: null,
+    draft: {
+      ...(isLanguageCode(data.language) ? { language: data.language } : {}),
+      ...(LENGTHS.includes(data.length) ? { length: data.length } : {}),
+      ...(STYLES.includes(data.style) ? { style: data.style } : {}),
+      ...(Array.isArray(data.topics) ? { topics: data.topics.filter((t: string) => TOPICS.includes(t as GuideTopic)) } : {}),
+    },
+  };
 }
 
 export async function savePreferences(prefs: Preferences): Promise<void> {

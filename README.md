@@ -2,7 +2,7 @@
 
 Prototype web audio guide for art and history museums: High Museum of Art, Henan Museum, Southern Song Deshou Palace Site Museum and Cleveland Museum of Art have guide texts (English and/or Chinese); eight more art museums (Seattle, National Gallery of Art, MoMA, Art Institute of Chicago, Louvre, Orsay, Prado, National Gallery London) have catalog metadata and images only. See [design.md](design.md) for design notes.
 
-**Features:** world map and museum/language selection, search, pre-written guides with a speech player (progress, captions, speed), follow-up questions answered by Claude, and a sign-in gate (Google or guest) with a "My visits" history.
+**Features:** world map and museum selection (language is a per-user setting), search, pre-written guides with a speech player (progress, captions, speed), follow-up questions answered by Claude, and a sign-in gate (Google or guest) with a "My visits" history.
 
 ## Setup
 
@@ -51,4 +51,4 @@ Import the repo in Vercel (Next.js preset), add the environment variables above,
 
 ## Personalised guides
 
-On first sign-in a visitor chooses a length, a style and one or more topics (saved in `user_preferences`, editable under **Settings**). On a work's page, **Rewrite to my preferences** (or **Generate a guide for my preferences** when the work has no guide) calls `/api/generate-guide`, which has Claude write a script from the catalog facts plus the existing guide as reference. Each unique work + language + length + style + topic-set is generated once and stored in `generated_guides`; later requests for the same combination reuse the stored text. Needs `supabase/personalization.sql` run once, and the Anthropic and service-role env vars.
+On first sign-in a visitor chooses a language, a length, a style and one or more topics (saved in `user_preferences`, editable under **Settings**). On a work's page, **Rewrite to my preferences** (or **Generate a guide for my preferences** when the work has no guide) calls `/api/generate-guide`, which has Claude write a script from the catalog facts plus the existing guide as reference. Each unique work + language + length + style + topic-set is generated once and stored in `generated_guides`; later requests for the same combination reuse the stored text. Needs `supabase/personalization.sql` run once, and the Anthropic and service-role env vars.

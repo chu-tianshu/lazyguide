@@ -2,27 +2,19 @@
 
 import { useEffect, useState } from "react";
 import type { Catalog, Work, WorkSummary } from "@/data/catalog";
-import { languages } from "@/data/languages";
 import type { Museum } from "@/data/museums";
+import { languages } from "@/data/languages";
 import type { LanguageCode } from "@/lib/i18n";
 import { fetchCatalog, fetchLanguageCodes, fetchMuseums, fetchWork } from "@/lib/catalogApi";
-import { ChoicePage } from "./ChoicePage";
 import { MuseumMap } from "./MuseumMap";
-import { CnFlag } from "./CnFlag";
 import { CollectionPage } from "./CollectionPage";
 import { PaintingDetail } from "./PaintingDetail";
-import { UsFlag } from "./UsFlag";
 import { UserBar } from "./UserBar";
 import { VisitsPage } from "./VisitsPage";
 import { PreferencesPage } from "./PreferencesPage";
 import { fetchPreferences, type Preferences } from "@/lib/preferences";
 import { SignInGate } from "./SignInGate";
 import { AuthProvider, useAuth } from "@/lib/auth";
-
-const flags: Record<LanguageCode, React.ReactNode> = {
-  en: <UsFlag className="flag" />,
-  zh: <CnFlag className="flag" />,
-};
 
 export function App() {
   return (
@@ -35,12 +27,13 @@ export function App() {
 function AppContent() {
   const { user, loading } = useAuth();
   const [museumId, setMuseumId] = useState<string | null>(null);
-  const [languageCode, setLanguageCode] = useState<LanguageCode | null>(null);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [showVisits, setShowVisits] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   // undefined while loading; null once loaded with nothing saved (first login); "error" if the lookup failed.
   const [prefs, setPrefs] = useState<Preferences | null | "error" | undefined>(undefined);
+  // What an earlier, incomplete save held (e.g. from before language was a setting), to prefill the form.
+  const [draft, setDraft] = useState<Partial<Preferences> | null>(null);
 
   // The catalog lives in Postgres. Each of these is null until its fetch returns.
   const [museums, setMuseums] = useState<Museum[] | null>(null);
@@ -50,6 +43,15 @@ function AppContent() {
   const [loadFailed, setLoadFailed] = useState(false);
 
   const museum = museums?.find((m) => m.id === museumId);
+
+  // Language is a user-level setting. A museum that has no guides in it shows its first available language.
+  const preferredLanguage: LanguageCode = prefs && prefs !== "error" ? prefs.language : "en";
+  const languageCode: LanguageCode | null = offered
+    ? offered.includes(preferredLanguage)
+      ? preferredLanguage
+      : (offered[0] ?? null)
+    : null;
+  const languageFallback = Boolean(offered && languageCode && languageCode !== preferredLanguage);
 
   useEffect(() => {
     if (!user) return;
@@ -70,7 +72,11 @@ function AppContent() {
     }
     let current = true;
     fetchPreferences().then(
-      (p) => current && setPrefs(p),
+      (r) => {
+        if (!current) return;
+        setPrefs(r.prefs);
+        setDraft(r.draft);
+      },
       // The app stays usable without preferences; only personalised guides are unavailable.
       () => current && setPrefs("error"),
     );
@@ -117,7 +123,6 @@ function AppContent() {
 
   const reset = () => {
     setMuseumId(null);
-    setLanguageCode(null);
     setSelectedId(null);
     setOffered(null);
     setCatalog(null);
@@ -127,11 +132,6 @@ function AppContent() {
   const chooseMuseum = (id: string) => {
     setOffered(null);
     setMuseumId(id);
-  };
-
-  const chooseLanguage = (code: LanguageCode) => {
-    setCatalog(null);
-    setLanguageCode(code);
   };
 
   // Works found by an online search join the list in place, so the page needs no reload.
@@ -168,7 +168,7 @@ function AppContent() {
 
   // First login: ask once, before anything else.
   if (prefs === null) {
-    return <PreferencesPage initial={null} onboarding onSaved={setPrefs} />;
+    return <PreferencesPage initial={draft} onboarding onSaved={setPrefs} />;
   }
 
   if (showSettings) {
@@ -212,26 +212,16 @@ function AppContent() {
   }
 
   let content;
-  if (!languageCode) {
-    // Only the languages this museum has guides for are offered.
-    content = offered ? (
-      <ChoicePage
-        heading={"Language · 语言"}
-        options={languages
-          .filter((l) => offered.includes(l.code))
-          .map((l) => ({
-            id: l.code,
-            title: l.label,
-            subtitle: l.subtitle,
-            visual: flags[l.code],
-          }))}
-        onChoose={(code) => chooseLanguage(code as LanguageCode)}
-        onBack={reset}
-      />
-    ) : (
-      <p className="muted">Loading…</p>
+  if (offered?.length === 0) {
+    content = (
+      <>
+        <button className="back" onClick={reset}>
+          ← All museums
+        </button>
+        <p className="muted">This museum has no guides yet.</p>
+      </>
     );
-  } else if (!catalog) {
+  } else if (!languageCode || !catalog) {
     content = <p className="muted">Loading…</p>;
   } else if (selectedId) {
     content = work ? (
@@ -254,6 +244,11 @@ function AppContent() {
 
   return (
     <main className="shell" lang={languageCode === "zh" ? "zh-Hans" : "en"}>
+      {languageFallback && languageCode && (
+        <p className="notice" role="note" lang="en">
+          This museum has no guides in your language yet, so it is shown in {languages.find((l) => l.code === languageCode)?.label}.
+        </p>
+      )}
       {content}
     </main>
   );
