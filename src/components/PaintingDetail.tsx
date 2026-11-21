@@ -5,7 +5,7 @@ import type { Work } from "@/data/catalog";
 import { strings, type LanguageCode } from "@/lib/i18n";
 import { useAuth } from "@/lib/auth";
 import { recordVisit } from "@/lib/visits";
-import { generateGuide, lookupGuide } from "@/lib/generatedGuides";
+import { cachedGuide, generateGuide, lookupGuide } from "@/lib/generatedGuides";
 import { OPTION_LABELS, topicsKey, type Preferences } from "@/lib/preferences";
 import { GuidePlayer, type Section } from "./GuidePlayer";
 import { FollowUpPanel } from "./FollowUpPanel";
@@ -47,10 +47,13 @@ export function PaintingDetail({
   const [expandToken, setExpandToken] = useState(0);
   const [listenedText, setListenedText] = useState("");
   // A generated guide, with the preferences it was written for.
-  const [custom, setCustom] = useState<{ text: string; summary: string } | null>(null);
+  const [custom, setCustom] = useState<{ text: string; summary: string } | null>(() => {
+    const text = preferences ? cachedGuide(museumId, work.id, language, preferences) : null;
+    return text && preferences ? { text, summary: prefsSummary(preferences) } : null;
+  });
   const [generating, setGenerating] = useState(false);
   const [genError, setGenError] = useState<string | null>(null);
-  const [customShown, setCustomShown] = useState(false);
+  const [customShown, setCustomShown] = useState(() => custom !== null);
 
   const guide = work.guide;
   const isSingle = "text" in guide;
@@ -98,8 +101,9 @@ export function PaintingDetail({
         setExpanded(false);
         setExpandToken(0);
       })
-      .catch(() => {
+      .catch((err) => {
         // Best effort: the visitor can still press the generate button.
+        console.warn("guide lookup failed:", err);
       });
     return () => {
       cancelled = true;

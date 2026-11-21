@@ -2,6 +2,17 @@ import { strings, type LanguageCode } from "./i18n";
 import type { Preferences } from "./preferences";
 import { supabase } from "./supabaseClient";
 
+/** Guides fetched or generated this session, so reopening a painting shows its guide immediately. */
+const sessionCache = new Map<string, string>();
+
+export function guideCacheKey(museumId: string, workId: string, language: LanguageCode, prefs: Preferences): string {
+  return JSON.stringify([museumId, workId, language, prefs.length, prefs.style, [...prefs.topics].sort()]);
+}
+
+export function cachedGuide(museumId: string, workId: string, language: LanguageCode, prefs: Preferences): string | null {
+  return sessionCache.get(guideCacheKey(museumId, workId, language, prefs)) ?? null;
+}
+
 /**
  * Asks the server for the guide matching the visitor's preferences. The server reuses the stored
  * text for a combination it has generated before and calls Claude only for a new one.
@@ -15,6 +26,7 @@ export async function generateGuide(
 ): Promise<string> {
   const text = await requestGuide(museumId, workId, language, prefs, false);
   if (!text) throw new Error(strings[language].errors.failed);
+  sessionCache.set(guideCacheKey(museumId, workId, language, prefs), text);
   return text;
 }
 
@@ -25,7 +37,9 @@ export async function lookupGuide(
   language: LanguageCode,
   prefs: Preferences,
 ): Promise<string | null> {
-  return requestGuide(museumId, workId, language, prefs, true);
+  const text = await requestGuide(museumId, workId, language, prefs, true);
+  if (text) sessionCache.set(guideCacheKey(museumId, workId, language, prefs), text);
+  return text;
 }
 
 async function requestGuide(
