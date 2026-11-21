@@ -12,7 +12,7 @@ const HEADERS: Record<string, string> = {
   moma: "MoMa_NY_USA_1.jpg",
   aic: "2014_Chicago_Art_Institute_02.jpg",
   louvre: "Louvre_Museum_Wikimedia_Commons.jpg",
-  orsay: "Musée_d'Orsay,_Paris,_from_Pont_Royal.jpg",
+  orsay: "Musée_d'Orsay,_North-West_view,_Paris_7e_140402.jpg",
   prado: "Museo_del_Prado_2016_(25185969599).jpg",
   "national-gallery-london": "Galería_Nacional,_Londres,_Inglaterra,_2014-08-07,_DD_036.JPG",
 };
