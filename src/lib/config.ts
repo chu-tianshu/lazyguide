@@ -21,5 +21,5 @@ export const limits = {
   historyTurnChars: 2_000,
 };
 
-/** Output budget for a generated guide, by requested length (Chinese needs more tokens per word). */
-export const guideMaxTokens = { short: 700, medium: 1400, long: 2600 } as const;
+/** Output budget for a generated guide, by requested length (Chinese needs more tokens per word; generous so a script is never cut off). */
+export const guideMaxTokens = { short: 1200, medium: 2500, long: 4500 } as const;

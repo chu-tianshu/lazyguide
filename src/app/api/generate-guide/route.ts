@@ -99,6 +99,8 @@ export async function POST(request: Request) {
     const message = await client.messages.create({
       model,
       max_tokens: guideMaxTokens[prefs.length],
+      // Thinking tokens count against max_tokens and the script is a writing task, so skip them.
+      thinking: { type: "disabled" },
       system: GUIDE_SYSTEM_PROMPT,
       messages: [
         {
