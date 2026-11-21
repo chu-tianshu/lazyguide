@@ -57,13 +57,18 @@ export function titleRank(title: string, query: string): number | undefined {
 export function pickTitleMatches(found: Found[], query: string, limit: number): Found[] {
   const seen = new Set<string>();
   return found
-    .map((f) => ({ f, rank: titleRank(f.title, query) ?? (f.subtitle ? titleRank(f.subtitle, query) : undefined) }))
-    .filter((x): x is { f: Found; rank: number } => {
+    .map((f) => {
+      // The title, or the other-language name the phrase matched. Ties go to the shorter matching name,
+      // which is the one closest to what was typed.
+      const field = titleRank(f.title, query) !== undefined ? f.title : f.subtitle;
+      return { f, rank: field ? titleRank(field, query) : undefined, len: field?.length ?? 0 };
+    })
+    .filter((x): x is { f: Found; rank: number; len: number } => {
       if (x.rank === undefined || seen.has(x.f.sourceId)) return false;
       seen.add(x.f.sourceId);
       return true;
     })
-    .sort((a, b) => a.rank - b.rank || a.f.title.length - b.f.title.length)
+    .sort((a, b) => a.rank - b.rank || a.len - b.len)
     .slice(0, limit)
     .map((x) => x.f);
 }

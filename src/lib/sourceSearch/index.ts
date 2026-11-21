@@ -20,8 +20,8 @@ const adapters: Record<SourceKind, Adapter> = {
 export const MAX_STORED = 3;
 
 const factLabels: Record<LanguageCode, Record<FactKey, string>> = {
-  en: { date: "Date", medium: "Medium", dimensions: "Size", culture: "Culture", type: "Type", accession: "Accession" },
-  zh: { date: "年代", medium: "材质", dimensions: "尺寸", culture: "文化", type: "类别", accession: "编号" },
+  en: { date: "Date", medium: "Medium", dimensions: "Size", culture: "Culture", type: "Type", accession: "Accession", location: "Location" },
+  zh: { date: "年代", medium: "材质", dimensions: "尺寸", culture: "文化", type: "类别", accession: "编号", location: "位置" },
 };
 
 export interface SourceResult {

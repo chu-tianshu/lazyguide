@@ -12,7 +12,7 @@ export interface MuseumSource {
   config: Record<string, unknown>;
 }
 
-export type FactKey = "date" | "medium" | "dimensions" | "culture" | "type" | "accession";
+export type FactKey = "date" | "medium" | "dimensions" | "culture" | "type" | "accession" | "location";
 
 /** One work a source returned, before it is shaped into a catalog row. */
 export interface Found {

@@ -94,7 +94,7 @@ export function PaintingDetail({
       <header className="detail-head">
         <h1>{work.title}</h1>
         {work.subtitle && (
-          <p className="native-title" lang="zh-Hans">
+          <p className="native-title" lang={/[\u3400-\u9fff]/.test(work.subtitle) ? "zh-Hans" : undefined}>
             {work.subtitle}
           </p>
         )}

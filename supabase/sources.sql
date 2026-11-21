@@ -8,6 +8,8 @@
 --   wikidata   Wikidata items held in the museum's collection (P195), with the Wikipedia article
 --              as text and a Wikimedia Commons image when its licence is public domain / CC0.
 --              config: { "collections": ["Q..."] } = the Wikidata items of the museum / its departments.
+--              Optional: "idProperty" (a property only this museum's objects carry; one query finds them all),
+--              "native" (language of the original titles), "enrich": "louvre" (official record: link + room).
 --
 -- Public read; written only from the dashboard.
 
@@ -44,8 +46,11 @@ insert into public.museum_sources (museum_id, kind, name, url, priority, config)
   ('seattle', 'wikidata', 'Wikidata and Wikipedia', 'https://www.wikidata.org', 0, '{"collections":["Q1816301"]}'),
   ('nga-dc', 'wikidata', 'Wikidata and Wikipedia', 'https://www.wikidata.org', 0, '{"collections":["Q214867"]}'),
   ('moma', 'wikidata', 'Wikidata and Wikipedia', 'https://www.wikidata.org', 0, '{"collections":["Q188740"]}'),
-  -- The Louvre's paintings are filed under the Department of Paintings, not the museum itself.
-  ('louvre', 'wikidata', 'Wikidata and Wikipedia', 'https://www.wikidata.org', 0, '{"collections":["Q19675","Q3044768"]}'),
+  -- The Louvre files its objects under its departments, so "idProperty" (P9394, the Louvre's own ARK id,
+  -- held by ~18,000 Wikidata items) finds them all in one query. "enrich" adds the official collections.louvre.fr
+  -- link and gallery room to each result; "native" is the language of the original titles.
+  ('louvre', 'wikidata', 'Wikidata, Wikipedia and the Louvre collections database', 'https://collections.louvre.fr', 0,
+   '{"collections":["Q19675"],"idProperty":"P9394","native":"fr","enrich":"louvre"}'),
   ('orsay', 'wikidata', 'Wikidata and Wikipedia', 'https://www.wikidata.org', 0, '{"collections":["Q23402"]}'),
   ('prado', 'wikidata', 'Wikidata and Wikipedia', 'https://www.wikidata.org', 0, '{"collections":["Q160112"]}'),
   ('national-gallery-london', 'wikidata', 'Wikidata and Wikipedia', 'https://www.wikidata.org', 0, '{"collections":["Q180788"]}')
