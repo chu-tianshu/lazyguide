@@ -99,8 +99,9 @@ export async function POST(request: Request) {
     const message = await client.messages.create({
       model,
       max_tokens: guideMaxTokens[prefs.length],
-      // Thinking tokens count against max_tokens and the script is a writing task, so skip them.
-      thinking: { type: "disabled" },
+      // Thinking tokens count against max_tokens and the script is a writing task, so turn thinking off
+      // (this model rejects "disabled" and asks for "between_tools", which only applies once tools are used).
+      thinking: { type: "between_tools" },
       system: GUIDE_SYSTEM_PROMPT,
       messages: [
         {
