@@ -38,7 +38,10 @@ export function GuidePlayer({
   language,
   onListenedChange,
   jumpTo,
+  autoPlay = false,
 }: {
+  /** Start speaking as soon as the player mounts. */
+  autoPlay?: boolean;
   sections: Section[];
   language: LanguageCode;
   /** Reports the text the visitor has heard so far (sentences up to the current one). */
@@ -130,6 +133,12 @@ export function GuidePlayer({
     },
     [flat, supported, t.speechLang],
   );
+
+  // Only read on mount; the player is remounted for new content.
+  useEffect(() => {
+    if (autoPlay) speakFrom(0, rate);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const togglePlay = () => {
     if (!supported) return;

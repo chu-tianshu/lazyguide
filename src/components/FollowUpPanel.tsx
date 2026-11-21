@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import { strings, type LanguageCode } from "@/lib/i18n";
+import { GuidePlayer } from "./GuidePlayer";
 
 interface Turn {
   question: string;
@@ -81,7 +82,11 @@ export function FollowUpPanel({
           {turns.map((turn, i) => (
             <li key={i}>
               <p className="turn-q">{turn.question}</p>
-              <p className="turn-a">{turn.answer}</p>
+              <GuidePlayer
+                sections={[{ text: turn.answer }]}
+                language={language}
+                autoPlay={i === turns.length - 1}
+              />
             </li>
           ))}
         </ol>
