@@ -44,3 +44,7 @@ create table if not exists public.generated_guides (
 alter table public.generated_guides enable row level security;
 
 grant select, insert, update on public.user_preferences to authenticated;
+
+-- Newer Supabase projects do not grant new tables to the API roles automatically.
+-- The server route reads and writes generated_guides with the service-role key.
+grant select, insert, update on public.generated_guides to service_role;
