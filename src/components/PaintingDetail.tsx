@@ -145,7 +145,9 @@ export function PaintingDetail({
               onListenedChange={setListenedText}
               jumpTo={expandToken ? { section: 1, token: expandToken } : undefined}
             />
-            {textCredit && isSingle && <p className="text-credit">{textCredit}</p>}
+            {isSingle && (guide.credit ?? textCredit) && (
+              <p className="text-credit">{guide.credit ?? textCredit}</p>
+            )}
             {effort === "low" && !expanded && (
               <button className="expand" onClick={expand}>
                 {t.expand}

@@ -143,6 +143,25 @@ button, input { font: inherit; color: inherit; }
 .meta dd { margin: 0.2rem 0 0; font-family: var(--serif); font-size: 1.05rem; }
 .object-link { margin: 0.75rem 0 0; font-size: 0.95rem; }
 .object-link a { color: var(--accent); }
+.online-search {
+  margin: 1.5rem 0 0;
+  padding: 1rem 1.1rem;
+  border-left: 3px solid var(--accent);
+  background: var(--accent-soft);
+}
+.online-search p { margin: 0 0 0.5rem; }
+.online-title { font-family: var(--serif); font-size: 1.1rem; }
+.online-button {
+  margin-top: 0.4rem;
+  padding: 0.6rem 1.1rem;
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--surface);
+  cursor: pointer;
+}
+.online-button:disabled { opacity: 0.6; cursor: progress; }
+
 .expand {
   margin-top: 1rem;
   padding: 0.6rem 1rem;

@@ -8,6 +8,13 @@ export interface Strings {
   searchLabel: string;
   searchPlaceholderTitleArtist: string;
   searchPlaceholderTitle: string;
+  noCachedMatch: (query: string) => string;
+  searchOffer: (sources: string) => string;
+  searchOnline: string;
+  searching: string;
+  searchNone: (query: string, sources: string) => string;
+  searchUnavailable: string;
+  searchNoSource: string;
   backToCollection: string;
   changeMuseum: string;
   audioGuide: string;
@@ -61,6 +68,13 @@ export const strings: Record<LanguageCode, Strings> = {
     searchLabel: "Search by title or artist",
     searchPlaceholderTitleArtist: "Search by title or artist",
     searchPlaceholderTitle: "Search by title",
+    noCachedMatch: (q) => `Nothing in the collection we have on hand matches “${q}”.`,
+    searchOffer: (s) => `We can look for it by title in ${s}. Matches are added to this collection.`,
+    searchOnline: "Search online",
+    searching: "Searching…",
+    searchNone: (q, s) => `No title in ${s} matches “${q}” either.`,
+    searchUnavailable: "The search couldn’t reach its sources just now. Please try again in a moment.",
+    searchNoSource: "There is no open online source for this museum to search.",
     backToCollection: "← Back to collection",
     changeMuseum: "← All museums",
     audioGuide: "Audio guide",
@@ -112,6 +126,13 @@ export const strings: Record<LanguageCode, Strings> = {
     searchLabel: "按名称搜索",
     searchPlaceholderTitleArtist: "按名称或艺术家搜索",
     searchPlaceholderTitle: "按名称搜索",
+    noCachedMatch: (q) => `目前已有的藏品中没有与“${q}”匹配的内容。`,
+    searchOffer: (s) => `我们可以在${s}中按名称查找，找到的展品会加入本藏品列表。`,
+    searchOnline: "在线搜索",
+    searching: "正在搜索…",
+    searchNone: (q, s) => `${s}中也没有与“${q}”匹配的名称。`,
+    searchUnavailable: "暂时无法连接搜索来源，请稍后再试。",
+    searchNoSource: "该博物馆暂无可供搜索的公开在线来源。",
     backToCollection: "← 返回展品列表",
     changeMuseum: "← 全部博物馆",
     audioGuide: "语音导览",

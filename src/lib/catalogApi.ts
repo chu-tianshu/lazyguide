@@ -110,6 +110,38 @@ export async function fetchWork(
   return { ...toSummary(row), guide: row.guide as Guide };
 }
 
+/** Names of the online sources a museum can be searched in (table museum_sources), best first. */
+export async function fetchSourceNames(museumId: string): Promise<string[]> {
+  const { data, error } = await db()
+    .from("museum_sources")
+    .select("name, priority")
+    .eq("museum_id", museumId)
+    .order("priority");
+  if (error) throw error;
+  return data.map((r) => r.name as string);
+}
+
+export type SourceSearch =
+  | { status: "found"; works: WorkSummary[]; source: string }
+  | { status: "none" | "unavailable" | "no-source" };
+
+/**
+ * Asks the server to look a title up in the museum's online sources. Matches are stored in the
+ * catalog by the server, so they are there for the next visitor too.
+ */
+export async function searchSources(museumId: string, language: LanguageCode, query: string): Promise<SourceSearch> {
+  const { data } = await db().auth.getSession();
+  const token = data.session?.access_token;
+  if (!token) throw new Error("Not signed in.");
+  const res = await fetch("/api/search-source", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+    body: JSON.stringify({ museumId, language, query }),
+  });
+  if (!res.ok) throw new Error(`search failed (${res.status})`);
+  return (await res.json()) as SourceSearch;
+}
+
 export async function fetchMuseumName(museumId: string, language: LanguageCode): Promise<string | undefined> {
   const { data, error } = await db()
     .from("catalogs")

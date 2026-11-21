@@ -18,6 +18,7 @@ npm run dev                  # http://localhost:3000
 | `ANTHROPIC_MODEL` | Claude model ID used by the API routes. |
 | `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL. |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anon key. Public; access is controlled by row-level security. |
+| `SUPABASE_SERVICE_ROLE_KEY` | Supabase service-role key (server-side only, never `NEXT_PUBLIC_`). Lets `/api/search-source` store works found online. |
 
 `GET /api/health` reports whether the API key is configured.
 
@@ -26,7 +27,7 @@ npm run dev                  # http://localhost:3000
 The catalog and visit history both live in Supabase Postgres, accessed from the browser under row-level security. Without the Supabase variables the sign-in gate cannot be passed.
 
 1. Create a Supabase project.
-2. In the SQL editor, run [`supabase/schema.sql`](supabase/schema.sql) (`visits`, `anonymous_logins`), [`supabase/catalog.sql`](supabase/catalog.sql) (`museums`, `catalogs`, `works`, public-read), then [`supabase/seed-all.sql`](supabase/seed-all.sql) (the whole catalog in one file).
+2. In the SQL editor, run [`supabase/schema.sql`](supabase/schema.sql) (`visits`, `anonymous_logins`), [`supabase/catalog.sql`](supabase/catalog.sql) (`museums`, `catalogs`, `works`, public-read), then [`supabase/seed-all.sql`](supabase/seed-all.sql) (the whole catalog in one file), then [`supabase/sources.sql`](supabase/sources.sql) (`museum_sources`, for online search).
 3. Authentication → Sign In / Providers: enable **Allow anonymous sign-ins** (needed for guest access).
 4. Enable the **Google** provider with an OAuth client from Google Cloud Console; its authorized redirect URI is `https://<project-ref>.supabase.co/auth/v1/callback`.
 5. Authentication → URL Configuration: allow `http://localhost:3000` and the production URL.
@@ -39,6 +40,10 @@ Guest sessions are counted in `anonymous_logins`: `select count(*) from anonymou
 Editable source is JSON in `supabase/data/` (`museums.json` plus `<museum>/<language>.json`). Regenerate the SQL with `node scripts/build-seed.mjs`, which writes `supabase/seed/*.sql` and the combined `supabase/seed-all.sql` (upserts, safe to re-run). The app reads the catalog through [`src/lib/catalogApi.ts`](src/lib/catalogApi.ts); guide texts are fetched when a work is opened.
 
 Preview images are in `public/images/<museum>/`, Public domain or CC0 only. Credits: [CREDITS.md](CREDITS.md).
+
+## Searching online
+
+When a search matches nothing in the cached catalog, the collection page offers to look the phrase up by title in the museum's online sources. Sources are rows of `museum_sources` ([`supabase/sources.sql`](supabase/sources.sql)), tried in priority order: the Cleveland Museum of Art Open Access API and the Art Institute of Chicago API where they exist, and Wikidata (items in the museum's collection) with the Wikipedia article as text and a public-domain Wikimedia Commons image for the rest. `/api/search-source` (signed-in users only) stores up to three title matches in `works` (ids `x-<source>-<id>`), so they are cached for everyone afterwards. The Deshou Palace museum has no source. Adapters: [`src/lib/sourceSearch/`](src/lib/sourceSearch/).
 
 ## Deploying
 

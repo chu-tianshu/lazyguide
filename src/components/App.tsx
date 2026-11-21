@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import type { Catalog, Work } from "@/data/catalog";
+import type { Catalog, Work, WorkSummary } from "@/data/catalog";
 import { languages } from "@/data/languages";
 import type { Museum } from "@/data/museums";
 import type { LanguageCode } from "@/lib/i18n";
@@ -113,7 +113,15 @@ function AppContent() {
     setLanguageCode(code);
   };
 
-  const chooseWork = (id: string | null) => {
+  // Works found by an online search join the list in place, so the page needs no reload.
+  const addWorks = (found: WorkSummary[]) =>
+    setCatalog((c) => {
+      if (!c) return c;
+      const have = new Set(c.works.map((w) => w.id));
+      return { ...c, works: [...c.works, ...found.filter((w) => !have.has(w.id))] };
+    });
+
+  const chooseWork =(id: string | null) => {
     setWork(null);
     setSelectedId(id);
   };
@@ -191,7 +199,7 @@ function AppContent() {
       <p className="muted">Loading…</p>
     );
   } else {
-    content = <CollectionPage catalog={catalog} onSelect={chooseWork} onChangeMuseum={reset} />;
+    content = <CollectionPage catalog={catalog} onSelect={chooseWork} onChangeMuseum={reset} onAddWorks={addWorks} />;
   }
 
   return (
