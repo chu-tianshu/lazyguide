@@ -116,15 +116,22 @@ export async function POST(request: Request) {
       ],
     });
     // A cut-off script would be stored and replayed to everyone, so treat it as a failure.
-    if (message.stop_reason === "max_tokens") throw new Error("truncated");
+    if (message.stop_reason === "max_tokens") throw new Error("the reply hit the token limit before finishing");
     text = message.content
       .flatMap((block) => (block.type === "text" ? [block.text] : []))
       .join("\n")
       .trim();
-    if (!text) throw new Error("empty");
+    if (!text) throw new Error("the model returned no text");
   } catch (err) {
-    console.error("generate-guide failed:", err instanceof Error ? err.message : "unknown");
-    return json({ error: e.failed }, 502);
+    // The reason is shown to the visitor too (it holds no keys or request text) so failures can be diagnosed.
+    const reason =
+      err instanceof Anthropic.APIError
+        ? `Claude API ${err.status ?? "error"}: ${err.message}`.slice(0, 300)
+        : err instanceof Error
+          ? err.message.slice(0, 300)
+          : "unknown error";
+    console.error("generate-guide failed:", reason);
+    return json({ error: `${e.failed} (${reason})` }, 502);
   }
 
   // A concurrent request for the same combination may have stored its text first; keep that one.
