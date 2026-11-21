@@ -186,7 +186,15 @@ function AppContent() {
   }
 
   if (showVisits) {
-    return <VisitsPage onBack={() => setShowVisits(false)} />;
+    return (
+      <VisitsPage
+        onBack={() => setShowVisits(false)}
+        onSelectMuseum={(id) => {
+          setShowVisits(false);
+          chooseMuseum(id);
+        }}
+      />
+    );
   }
 
   if (!museums) {

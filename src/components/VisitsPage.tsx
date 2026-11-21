@@ -32,7 +32,13 @@ function groupByMuseum(visits: Visit[], museums: Museum[]): MuseumVisit[] {
     .sort((a, b) => a.firstVisited.localeCompare(b.firstVisited));
 }
 
-export function VisitsPage({ onBack }: { onBack: () => void }) {
+export function VisitsPage({
+  onBack,
+  onSelectMuseum,
+}: {
+  onBack: () => void;
+  onSelectMuseum: (museumId: string) => void;
+}) {
   const { user, loading: authLoading } = useAuth();
   const [visits, setVisits] = useState<Visit[] | null>(null);
   const [museums, setMuseums] = useState<Museum[]>([]);
@@ -71,12 +77,14 @@ export function VisitsPage({ onBack }: { onBack: () => void }) {
       ) : (
         <ul className="visit-list">
           {grouped.map((m) => (
-            <li key={m.museumId} className="visit-item">
-              <span className="result-title">{m.name}</span>
-              <span className="result-meta">
-                {m.workCount} work{m.workCount === 1 ? "" : "s"} viewed · first visited{" "}
-                {new Date(m.firstVisited).toLocaleDateString()}
-              </span>
+            <li key={m.museumId}>
+              <button className="result visit-item" onClick={() => onSelectMuseum(m.museumId)}>
+                <span className="result-title">{m.name}</span>
+                <span className="result-meta">
+                  {m.workCount} work{m.workCount === 1 ? "" : "s"} viewed · first visited{" "}
+                  {new Date(m.firstVisited).toLocaleDateString()}
+                </span>
+              </button>
             </li>
           ))}
         </ul>

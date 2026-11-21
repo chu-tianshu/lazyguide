@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { searchWorks, type Catalog, type WorkSummary } from "@/data/catalog";
 import { fetchSourceNames, searchSources } from "@/lib/catalogApi";
 import { strings } from "@/lib/i18n";
+import { fetchVisits } from "@/lib/visits";
 import { museumHeader } from "@/data/museumImages";
 
 export function CollectionPage({
@@ -20,6 +21,19 @@ export function CollectionPage({
   const t = strings[catalog.language];
   const header = museumHeader(catalog.museumId);
   const [query, setQuery] = useState("");
+  // Works the signed-in visitor has already opened a guide for.
+  const [visited, setVisited] = useState<Set<string>>(new Set());
+  useEffect(() => {
+    let current = true;
+    fetchVisits().then(
+      (vs) =>
+        current && setVisited(new Set(vs.filter((v) => v.museumId === catalog.museumId).map((v) => v.workId))),
+      () => {},
+    );
+    return () => {
+      current = false;
+    };
+  }, [catalog.museumId]);
   const results = useMemo(() => searchWorks(catalog.works, query), [catalog.works, query]);
 
   // Online search, offered when the typed phrase matches nothing in the cached catalog.
@@ -132,7 +146,14 @@ export function CollectionPage({
               {group.works.map((w) => (
                 <li key={w.id}>
                   <button className="result" onClick={() => onSelect(w.id)}>
-                    <span className="result-title">{w.title}</span>
+                    <span className="result-title">
+                      {w.title}
+                      {visited.has(w.id) && (
+                        <span className="visited-mark" role="img" aria-label="Visited" title="Visited">
+                          ✓
+                        </span>
+                      )}
+                    </span>
                     <span className="result-meta">
                       {[w.artist, w.facts[0]?.value].filter(Boolean).join(" · ")}
                     </span>
