@@ -5,7 +5,7 @@ import type { Work } from "@/data/catalog";
 import { strings, type LanguageCode } from "@/lib/i18n";
 import { useAuth } from "@/lib/auth";
 import { recordVisit } from "@/lib/visits";
-import { generateGuide } from "@/lib/generatedGuides";
+import { generateGuide, lookupGuide } from "@/lib/generatedGuides";
 import { OPTION_LABELS, topicsKey, type Preferences } from "@/lib/preferences";
 import { GuidePlayer, type Section } from "./GuidePlayer";
 import { FollowUpPanel } from "./FollowUpPanel";
@@ -13,6 +13,14 @@ import { FollowUpPanel } from "./FollowUpPanel";
 type Effort = "low" | "high";
 /** "full" is a museum's own single text; it has no depths or expansion. */
 type Mode = Effort | "full" | "custom";
+
+function prefsSummary(p: Preferences): string {
+  return [
+    OPTION_LABELS.length[p.length].title,
+    OPTION_LABELS.style[p.style].title,
+    ...p.topics.map((x) => OPTION_LABELS.topic[x].title),
+  ].join(" · ");
+}
 
 export function PaintingDetail({
   work,
@@ -74,6 +82,31 @@ export function PaintingDetail({
     setExpandToken((n) => n + 1);
   };
 
+  const prefsKey = preferences
+    ? `${preferences.length}|${preferences.style}|${topicsKey(preferences.topics)}`
+    : null;
+
+  // If a guide was already generated for exactly these preferences, show it without a click.
+  useEffect(() => {
+    if (!preferences || !user) return;
+    let cancelled = false;
+    lookupGuide(museumId, work.id, language, preferences)
+      .then((text) => {
+        if (cancelled || !text) return;
+        setCustom({ text, summary: prefsSummary(preferences) });
+        setCustomShown(true);
+        setExpanded(false);
+        setExpandToken(0);
+      })
+      .catch(() => {
+        // Best effort: the visitor can still press the generate button.
+      });
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [prefsKey, museumId, work.id, language, user]);
+
   // Reuses the stored guide for the visitor's exact combination, or has one written.
   async function generate() {
     if (!preferences || generating) return;
@@ -81,12 +114,7 @@ export function PaintingDetail({
     setGenError(null);
     try {
       const text = await generateGuide(museumId, work.id, language, preferences);
-      const summary = [
-        OPTION_LABELS.length[preferences.length].title,
-        OPTION_LABELS.style[preferences.style].title,
-        ...preferences.topics.map((x) => OPTION_LABELS.topic[x].title),
-      ].join(" · ");
-      setCustom({ text, summary });
+      setCustom({ text, summary: prefsSummary(preferences) });
       setCustomShown(true);
       setExpanded(false);
       setExpandToken(0);

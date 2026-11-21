@@ -64,6 +64,8 @@ export async function POST(request: Request) {
   const found = await admin.from("generated_guides").select("body").match(match).maybeSingle();
   if (found.error) return json({ error: e.failed }, 502);
   if (found.data) return json({ text: found.data.body as string, cached: true });
+  // A lookup only reuses a stored guide; it never spends Claude credits.
+  if (b.lookupOnly === true) return json({ text: null, cached: false });
 
   let museumName: string | undefined;
   let work;
