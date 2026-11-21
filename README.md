@@ -27,7 +27,7 @@ npm run dev                  # http://localhost:3000
 The catalog and visit history both live in Supabase Postgres, accessed from the browser under row-level security. Without the Supabase variables the sign-in gate cannot be passed.
 
 1. Create a Supabase project.
-2. In the SQL editor, run [`supabase/schema.sql`](supabase/schema.sql) (`visits`, `anonymous_logins`), [`supabase/catalog.sql`](supabase/catalog.sql) (`museums`, `catalogs`, `works`, public-read), then [`supabase/seed-all.sql`](supabase/seed-all.sql) (the whole catalog in one file), then [`supabase/sources.sql`](supabase/sources.sql) (`museum_sources`, for online search).
+2. In the SQL editor, run [`supabase/schema.sql`](supabase/schema.sql) (`visits`, `anonymous_logins`), [`supabase/personalization.sql`](supabase/personalization.sql) (`user_preferences`, `generated_guides`), [`supabase/catalog.sql`](supabase/catalog.sql) (`museums`, `catalogs`, `works`, public-read), then [`supabase/seed-all.sql`](supabase/seed-all.sql) (the whole catalog in one file), then [`supabase/sources.sql`](supabase/sources.sql) (`museum_sources`, for online search).
 3. Authentication → Sign In / Providers: enable **Allow anonymous sign-ins** (needed for guest access).
 4. Enable the **Google** provider with an OAuth client from Google Cloud Console; its authorized redirect URI is `https://<project-ref>.supabase.co/auth/v1/callback`.
 5. Authentication → URL Configuration: allow `http://localhost:3000` and the production URL.
@@ -48,3 +48,7 @@ When a search matches nothing in the cached catalog, the collection page offers 
 ## Deploying
 
 Import the repo in Vercel (Next.js preset), add the environment variables above, and each push to `main` deploys to production.
+
+## Personalised guides
+
+On first sign-in a visitor chooses a length, a style and one or more topics (saved in `user_preferences`, editable under **Settings**). On a work's page, **Rewrite to my preferences** (or **Generate a guide for my preferences** when the work has no guide) calls `/api/generate-guide`, which has Claude write a script from the catalog facts plus the existing guide as reference. Each unique work + language + length + style + topic-set is generated once and stored in `generated_guides`; later requests for the same combination reuse the stored text. Needs `supabase/personalization.sql` run once, and the Anthropic and service-role env vars.

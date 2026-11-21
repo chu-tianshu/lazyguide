@@ -14,6 +14,8 @@ import { PaintingDetail } from "./PaintingDetail";
 import { UsFlag } from "./UsFlag";
 import { UserBar } from "./UserBar";
 import { VisitsPage } from "./VisitsPage";
+import { PreferencesPage } from "./PreferencesPage";
+import { fetchPreferences, type Preferences } from "@/lib/preferences";
 import { SignInGate } from "./SignInGate";
 import { AuthProvider, useAuth } from "@/lib/auth";
 
@@ -36,6 +38,9 @@ function AppContent() {
   const [languageCode, setLanguageCode] = useState<LanguageCode | null>(null);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [showVisits, setShowVisits] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
+  // undefined while loading; null once loaded with nothing saved (first login); "error" if the lookup failed.
+  const [prefs, setPrefs] = useState<Preferences | null | "error" | undefined>(undefined);
 
   // The catalog lives in Postgres. Each of these is null until its fetch returns.
   const [museums, setMuseums] = useState<Museum[] | null>(null);
@@ -52,6 +57,22 @@ function AppContent() {
     fetchMuseums().then(
       (list) => current && setMuseums(list),
       () => current && setLoadFailed(true),
+    );
+    return () => {
+      current = false;
+    };
+  }, [user]);
+
+  useEffect(() => {
+    if (!user) {
+      setPrefs(undefined);
+      return;
+    }
+    let current = true;
+    fetchPreferences().then(
+      (p) => current && setPrefs(p),
+      // The app stays usable without preferences; only personalised guides are unavailable.
+      () => current && setPrefs("error"),
     );
     return () => {
       current = false;
@@ -137,6 +158,33 @@ function AppContent() {
     );
   }
 
+  if (prefs === undefined) {
+    return (
+      <main className="shell" lang="en">
+        <p className="muted">Loading…</p>
+      </main>
+    );
+  }
+
+  // First login: ask once, before anything else.
+  if (prefs === null) {
+    return <PreferencesPage initial={null} onboarding onSaved={setPrefs} />;
+  }
+
+  if (showSettings) {
+    return (
+      <PreferencesPage
+        initial={prefs === "error" ? null : prefs}
+        onboarding={false}
+        onSaved={(p) => {
+          setPrefs(p);
+          setShowSettings(false);
+        }}
+        onBack={() => setShowSettings(false)}
+      />
+    );
+  }
+
   if (showVisits) {
     return <VisitsPage onBack={() => setShowVisits(false)} />;
   }
@@ -156,7 +204,7 @@ function AppContent() {
           <h1>Lazy Guide</h1>
           <p className="brand-tag">Audio guides, at your own pace</p>
         </header>
-        <UserBar onShowVisits={() => setShowVisits(true)} />
+        <UserBar onShowVisits={() => setShowVisits(true)} onShowSettings={() => setShowSettings(true)} />
         <MuseumMap museums={museums} onSelect={chooseMuseum} />
         <p className="map-hint">Zoom in to find a museum. Click its icon to see the name, then click the name to enter.</p>
       </main>
@@ -193,6 +241,8 @@ function AppContent() {
         museumId={museum.id}
         language={catalog.language}
         textCredit={catalog.textCredit}
+        preferences={prefs === "error" ? null : prefs}
+        onChangePreferences={() => setShowSettings(true)}
         onBack={() => chooseWork(null)}
       />
     ) : (

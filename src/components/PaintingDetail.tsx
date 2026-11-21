@@ -5,24 +5,31 @@ import type { Work } from "@/data/catalog";
 import { strings, type LanguageCode } from "@/lib/i18n";
 import { useAuth } from "@/lib/auth";
 import { recordVisit } from "@/lib/visits";
+import { generateGuide } from "@/lib/generatedGuides";
+import { OPTION_LABELS, topicsKey, type Preferences } from "@/lib/preferences";
 import { GuidePlayer, type Section } from "./GuidePlayer";
 import { FollowUpPanel } from "./FollowUpPanel";
 
 type Effort = "low" | "high";
 /** "full" is a museum's own single text; it has no depths or expansion. */
-type Mode = Effort | "full";
+type Mode = Effort | "full" | "custom";
 
 export function PaintingDetail({
   work,
   museumId,
   language,
   textCredit,
+  preferences,
+  onChangePreferences,
   onBack,
 }: {
   work: Work;
   museumId: string;
   language: LanguageCode;
   textCredit?: string;
+  /** The visitor's saved preferences; null when they could not be loaded. */
+  preferences: Preferences | null;
+  onChangePreferences: () => void;
   onBack: () => void;
 }) {
   const t = strings[language];
@@ -31,13 +38,19 @@ export function PaintingDetail({
   const [expanded, setExpanded] = useState(false);
   const [expandToken, setExpandToken] = useState(0);
   const [listenedText, setListenedText] = useState("");
+  // A generated guide, with the preferences it was written for.
+  const [custom, setCustom] = useState<{ text: string; summary: string } | null>(null);
+  const [generating, setGenerating] = useState(false);
+  const [genError, setGenError] = useState<string | null>(null);
+  const [customShown, setCustomShown] = useState(false);
 
   const guide = work.guide;
   const isSingle = "text" in guide;
   const unavailable = "unavailable" in guide && guide.unavailable === true;
-  const mode: Mode | null = isSingle ? "full" : effort;
+  const mode: Mode | null = customShown && custom ? "custom" : isSingle ? "full" : effort;
 
   const sections: Section[] | null = useMemo(() => {
+    if (customShown && custom) return [{ text: custom.text }];
     if (unavailable) return null;
     if ("text" in guide) return [{ text: guide.text }];
     if (effort === "high") return [{ text: guide.long }];
@@ -47,9 +60,10 @@ export function PaintingDetail({
       return list;
     }
     return null;
-  }, [effort, expanded, guide, unavailable, t.anotherAngle]);
+  }, [effort, expanded, guide, unavailable, t.anotherAngle, customShown, custom]);
 
   const chooseEffort = (next: Effort) => {
+    setCustomShown(false);
     setEffort(next);
     setExpanded(false);
     setExpandToken(0);
@@ -59,6 +73,29 @@ export function PaintingDetail({
     setExpanded(true);
     setExpandToken((n) => n + 1);
   };
+
+  // Reuses the stored guide for the visitor's exact combination, or has one written.
+  async function generate() {
+    if (!preferences || generating) return;
+    setGenerating(true);
+    setGenError(null);
+    try {
+      const text = await generateGuide(museumId, work.id, language, preferences);
+      const summary = [
+        OPTION_LABELS.length[preferences.length].title,
+        OPTION_LABELS.style[preferences.style].title,
+        ...preferences.topics.map((x) => OPTION_LABELS.topic[x].title),
+      ].join(" · ");
+      setCustom({ text, summary });
+      setCustomShown(true);
+      setExpanded(false);
+      setExpandToken(0);
+    } catch (err) {
+      setGenError(err instanceof Error ? err.message : t.errors.failed);
+    } finally {
+      setGenerating(false);
+    }
+  }
 
   // Counts as "visited" once the guide actually has something to show.
   useEffect(() => {
@@ -122,7 +159,7 @@ export function PaintingDetail({
 
       <section className="guide" aria-labelledby="guide-heading">
         <h2 id="guide-heading">{t.audioGuide}</h2>
-        {unavailable && <p className="muted">{t.guideUnavailable}</p>}
+        {unavailable && !custom && <p className="muted">{t.guideUnavailable}</p>}
         {!isSingle && (
         <div className="effort-choice" role="group" aria-label={t.guideDepth}>
           <button aria-pressed={effort === "low"} onClick={() => chooseEffort("low")}>
@@ -139,7 +176,7 @@ export function PaintingDetail({
         {sections && (
           <>
             <GuidePlayer
-              key={`${work.id}-${mode}`}
+              key={`${work.id}-${mode}-${mode === "custom" ? custom?.text.length : ""}`}
               sections={sections}
               language={language}
               onListenedChange={setListenedText}
@@ -148,16 +185,45 @@ export function PaintingDetail({
             {isSingle && (guide.credit ?? textCredit) && (
               <p className="text-credit">{guide.credit ?? textCredit}</p>
             )}
-            {effort === "low" && !expanded && (
+            {mode === "custom" && custom && <p className="text-credit">{t.yourGuideNote(custom.summary)}</p>}
+            {mode === "low" && !expanded && (
               <button className="expand" onClick={expand}>
                 {t.expand}
               </button>
             )}
           </>
         )}
+
+        {preferences && (
+          <div className="personal-guide">
+            <div className="personal-actions">
+              <button className="expand" onClick={generate} disabled={generating}>
+                {generating ? t.generating : unavailable ? t.generateGuide : t.rewriteGuide}
+              </button>
+              {custom && !unavailable && (
+                <button className="user-link" onClick={() => setCustomShown((v) => !v)}>
+                  {customShown ? t.showOriginal : t.showYours}
+                </button>
+              )}
+              <button className="user-link" onClick={onChangePreferences}>
+                {t.changePrefs}
+              </button>
+            </div>
+            {generating && (
+              <p className="muted" role="status">
+                {t.generatingNote}
+              </p>
+            )}
+            {genError && (
+              <p className="notice" role="alert">
+                {genError}
+              </p>
+            )}
+          </div>
+        )}
       </section>
 
-      {mode && !unavailable && (
+      {mode && (!unavailable || mode === "custom") && (
         <FollowUpPanel
           museumId={museumId}
           language={language}

@@ -3,7 +3,7 @@
 import { useAuth } from "@/lib/auth";
 
 /** Only ever rendered once AppContent has confirmed a user is signed in (Google or guest). */
-export function UserBar({ onShowVisits }: { onShowVisits: () => void }) {
+export function UserBar({ onShowVisits, onShowSettings }: { onShowVisits: () => void; onShowSettings: () => void }) {
   const { user, signOut } = useAuth();
   if (!user) return null;
 
@@ -19,6 +19,9 @@ export function UserBar({ onShowVisits }: { onShowVisits: () => void }) {
       <span className="user-name">{name}</span>
       <button className="user-link" onClick={onShowVisits}>
         My visits
+      </button>
+      <button className="user-link" onClick={onShowSettings}>
+        Settings
       </button>
       <button className="user-link" onClick={() => signOut()}>
         Sign out

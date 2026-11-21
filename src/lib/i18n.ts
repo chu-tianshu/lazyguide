@@ -43,6 +43,15 @@ export interface Strings {
   askPlaceholder: string;
   ask: string;
   thinking: string;
+  yourGuide: string;
+  generateGuide: string;
+  rewriteGuide: string;
+  generating: string;
+  generatingNote: string;
+  yourGuideNote: (summary: string) => string;
+  changePrefs: string;
+  showOriginal: string;
+  showYours: string;
   errors: {
     invalid: string;
     unknownWork: string;
@@ -55,6 +64,7 @@ export interface Strings {
     notConfigured: string;
     failed: string;
     network: string;
+    signIn: string;
   };
 }
 
@@ -104,6 +114,15 @@ export const strings: Record<LanguageCode, Strings> = {
     askPlaceholder: "Ask anything about this work",
     ask: "Ask",
     thinking: "Thinking…",
+    yourGuide: "Your guide",
+    generateGuide: "Generate a guide for my preferences",
+    rewriteGuide: "Rewrite to my preferences",
+    generating: "Writing your guide…",
+    generatingNote: "A new guide can take up to a minute.",
+    yourGuideNote: (x) => `Written for your preferences: ${x}.`,
+    changePrefs: "Change preferences",
+    showOriginal: "Show the original guide",
+    showYours: "Show my guide",
     errors: {
       invalid: "Invalid request.",
       unknownWork: "Unknown work.",
@@ -116,6 +135,7 @@ export const strings: Record<LanguageCode, Strings> = {
       notConfigured: "Follow-up questions aren’t set up yet on this server.",
       failed: "The guide couldn’t answer right now. Please try again.",
       network: "Couldn’t reach the guide. Check your connection and try again.",
+      signIn: "Please sign in first.",
     },
   },
   zh: {
@@ -161,6 +181,15 @@ export const strings: Record<LanguageCode, Strings> = {
     askPlaceholder: "关于这件展品，您想了解什么？",
     ask: "提问",
     thinking: "思考中…",
+    yourGuide: "为您定制的导览",
+    generateGuide: "按我的偏好生成导览",
+    rewriteGuide: "按我的偏好重写",
+    generating: "正在撰写您的导览…",
+    generatingNote: "生成新导览最多需要一分钟。",
+    yourGuideNote: (x) => `按您的偏好撰写：${x}。`,
+    changePrefs: "更改偏好",
+    showOriginal: "查看原版导览",
+    showYours: "查看我的导览",
     errors: {
       invalid: "请求无效。",
       unknownWork: "未找到该展品。",
@@ -173,6 +202,7 @@ export const strings: Record<LanguageCode, Strings> = {
       notConfigured: "该服务器尚未启用追问功能。",
       failed: "导览暂时无法回答，请稍后再试。",
       network: "无法连接导览服务，请检查网络后重试。",
+      signIn: "请先登录。",
     },
   },
 };
