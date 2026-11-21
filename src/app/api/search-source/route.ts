@@ -38,7 +38,8 @@ export async function POST(request: Request) {
   if (
     typeof b.museumId !== "string" ||
     !isLanguageCode(b.language) ||
-    query.length < 2 ||
+    // One character is a real title fragment in Chinese, but too broad in other scripts.
+    query.length < (/[㐀-鿿]/.test(query) ? 1 : 2) ||
     query.length > MAX_QUERY_CHARS
   ) {
     return json({ error: "invalid" }, 400);
