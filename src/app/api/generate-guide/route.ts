@@ -81,7 +81,17 @@ export async function POST(request: Request) {
   if (!apiKey || !model) return json({ error: e.notConfigured }, 503);
 
   const g = work.guide;
-  const reference = "unavailable" in g ? undefined : "text" in g ? g.text : g.long;
+  // Everything the existing guide says, so the model can reshape it rather than start from scratch.
+  const sourceGuide =
+    "unavailable" in g
+      ? []
+      : "text" in g
+        ? [{ text: g.text }]
+        : [
+            { label: "Detailed version", text: g.long },
+            { label: "Short version", text: g.short },
+            { label: "Another angle", text: g.expansion },
+          ];
 
   let text: string;
   try {
@@ -100,7 +110,7 @@ export async function POST(request: Request) {
             length: prefs.length,
             style: prefs.style,
             topics: prefs.topics,
-            reference,
+            sourceGuide,
           }),
         },
       ],
