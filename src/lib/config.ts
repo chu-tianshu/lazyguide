@@ -22,4 +22,4 @@ export const limits = {
 };
 
 /** Output budget for a generated guide, by requested length (Chinese needs more tokens per word; generous so a script is never cut off). */
-export const guideMaxTokens = { short: 1200, medium: 2500, long: 4500 } as const;
+export const guideMaxTokens = { short: 2000, medium: 4000, long: 8000 } as const;
