@@ -1,31 +1,15 @@
-import { timingSafeEqual } from "node:crypto";
-import type { Metadata } from "next";
-import { supabaseAdmin } from "@/lib/supabaseAdmin";
+"use client";
 
-export const dynamic = "force-dynamic";
-export const metadata: Metadata = { title: "LazyGuide analytics", robots: { index: false, follow: false } };
+import { useEffect, useState } from "react";
+import { AuthProvider, useAuth } from "@/lib/auth";
+import { supabase } from "@/lib/supabaseClient";
 
-interface Daily { day: string; active_users: number; plays: number; replays: number; questions: number }
-interface WorkStat {
-  museum_id: string; work_id: string; views: number; viewers: number;
-  plays: number; replays: number; completes: number; expands: number; questions: number;
-}
-interface UsageDaily { day: string; guide_generations: number; questions: number; tts_requests: number; audio_minutes: number }
-interface UsageTotal {
-  guide_generations: number; questions: number; tts_requests: number; audio_minutes: number;
-  tts_chars: number; input_tokens: number; output_tokens: number;
-}
-interface Summary {
-  total_users: number; dau: number; wau: number; mau: number;
-  work_views: number; plays: number; replays: number; completes: number; questions: number;
-}
-
-function authorized(key: string | undefined): boolean {
-  const expected = process.env.ADMIN_DASHBOARD_TOKEN;
-  if (!expected || !key) return false;
-  const a = Buffer.from(key);
-  const b = Buffer.from(expected);
-  return a.length === b.length && timingSafeEqual(a, b);
+type Row = { label: string; value: number; note?: string };
+interface Data {
+  summary: { total_users: number; dau: number; wau: number; mau: number; work_views: number; plays: number; replays: number; completes: number; questions: number };
+  usage: { guide_generations: number; questions: number; tts_requests: number; audio_minutes: number; tts_chars: number; input_tokens: number; output_tokens: number };
+  usageDaily: { label: string; audioMinutes: number; guides: number }[];
+  daily: Row[]; views: Row[]; replays: Row[]; questions: Row[]; museums: Row[]; completion: Row[];
 }
 
 function Bars({ rows, unit }: { rows: { label: string; value: number; note?: string }[]; unit: string }) {
@@ -64,50 +48,53 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   );
 }
 
-export default async function AnalyticsPage({ searchParams }: { searchParams: Promise<{ key?: string }> }) {
-  const { key } = await searchParams;
-  if (!authorized(key)) {
-    return <main style={{ padding: 32, fontFamily: "system-ui" }}><p>Not found.</p></main>;
+
+const shell: React.CSSProperties = { padding: 32, fontFamily: "system-ui, sans-serif" };
+
+function Dashboard() {
+  const { user, loading, signInWithGoogle, signOut } = useAuth();
+  const [data, setData] = useState<Data | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!user || !supabase) return;
+    let current = true;
+    (async () => {
+      const { data: session } = await supabase.auth.getSession();
+      const res = await fetch("/api/admin/analytics", {
+        headers: { Authorization: `Bearer ${session.session?.access_token ?? ""}` },
+      });
+      const json = await res.json().catch(() => ({}));
+      if (!current) return;
+      if (res.ok) setData(json as Data);
+      else setError((json as { error?: string }).error ?? "Failed to load.");
+    })();
+    return () => {
+      current = false;
+    };
+  }, [user]);
+
+  if (loading) return <main style={shell}>Loading…</main>;
+  if (!user) {
+    return (
+      <main style={shell}>
+        <p>Sign in to see the analytics.</p>
+        <button onClick={() => signInWithGoogle()}>Sign in with Google</button>
+        <p style={{ color: "#777", fontSize: 13 }}>You'll land on the home page after signing in; come back to this address.</p>
+      </main>
+    );
   }
-  const db = supabaseAdmin();
-  if (!db) return <main style={{ padding: 32, fontFamily: "system-ui" }}><p>Supabase service role is not configured.</p></main>;
-
-  const [summaryRes, dailyRes, worksRes, titlesRes, museumsRes, usageTotalRes, usageDailyRes] = await Promise.all([
-    db.from("analytics_summary").select("*").single(),
-    db.from("analytics_daily").select("*").order("day"),
-    db.from("analytics_works").select("*"),
-    db.from("works").select("museum_id, id, title").eq("language", "en"),
-    db.from("catalogs").select("museum_id, museum_name").eq("language", "en"),
-    db.from("analytics_usage_total").select("*").single(),
-    db.from("analytics_usage_daily").select("*").order("day"),
-  ]);
-  const err = summaryRes.error ?? dailyRes.error ?? worksRes.error ?? usageTotalRes.error ?? usageDailyRes.error;
-  if (err) {
-    return <main style={{ padding: 32, fontFamily: "system-ui" }}><p>Query failed: {err.message}. Has supabase/analytics.sql been run?</p></main>;
+  if (error) {
+    return (
+      <main style={shell}>
+        <p>{error}</p>
+        <button onClick={() => signOut()}>Sign out</button>
+      </main>
+    );
   }
+  if (!data) return <main style={shell}>Loading…</main>;
 
-  const s = summaryRes.data as Summary;
-  const u = usageTotalRes.data as UsageTotal;
-  const usageDaily = (usageDailyRes.data ?? []) as UsageDaily[];
-  const daily = (dailyRes.data ?? []) as Daily[];
-  const works = (worksRes.data ?? []) as WorkStat[];
-  const titles = new Map((titlesRes.data ?? []).map((w) => [`${w.museum_id}/${w.id}`, w.title as string]));
-  const museumNames = new Map((museumsRes.data ?? []).map((m) => [m.museum_id as string, m.museum_name as string]));
-  const nameOf = (w: WorkStat) => titles.get(`${w.museum_id}/${w.work_id}`) ?? `${w.museum_id}/${w.work_id}`;
-
-  const top = (f: (w: WorkStat) => number, n = 10) =>
-    [...works].sort((a, b) => f(b) - f(a)).filter((w) => f(w) > 0).slice(0, n)
-      .map((w) => ({ label: nameOf(w), value: f(w), note: museumNames.get(w.museum_id) }));
-
-  const byMuseum = new Map<string, number>();
-  for (const w of works) byMuseum.set(w.museum_id, (byMuseum.get(w.museum_id) ?? 0) + w.views);
-  const museumRows = [...byMuseum].sort((a, b) => b[1] - a[1]).map(([id, value]) => ({ label: museumNames.get(id) ?? id, value }));
-
-  const completion = works
-    .filter((w) => w.plays >= 3)
-    .map((w) => ({ label: nameOf(w), value: Math.round((w.completes / (w.plays + w.replays)) * 100), note: `${w.completes} completes` }))
-    .sort((a, b) => b.value - a.value).slice(0, 10);
-
+  const { summary: s, usage: u } = data;
   return (
     <main style={{ maxWidth: 900, margin: "0 auto", padding: "24px 20px 60px", fontFamily: "system-ui, sans-serif", color: "#222" }}>
       <h1 style={{ fontSize: 24 }}>LazyGuide analytics</h1>
@@ -134,20 +121,28 @@ export default async function AnalyticsPage({ searchParams }: { searchParams: Pr
       </div>
 
       <Section title="Audio generated per day (minutes, last 30 days)">
-        <Bars rows={usageDaily.map((d) => ({ label: d.day, value: Math.round(Number(d.audio_minutes) * 10) / 10 }))} unit="min" />
+        <Bars rows={data.usageDaily.map((d) => ({ label: d.label, value: d.audioMinutes }))} unit="min" />
       </Section>
       <Section title="Guides generated per day (last 30 days)">
-        <Bars rows={usageDaily.map((d) => ({ label: d.day, value: d.guide_generations }))} unit="guides" />
+        <Bars rows={data.usageDaily.map((d) => ({ label: d.label, value: d.guides }))} unit="guides" />
       </Section>
 
       <Section title="Daily active users (last 30 days)">
-        <Bars rows={daily.map((d) => ({ label: d.day, value: d.active_users }))} unit="users" />
+        <Bars rows={data.daily} unit="users" />
       </Section>
-      <Section title="Most viewed places"><Bars rows={top((w) => w.views)} unit="views" /></Section>
-      <Section title="Most replayed works"><Bars rows={top((w) => w.replays)} unit="replays" /></Section>
-      <Section title="Most questions asked"><Bars rows={top((w) => w.questions)} unit="asked" /></Section>
-      <Section title="Views by museum"><Bars rows={museumRows} unit="views" /></Section>
-      <Section title="Listen-through rate (works with 3+ plays)"><Bars rows={completion} unit="%" /></Section>
+      <Section title="Most viewed places"><Bars rows={data.views} unit="views" /></Section>
+      <Section title="Most replayed works"><Bars rows={data.replays} unit="replays" /></Section>
+      <Section title="Most questions asked"><Bars rows={data.questions} unit="asked" /></Section>
+      <Section title="Views by museum"><Bars rows={data.museums} unit="views" /></Section>
+      <Section title="Listen-through rate (works with 3+ plays)"><Bars rows={data.completion} unit="%" /></Section>
     </main>
+  );
+}
+
+export default function AnalyticsPage() {
+  return (
+    <AuthProvider>
+      <Dashboard />
+    </AuthProvider>
   );
 }
