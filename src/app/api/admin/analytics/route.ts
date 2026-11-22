@@ -31,7 +31,15 @@ export async function GET(request: Request) {
   if (!token) return Response.json({ error: "Sign in required." }, { status: 401 });
   const { data: auth } = await db.auth.getUser(token);
   const email = auth.user?.email?.toLowerCase();
-  if (!email || !allowedEmails().includes(email)) return Response.json({ error: "Not authorized." }, { status: 403 });
+  if (!email || !allowedEmails().includes(email)) {
+    // Shown only to the signed-in visitor about their own session, to make setup mistakes obvious.
+    const reason = !email
+      ? "You are signed in as a guest (no email). Sign out and use Google."
+      : allowedEmails().length === 0
+        ? `Signed in as ${email}, but ADMIN_EMAILS is not set on the server (or the site was not redeployed after setting it).`
+        : `Signed in as ${email}, which is not in ADMIN_EMAILS.`;
+    return Response.json({ error: `Not authorized. ${reason}` }, { status: 403 });
+  }
 
   const [summaryRes, dailyRes, worksRes, titlesRes, museumsRes, usageTotalRes, usageDailyRes] = await Promise.all([
     db.from("analytics_summary").select("*").single(),
