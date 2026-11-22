@@ -18,6 +18,7 @@ npm run dev                  # http://localhost:3000
 | `ANTHROPIC_MODEL` | Claude model ID used by the API routes. |
 | `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL. |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anon key. Public; access is controlled by row-level security. |
+| `OPENAI_API_KEY` | OpenAI key (server-side). Powers the natural guide voice (`gpt-4o-mini-tts`). Optional `OPENAI_TTS_VOICE` (default `coral`). Without it the app uses the browser voice. |
 | `SUPABASE_SERVICE_ROLE_KEY` | Supabase service-role key (server-side only, never `NEXT_PUBLIC_`). Lets `/api/search-source` store works found online. |
 
 `GET /api/health` reports whether the API key is configured.
@@ -52,3 +53,8 @@ Import the repo in Vercel (Next.js preset), add the environment variables above,
 ## Personalised guides
 
 On first sign-in a visitor chooses a language, a length, a style and one or more topics (saved in `user_preferences`, editable under **Settings**). On a work's page, **Rewrite to my preferences** (or **Generate a guide for my preferences** when the work has no guide) calls `/api/generate-guide`, which has Claude write a script from the catalog facts plus the existing guide as reference. Each unique work + language + length + style + topic-set is generated once and stored in `generated_guides`; later requests for the same combination reuse the stored text. Needs `supabase/personalization.sql` run once, and the Anthropic and service-role env vars.
+
+
+## Guide voice
+
+Playing a work requests audio one sentence at a time from `/api/tts` (signed-in users only), which generates it with OpenAI `gpt-4o-mini-tts` the first time and stores the MP3 in a public Supabase Storage bucket `tts` (created automatically), keyed by a hash of the text and voice. Nothing is generated until a visitor plays that work, and each sentence is generated once for everyone. If the service is unavailable the player falls back to the browser voice. Client: [`src/lib/tts.ts`](src/lib/tts.ts), [`GuidePlayer`](src/components/GuidePlayer.tsx).

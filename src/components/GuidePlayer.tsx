@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { chunkText } from "@/lib/speech";
+import { speechUrl } from "@/lib/tts";
 import { strings, type LanguageCode } from "@/lib/i18n";
 
 export interface Section {
@@ -10,6 +11,9 @@ export interface Section {
 }
 
 type Status = "idle" | "playing" | "paused" | "ended";
+// Tiny silent clip played inside a click so mobile browsers allow later, asynchronous playback.
+const SILENT =
+  "data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=";
 const RATES = [1, 1.5, 2] as const;
 type Rate = (typeof RATES)[number];
 
@@ -73,18 +77,97 @@ export function GuidePlayer({
   const runRef = useRef(0); // increments on every restart; stale callbacks check it
   const captionRefs = useRef<Array<HTMLSpanElement | null>>([]);
   const lastJump = useRef(0);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const aiFailed = useRef(false); // neural voice unavailable: use the browser voice from now on
+  const aiIndex = useRef(0); // sentence the audio element is on
 
   useEffect(() => {
     setSupported(typeof window !== "undefined" && "speechSynthesis" in window);
     return () => {
       runRef.current++;
+      audioRef.current?.pause();
       if ("speechSynthesis" in window) window.speechSynthesis.cancel();
     };
   }, []);
 
   const speakFrom = useCallback(
     (start: number, r: Rate, keepHeard = false) => {
-      if (!supported || flat.length === 0) return;
+      if (flat.length === 0) return;
+      if (!aiFailed.current) {
+        speakAi(start, r, keepHeard);
+        return;
+      }
+      speakBrowser(start, r, keepHeard);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [flat, supported, t.speechLang, language],
+  );
+
+  /** Neural voice: audio is requested one sentence at a time (the next is fetched while one plays). */
+  function speakAi(start: number, r: Rate, keepHeard: boolean) {
+    const audio = (audioRef.current ??= new Audio());
+    window.speechSynthesis?.cancel();
+    const runId = ++runRef.current;
+    const isCurrent = () => runId === runRef.current;
+
+    // Unlock playback within the user's click; the real sources are set once they arrive.
+    audio.src = SILENT;
+    audio.play().catch(() => {});
+
+    setNoVoice(false);
+    setStatus("playing");
+    setCurrent(start);
+    setWithin(0);
+    if (!keepHeard) setHeard(new Set());
+
+    const fail = (index: number) => {
+      if (!isCurrent()) return;
+      aiFailed.current = true;
+      audio.pause();
+      speakBrowser(index, r, true);
+    };
+
+    const playIndex = (index: number) => {
+      aiIndex.current = index;
+      speechUrl(flat[index].text, language).then(
+        (url) => {
+          if (!isCurrent()) return;
+          audio.src = url;
+          audio.playbackRate = r;
+          audio.onplay = () => {
+            if (!isCurrent()) return;
+            setCurrent(index);
+            setWithin(0);
+            setHeard((prev) => (prev.has(index) ? prev : new Set(prev).add(index)));
+          };
+          audio.ontimeupdate = () => {
+            if (isCurrent() && audio.duration) setWithin(Math.min(1, audio.currentTime / audio.duration));
+          };
+          audio.onended = () => {
+            if (!isCurrent()) return;
+            if (index === flat.length - 1) {
+              setStatus("ended");
+              setWithin(1);
+            } else {
+              playIndex(index + 1);
+            }
+          };
+          audio.onerror = () => fail(index);
+          audio.play().catch(() => {
+            // Blocked or failed to start: pause rather than skipping ahead.
+            if (isCurrent()) setStatus("paused");
+          });
+          if (index + 1 < flat.length) speechUrl(flat[index + 1].text, language).catch(() => {});
+        },
+        () => fail(index),
+      );
+    };
+    playIndex(start);
+  }
+
+  function speakBrowser(start: number, r: Rate, keepHeard: boolean) {
+    {
+      if (!supported) return;
       const synth = window.speechSynthesis;
       synth.cancel();
 
@@ -130,9 +213,8 @@ export function GuidePlayer({
         };
         synth.speak(utterance);
       }
-    },
-    [flat, supported, t.speechLang],
-  );
+    }
+  }
 
   // Only read on mount; the player is remounted for new content.
   useEffect(() => {
@@ -141,13 +223,19 @@ export function GuidePlayer({
   }, []);
 
   const togglePlay = () => {
-    if (!supported) return;
+    const ai = !aiFailed.current;
+    if (!ai && !supported) return;
     const synth = window.speechSynthesis;
     if (status === "playing") {
-      synth.pause();
+      if (ai) audioRef.current?.pause();
+      else synth.pause();
       setStatus("paused");
     } else if (status === "paused") {
-      synth.resume();
+      if (ai) {
+        const audio = audioRef.current;
+        if (audio?.src && audio.src !== SILENT) audio.play().catch(() => {});
+        else speakFrom(current, rate, true); // never got going (e.g. blocked autoplay)
+      } else synth.resume();
       setStatus("playing");
     } else {
       speakFrom(status === "ended" ? 0 : current, rate, status !== "ended");
@@ -158,6 +246,11 @@ export function GuidePlayer({
 
   const changeRate = (r: Rate) => {
     setRate(r);
+    if (!aiFailed.current) {
+      // Recorded audio can change speed on the fly.
+      if (audioRef.current) audioRef.current.playbackRate = r;
+      return;
+    }
     if (status === "playing" || status === "paused") {
       // Browsers cannot change the speed of a running utterance, so the
       // current sentence is re-spoken at the new speed.
