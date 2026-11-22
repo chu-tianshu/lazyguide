@@ -1,4 +1,5 @@
 /** Server-only: records paid-service usage (Claude calls, generated audio) in `usage_log`. Never throws. */
+import { track as vercelTrack } from "@vercel/analytics/server";
 import { supabaseAdmin } from "./supabaseAdmin";
 
 export interface UsageRow {
@@ -14,7 +15,23 @@ export interface UsageRow {
   audio_seconds?: number;
 }
 
+const EVENT_NAMES = { guide_generation: "guide_generated", question: "question_answered", tts: "audio_generated" } as const;
+
 export async function logUsage(row: UsageRow): Promise<void> {
+  // Also shows up under Events in the Vercel Analytics dashboard (custom events need a Pro plan).
+  try {
+    await vercelTrack(EVENT_NAMES[row.kind], {
+      language: row.language ?? null,
+      work: row.work_id ?? null,
+      model: row.model ?? null,
+      input_tokens: row.input_tokens ?? null,
+      output_tokens: row.output_tokens ?? null,
+      chars: row.chars ?? null,
+      audio_seconds: row.audio_seconds === undefined ? null : Math.round(row.audio_seconds),
+    });
+  } catch {
+    // Best effort.
+  }
   try {
     const admin = supabaseAdmin();
     if (!admin) return;
