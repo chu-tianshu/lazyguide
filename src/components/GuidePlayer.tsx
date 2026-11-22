@@ -1,5 +1,6 @@
 "use client";
 
+import { track } from "@/lib/analytics";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { chunkText } from "@/lib/speech";
 import { speechUrl } from "@/lib/tts";
@@ -43,11 +44,14 @@ export function GuidePlayer({
   onListenedChange,
   jumpTo,
   autoPlay = false,
+  track: trackWork,
 }: {
   /** Start speaking as soon as the player mounts. */
   autoPlay?: boolean;
   sections: Section[];
   language: LanguageCode;
+  /** When set, plays, replays and completions of this guide are logged as telemetry. */
+  track?: { museumId: string; workId: string };
   /** Reports the text the visitor has heard so far (sentences up to the current one). */
   onListenedChange?: (text: string) => void;
   /** Start playing from this section when `token` changes. */
@@ -79,6 +83,7 @@ export function GuidePlayer({
   const lastJump = useRef(0);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const aiFailed = useRef(false); // neural voice unavailable: use the browser voice from now on
+  const hasPlayed = useRef(false); // later starts from the top count as replays
   const aiIndex = useRef(0); // sentence the audio element is on
 
   useEffect(() => {
@@ -218,9 +223,24 @@ export function GuidePlayer({
 
   // Only read on mount; the player is remounted for new content.
   useEffect(() => {
-    if (autoPlay) speakFrom(0, rate);
+    if (autoPlay) {
+      logPlay(false);
+      speakFrom(0, rate);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const logPlay = (replay: boolean) => {
+    if (!trackWork) return;
+    track(replay || hasPlayed.current ? "replay" : "play", { ...trackWork, language });
+    hasPlayed.current = true;
+  };
+
+  useEffect(() => {
+    if (status === "ended" && trackWork) track("complete", { ...trackWork, language });
+    // Only the transition to "ended" matters.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [status]);
 
   const togglePlay = () => {
     const ai = !aiFailed.current;
@@ -238,11 +258,15 @@ export function GuidePlayer({
       } else synth.resume();
       setStatus("playing");
     } else {
+      if (status === "ended" || current === 0) logPlay(status === "ended");
       speakFrom(status === "ended" ? 0 : current, rate, status !== "ended");
     }
   };
 
-  const restart = () => speakFrom(0, rate);
+  const restart = () => {
+    logPlay(true);
+    speakFrom(0, rate);
+  };
 
   const changeRate = (r: Rate) => {
     setRate(r);

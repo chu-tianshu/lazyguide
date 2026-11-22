@@ -5,6 +5,7 @@ import type { Work } from "@/data/catalog";
 import { strings, type LanguageCode } from "@/lib/i18n";
 import { useAuth } from "@/lib/auth";
 import { recordVisit } from "@/lib/visits";
+import { track } from "@/lib/analytics";
 import { cachedGuide, generateGuide, lookupGuide } from "@/lib/generatedGuides";
 import { OPTION_LABELS, topicsKey, type Preferences } from "@/lib/preferences";
 import { GuidePlayer, type Section } from "./GuidePlayer";
@@ -81,6 +82,7 @@ export function PaintingDetail({
   };
 
   const expand = () => {
+    track("expand", { museumId, workId: work.id, language });
     setExpanded(true);
     setExpandToken((n) => n + 1);
   };
@@ -134,6 +136,12 @@ export function PaintingDetail({
     if (!sections || !user) return;
     recordVisit(museumId, work.id);
   }, [sections, user, museumId, work.id]);
+
+  useEffect(() => {
+    if (user) track("work_view", { museumId, workId: work.id, language });
+    // One view per time the work is opened.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user?.id, museumId, work.id]);
 
   return (
     <article>
@@ -211,6 +219,7 @@ export function PaintingDetail({
               key={`${work.id}-${mode}-${mode === "custom" ? custom?.text.length : ""}`}
               sections={sections}
               language={language}
+              track={{ museumId, workId: work.id }}
               onListenedChange={setListenedText}
               jumpTo={expandToken ? { section: 1, token: expandToken } : undefined}
             />
