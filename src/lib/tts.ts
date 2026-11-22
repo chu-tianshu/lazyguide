@@ -24,7 +24,7 @@ async function request(text: string, language: LanguageCode): Promise<string> {
   const token = data?.session?.access_token;
   if (!token) {
     console.warn("[LazyGuide] Natural voice needs a signed-in session. Using the browser voice.");
-    throw new Error("not signed in");
+    throw new Error("no signed-in session token");
   }
   const res = await fetch("/api/tts", {
     method: "POST",
@@ -34,7 +34,7 @@ async function request(text: string, language: LanguageCode): Promise<string> {
   if (!res.ok) {
     const body = (await res.json().catch(() => ({}))) as { error?: string; detail?: string };
     console.warn(`[LazyGuide] Natural voice unavailable (${res.status} ${body.error ?? ""}). ${body.detail ?? ""} Using the browser voice.`);
-    throw new Error(`tts failed (${res.status})`);
+    throw new Error(`/api/tts ${res.status}: ${body.error ?? ""} ${body.detail ?? ""}`.trim());
   }
   return ((await res.json()) as { url: string }).url;
 }
