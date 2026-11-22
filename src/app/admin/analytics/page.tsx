@@ -10,6 +10,11 @@ interface WorkStat {
   museum_id: string; work_id: string; views: number; viewers: number;
   plays: number; replays: number; completes: number; expands: number; questions: number;
 }
+interface UsageDaily { day: string; guide_generations: number; questions: number; tts_requests: number; audio_minutes: number }
+interface UsageTotal {
+  guide_generations: number; questions: number; tts_requests: number; audio_minutes: number;
+  tts_chars: number; input_tokens: number; output_tokens: number;
+}
 interface Summary {
   total_users: number; dau: number; wau: number; mau: number;
   work_views: number; plays: number; replays: number; completes: number; questions: number;
@@ -67,19 +72,23 @@ export default async function AnalyticsPage({ searchParams }: { searchParams: Pr
   const db = supabaseAdmin();
   if (!db) return <main style={{ padding: 32, fontFamily: "system-ui" }}><p>Supabase service role is not configured.</p></main>;
 
-  const [summaryRes, dailyRes, worksRes, titlesRes, museumsRes] = await Promise.all([
+  const [summaryRes, dailyRes, worksRes, titlesRes, museumsRes, usageTotalRes, usageDailyRes] = await Promise.all([
     db.from("analytics_summary").select("*").single(),
     db.from("analytics_daily").select("*").order("day"),
     db.from("analytics_works").select("*"),
     db.from("works").select("museum_id, id, title").eq("language", "en"),
     db.from("catalogs").select("museum_id, museum_name").eq("language", "en"),
+    db.from("analytics_usage_total").select("*").single(),
+    db.from("analytics_usage_daily").select("*").order("day"),
   ]);
-  const err = summaryRes.error ?? dailyRes.error ?? worksRes.error;
+  const err = summaryRes.error ?? dailyRes.error ?? worksRes.error ?? usageTotalRes.error ?? usageDailyRes.error;
   if (err) {
     return <main style={{ padding: 32, fontFamily: "system-ui" }}><p>Query failed: {err.message}. Has supabase/analytics.sql been run?</p></main>;
   }
 
   const s = summaryRes.data as Summary;
+  const u = usageTotalRes.data as UsageTotal;
+  const usageDaily = (usageDailyRes.data ?? []) as UsageDaily[];
   const daily = (dailyRes.data ?? []) as Daily[];
   const works = (worksRes.data ?? []) as WorkStat[];
   const titles = new Map((titlesRes.data ?? []).map((w) => [`${w.museum_id}/${w.id}`, w.title as string]));
@@ -113,6 +122,23 @@ export default async function AnalyticsPage({ searchParams }: { searchParams: Pr
         <Card label="Completions" value={s.completes} />
         <Card label="Questions" value={s.questions} />
       </div>
+
+      <h2 style={{ fontSize: 18, margin: "32px 0 12px" }}>Usage of paid services</h2>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
+        <Card label="Guides generated" value={u.guide_generations} />
+        <Card label="Questions answered" value={u.questions} />
+        <Card label="Audio generated (min)" value={Number(u.audio_minutes).toFixed(1)} />
+        <Card label="Voice requests" value={u.tts_requests} />
+        <Card label="Voice characters" value={u.tts_chars} />
+        <Card label="Claude tokens in / out" value={`${u.input_tokens} / ${u.output_tokens}`} />
+      </div>
+
+      <Section title="Audio generated per day (minutes, last 30 days)">
+        <Bars rows={usageDaily.map((d) => ({ label: d.day, value: Math.round(Number(d.audio_minutes) * 10) / 10 }))} unit="min" />
+      </Section>
+      <Section title="Guides generated per day (last 30 days)">
+        <Bars rows={usageDaily.map((d) => ({ label: d.day, value: d.guide_generations }))} unit="guides" />
+      </Section>
 
       <Section title="Daily active users (last 30 days)">
         <Bars rows={daily.map((d) => ({ label: d.day, value: d.active_users }))} unit="users" />

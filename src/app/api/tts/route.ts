@@ -1,6 +1,7 @@
 import { createHash } from "node:crypto";
 import { isLanguageCode } from "@/lib/i18n";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
+import { logUsage, mp3Seconds } from "@/lib/usageLog";
 
 export const dynamic = "force-dynamic";
 
@@ -62,5 +63,13 @@ export async function POST(request: Request) {
     up = await admin.storage.from(BUCKET).upload(path, audio, { contentType: "audio/mpeg", upsert: true });
   }
   if (up.error) return json({ error: "storage_failed" }, 502);
+  await logUsage({
+    kind: "tts",
+    user_id: auth.user.id,
+    language: raw?.language as string,
+    model: MODEL,
+    chars: text.length,
+    audio_seconds: mp3Seconds(audio, text),
+  });
   return json({ url: publicUrl() });
 }

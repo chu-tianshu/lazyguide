@@ -5,6 +5,7 @@ import { isLanguageCode, strings } from "@/lib/i18n";
 import { GUIDE_SYSTEM_PROMPT, buildGuideMessage } from "@/lib/prompts";
 import { isPreferences, topicsKey, type Preferences } from "@/lib/preferences";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
+import { logUsage } from "@/lib/usageLog";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 60;
@@ -96,6 +97,7 @@ export async function POST(request: Request) {
           ];
 
   let text: string;
+  let tokens = { input: 0, output: 0 };
   try {
     const client = new Anthropic({ apiKey, timeout: 55_000, maxRetries: 0 });
     const message = await client.messages.create({
@@ -127,6 +129,7 @@ export async function POST(request: Request) {
       .join("\n")
       .trim();
     if (!text) throw new Error("the model returned no text");
+    tokens = { input: message.usage.input_tokens, output: message.usage.output_tokens };
   } catch (err) {
     // The reason is shown to the visitor too (it holds no keys or request text) so failures can be diagnosed.
     const reason =
@@ -138,6 +141,17 @@ export async function POST(request: Request) {
     console.error("generate-guide failed:", reason);
     return json({ error: `${e.failed} (${reason})` }, 502);
   }
+
+  await logUsage({
+    kind: "guide_generation",
+    user_id: auth.user.id,
+    museum_id: museumId,
+    work_id: workId,
+    language,
+    model,
+    input_tokens: tokens.input,
+    output_tokens: tokens.output,
+  });
 
   // A concurrent request for the same combination may have stored its text first; keep that one.
   const stored = await admin

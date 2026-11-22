@@ -63,3 +63,52 @@ from public.events;
 
 revoke all on public.analytics_daily, public.analytics_works, public.analytics_summary from anon, authenticated;
 grant select on public.analytics_daily, public.analytics_works, public.analytics_summary to service_role;
+
+-- ---------------------------------------------------------------------------------------------
+-- Usage of paid services, written by the API routes with the service-role key (no client access).
+-- One row per real generation: cached guides and cached audio are not logged.
+create table if not exists public.usage_log (
+  id bigint generated always as identity primary key,
+  created_at timestamptz not null default now(),
+  user_id uuid references auth.users (id) on delete set null,
+  kind text not null check (kind in ('guide_generation', 'question', 'tts')),
+  museum_id text,
+  work_id text,
+  language text,
+  model text,
+  input_tokens integer,   -- Claude calls
+  output_tokens integer,  -- Claude calls
+  chars integer,          -- tts: characters sent to the voice model
+  audio_seconds real      -- tts: length of the audio produced
+);
+
+create index if not exists usage_log_created_idx on public.usage_log (created_at);
+
+alter table public.usage_log enable row level security;
+grant select, insert on public.usage_log to service_role;
+grant usage, select on sequence public.usage_log_id_seq to service_role;
+
+create or replace view public.analytics_usage_daily with (security_invoker = true) as
+select (created_at at time zone 'utc')::date as day,
+       count(*) filter (where kind = 'guide_generation') as guide_generations,
+       count(*) filter (where kind = 'question') as questions,
+       count(*) filter (where kind = 'tts') as tts_requests,
+       coalesce(sum(audio_seconds) filter (where kind = 'tts'), 0) / 60.0 as audio_minutes,
+       coalesce(sum(input_tokens), 0) as input_tokens,
+       coalesce(sum(output_tokens), 0) as output_tokens
+from public.usage_log
+where created_at > now() - interval '30 days'
+group by 1;
+
+create or replace view public.analytics_usage_total with (security_invoker = true) as
+select count(*) filter (where kind = 'guide_generation') as guide_generations,
+       count(*) filter (where kind = 'question') as questions,
+       count(*) filter (where kind = 'tts') as tts_requests,
+       coalesce(sum(audio_seconds) filter (where kind = 'tts'), 0) / 60.0 as audio_minutes,
+       coalesce(sum(chars) filter (where kind = 'tts'), 0) as tts_chars,
+       coalesce(sum(input_tokens), 0) as input_tokens,
+       coalesce(sum(output_tokens), 0) as output_tokens
+from public.usage_log;
+
+revoke all on public.analytics_usage_daily, public.analytics_usage_total from anon, authenticated;
+grant select on public.analytics_usage_daily, public.analytics_usage_total to service_role;

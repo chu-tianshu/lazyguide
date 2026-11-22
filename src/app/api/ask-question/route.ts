@@ -2,6 +2,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import { fetchMuseumName, fetchWork } from "@/lib/catalogApi";
 import { claudeConfig, limits } from "@/lib/config";
 import { isLanguageCode, strings, type LanguageCode } from "@/lib/i18n";
+import { logUsage } from "@/lib/usageLog";
 import { SYSTEM_PROMPT, buildUserMessage } from "@/lib/prompts";
 
 export const dynamic = "force-dynamic";
@@ -145,6 +146,15 @@ export async function POST(request: Request) {
       .trim();
     if (!answer) throw new Error("empty answer");
 
+    await logUsage({
+      kind: "question",
+      museum_id: body.museumId,
+      work_id: body.workId,
+      language: body.language,
+      model,
+      input_tokens: message.usage.input_tokens,
+      output_tokens: message.usage.output_tokens,
+    });
     return json({ answer });
   } catch (err) {
     // Log only the error type; never the request, key, or provider body.
