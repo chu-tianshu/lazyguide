@@ -42,6 +42,8 @@ grant select on public.museum_sources to anon, authenticated;
 grant usage on schema public to service_role;
 grant select on public.museums, public.catalogs, public.museum_sources to service_role;
 grant select, insert on public.works to service_role;
+-- New categories found by a search are appended to the catalog's list.
+grant update (categories) on public.catalogs to service_role;
 
 insert into public.museum_sources (museum_id, kind, name, url, priority, config) values
   ('cleveland', 'cleveland', 'Cleveland Museum of Art Open Access', 'https://openaccess-api.clevelandart.org', 0, '{}'),

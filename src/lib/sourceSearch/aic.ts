@@ -11,6 +11,7 @@ interface AicWork {
   dimensions?: string | null;
   place_of_origin?: string | null;
   classification_title?: string | null;
+  department_title?: string | null;
   main_reference_number?: string | null;
   is_public_domain?: boolean;
   image_id?: string | null;
@@ -20,7 +21,7 @@ interface AicWork {
 
 const FIELDS = [
   "id", "title", "artist_display", "date_display", "medium_display", "dimensions", "place_of_origin",
-  "classification_title", "main_reference_number", "is_public_domain", "image_id", "description",
+  "classification_title", "department_title", "main_reference_number", "is_public_domain", "image_id", "description",
   "short_description",
 ].join(",");
 
@@ -45,6 +46,7 @@ export const searchAic: Adapter = async ({ query, source }) => {
     return {
       sourceId: String(w.id),
       title: w.title,
+      category: w.department_title || undefined,
       artist: w.artist_display?.replace(/\s*\n\s*/g, " ") || undefined,
       facts,
       objectUrl: page,

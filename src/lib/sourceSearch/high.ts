@@ -113,6 +113,7 @@ export const searchHigh: Adapter = async ({ query, language, source }) => {
     return {
       sourceId: String(r.id),
       title: text(r.title.rendered),
+      category: line(a.classification) || undefined,
       artist: artistLine(a, list),
       facts,
       objectUrl: r.link,

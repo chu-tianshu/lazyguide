@@ -78,12 +78,23 @@ export function CollectionPage({
 
   // Works grouped under their category, in the catalog's order. Empty groups are hidden.
   const groups = useMemo(() => {
-    const named = catalog.categories
+    // Categories that came with newly searched works are listed after the catalog's own.
+    const all = [...catalog.categories];
+    for (const w of catalog.works) if (w.category && !all.includes(w.category)) all.push(w.category);
+    const named = all
       .map((name) => ({ name, works: results.filter((w) => w.category === name) }))
       .filter((g) => g.works.length > 0);
-    const uncategorized = results.filter((w) => !w.category || !catalog.categories.includes(w.category));
+    const uncategorized = results.filter((w) => !w.category);
     return uncategorized.length ? [...named, { name: "", works: uncategorized }] : named;
-  }, [catalog.categories, results]);
+  }, [catalog.categories, catalog.works, results]);
+  // Categories are collapsed until clicked; a search shows its matches expanded.
+  const [open, setOpen] = useState<Set<string>>(new Set());
+  const toggle = (name: string) =>
+    setOpen((prev) => {
+      const next = new Set(prev);
+      if (!next.delete(name)) next.add(name);
+      return next;
+    });
   const hasArtists = catalog.works.some((w) => w.artist);
   const placeholder = hasArtists ? t.searchPlaceholderTitleArtist : t.searchPlaceholderTitle;
 
@@ -145,10 +156,19 @@ export function CollectionPage({
           <div className="category" key={group.name || "other"}>
             {group.name && (
               <h3 className="category-heading">
-                {group.name} <span className="category-count">{group.works.length}</span>
+                <button
+                  className="category-toggle"
+                  aria-expanded={open.has(group.name) || !!phrase}
+                  onClick={() => toggle(group.name)}
+                >
+                  <span className="category-chevron" aria-hidden="true">
+                    {open.has(group.name) || phrase ? "▾" : "▸"}
+                  </span>
+                  {group.name} <span className="category-count">{group.works.length}</span>
+                </button>
               </h3>
             )}
-            <ul className="results">
+            {(!group.name || open.has(group.name) || phrase) && <ul className="results">
               {group.works.map((w) => (
                 <li key={w.id}>
                   <button className="result" onClick={() => onSelect(w.id)}>
@@ -166,7 +186,7 @@ export function CollectionPage({
                   </button>
                 </li>
               ))}
-            </ul>
+            </ul>}
           </div>
         ))}
       </section>

@@ -60,7 +60,13 @@ export async function searchSources(
 }
 
 /** The fields of a `works` row for a found work (position is set by the caller). */
-export function toWorkRow(f: Found, source: MuseumSource, museumId: string, language: LanguageCode) {
+export function toWorkRow(
+  f: Found,
+  source: MuseumSource,
+  museumId: string,
+  language: LanguageCode,
+  category: string | null = null,
+) {
   const facts: Fact[] = f.facts.map((x) => ({ label: factLabels[language][x.key], value: x.value }));
   const guide: SingleGuide & { credit?: string } = f.text
     ? { text: f.text, credit: f.textCredit }
@@ -70,7 +76,7 @@ export function toWorkRow(f: Found, source: MuseumSource, museumId: string, lang
     language,
     id: `x-${source.kind}-${f.sourceId}`,
     title: f.title,
-    category: null,
+    category,
     subtitle: f.subtitle ?? null,
     artist: f.artist ?? null,
     facts,
@@ -78,4 +84,24 @@ export function toWorkRow(f: Found, source: MuseumSource, museumId: string, lang
     image: f.image ?? null,
     guide,
   };
+}
+
+/**
+ * Files a source's category under one of the museum's existing categories (same name, ignoring case and
+ * punctuation, or one name containing the other), or returns the source's own name as a new category.
+ * Null when the source gave none, so the work stays uncategorized.
+ */
+export function resolveCategory(sourceCategory: string | undefined, existing: string[]): string | null {
+  const raw = sourceCategory?.trim();
+  if (!raw) return null;
+  const norm = (s: string) => s.toLowerCase().replace(/&/g, " and ").replace(/[^\p{L}\p{N}]+/gu, " ").trim();
+  const n = norm(raw);
+  if (!n) return null;
+  const exact = existing.find((c) => norm(c) === n);
+  if (exact) return exact;
+  const loose = existing.find((c) => {
+    const m = norm(c);
+    return m.length >= 4 && (m.includes(n) || n.includes(m));
+  });
+  return loose ?? raw;
 }

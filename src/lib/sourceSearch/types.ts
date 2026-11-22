@@ -22,6 +22,8 @@ export interface Found {
   subtitle?: string;
   artist?: string;
   facts: { key: FactKey; value: string }[];
+  /** The museum source's own department / classification for the work; undefined when the source has none. */
+  category?: string;
   /** The museum's own page for the work. */
   objectUrl?: string;
   /** Only when the licence allows reuse (public domain / CC0). */

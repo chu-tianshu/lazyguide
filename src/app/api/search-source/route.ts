@@ -1,6 +1,6 @@
 import type { WorkSummary } from "@/data/catalog";
 import { isLanguageCode } from "@/lib/i18n";
-import { searchSources, toWorkRow } from "@/lib/sourceSearch";
+import { resolveCategory, searchSources, toWorkRow } from "@/lib/sourceSearch";
 import type { MuseumSource } from "@/lib/sourceSearch/types";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
@@ -47,7 +47,7 @@ export async function POST(request: Request) {
   const { museumId, language } = b;
 
   const [catalog, sourceRows] = await Promise.all([
-    admin.from("catalogs").select("museum_id").eq("museum_id", museumId).eq("language", language).maybeSingle(),
+    admin.from("catalogs").select("museum_id, categories").eq("museum_id", museumId).eq("language", language).maybeSingle(),
     admin.from("museum_sources").select("kind, name, url, priority, config").eq("museum_id", museumId),
   ]);
   if (catalog.error || sourceRows.error) return json({ error: "failed" }, 502);
@@ -62,7 +62,13 @@ export async function POST(request: Request) {
   }
   const source = result.source!;
 
-  const rows = result.found.map((f) => toWorkRow(f, source, museumId, language));
+  // Categories come from the source itself: filed under an existing one where it matches, else a new one.
+  const categories: string[] = [...((catalog.data.categories as string[] | null) ?? [])];
+  const rows = result.found.map((f) => {
+    const category = resolveCategory(f.category, categories);
+    if (category && !categories.includes(category)) categories.push(category);
+    return toWorkRow(f, source, museumId, language, category);
+  });
   const existing = await admin
     .from("works")
     .select("id")
@@ -96,9 +102,17 @@ export async function POST(request: Request) {
     }
   }
 
+  const added = categories.length - ((catalog.data.categories as string[] | null)?.length ?? 0);
+  if (added > 0) {
+    // Only the new names are appended; a failure here leaves the works in place (the page lists unknown categories itself).
+    const { error } = await admin.from("catalogs").update({ categories }).eq("museum_id", museumId).eq("language", language);
+    if (error) console.error("storing new categories failed:", error.code);
+  }
+
   const works: WorkSummary[] = rows.map((r) => ({
     id: r.id,
     title: r.title,
+    category: r.category ?? undefined,
     subtitle: r.subtitle ?? undefined,
     artist: r.artist ?? undefined,
     facts: r.facts,

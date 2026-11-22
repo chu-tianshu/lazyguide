@@ -9,6 +9,7 @@ interface ClevelandWork {
   creation_date?: string;
   technique?: string;
   type?: string;
+  department?: string;
   culture?: string[];
   measurements?: string;
   description?: string | null;
@@ -40,6 +41,7 @@ export const searchCleveland: Adapter = async ({ query, source }) => {
     return {
       sourceId: String(w.id),
       title: w.title,
+      category: w.department || undefined,
       artist: w.creators?.[0]?.description,
       facts,
       objectUrl: w.url,
