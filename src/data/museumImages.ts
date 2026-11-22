@@ -7,6 +7,7 @@ const HEADERS: Record<string, string> = {
   henan: "20210220_Henan_Museum_-_main_hall_01.jpg",
   cleveland: "Cleveland_Museum_of_Art_(8687300870).jpg",
   deshou: "20240109_Nan_Song_Deshou_Gong_Yizhi_Bowuguan_(113510).jpg",
+  "king-center": "Martin_Luther_King_Jr._National_Historic_Site_August_2016_23_(The_King_Center_-_Reflecting_Pool).jpg",
   seattle: "Seattle_Art_Museum_03.jpg",
   "nga-dc": "National_Gallery_of_Art_-_2026_(55255088792).jpg",
   moma: "MoMa_NY_USA_1.jpg",

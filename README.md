@@ -1,6 +1,6 @@
 # LazyGuide
 
-Prototype web audio guide for art and history museums: High Museum of Art, Henan Museum, Southern Song Deshou Palace Site Museum and Cleveland Museum of Art have guide texts (English and/or Chinese); eight more art museums (Seattle, National Gallery of Art, MoMA, Art Institute of Chicago, Louvre, Orsay, Prado, National Gallery London) have catalog metadata and images only. See [design.md](design.md) for design notes.
+Prototype web audio guide for art and history museums: High Museum of Art, Henan Museum, Southern Song Deshou Palace Site Museum, Cleveland Museum of Art and The King Center & King Birth Home (Atlanta) have guide texts (English and/or Chinese); eight more art museums (Seattle, National Gallery of Art, MoMA, Art Institute of Chicago, Louvre, Orsay, Prado, National Gallery London) have catalog metadata and images only. See [design.md](design.md) for design notes.
 
 **Features:** world map and museum selection (language is a per-user setting), search, pre-written guides with a speech player (progress, captions, speed), follow-up questions answered by Claude, and a sign-in gate (Google or guest) with a "My visits" history.
 

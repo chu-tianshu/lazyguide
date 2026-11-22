@@ -68,3 +68,4 @@ insert into public.museum_sources (museum_id, kind, name, url, priority, config)
 on conflict (museum_id, kind) do update set
   name = excluded.name, url = excluded.url, priority = excluded.priority, config = excluded.config;
 -- deshou has no source: neither an open API nor Wikidata coverage was found.
+-- king-center has no source either: it is a historic site, not a collection.
