@@ -23,7 +23,10 @@ function json(body: unknown, status = 200) {
 export async function POST(request: Request) {
   const admin = supabaseAdmin();
   const apiKey = process.env.OPENAI_API_KEY;
-  if (!admin || !apiKey) return json({ error: "unavailable" }, 503);
+  if (!admin || !apiKey) {
+    const missing = [!apiKey && "OPENAI_API_KEY", !admin && "SUPABASE_SERVICE_ROLE_KEY / NEXT_PUBLIC_SUPABASE_URL"].filter(Boolean);
+    return json({ error: "unavailable", detail: `Missing server env: ${missing.join(", ")}` }, 503);
+  }
 
   const token = request.headers.get("authorization")?.replace(/^Bearer\s+/i, "");
   if (!token) return json({ error: "unauthorized" }, 401);

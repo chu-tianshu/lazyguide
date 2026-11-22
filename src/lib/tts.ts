@@ -22,12 +22,19 @@ export function speechUrl(text: string, language: LanguageCode): Promise<string>
 async function request(text: string, language: LanguageCode): Promise<string> {
   const { data } = (await supabase?.auth.getSession()) ?? { data: undefined };
   const token = data?.session?.access_token;
-  if (!token) throw new Error("not signed in");
+  if (!token) {
+    console.warn("[LazyGuide] Natural voice needs a signed-in session. Using the browser voice.");
+    throw new Error("not signed in");
+  }
   const res = await fetch("/api/tts", {
     method: "POST",
     headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
     body: JSON.stringify({ text, language }),
   });
-  if (!res.ok) throw new Error(`tts failed (${res.status})`);
+  if (!res.ok) {
+    const body = (await res.json().catch(() => ({}))) as { error?: string; detail?: string };
+    console.warn(`[LazyGuide] Natural voice unavailable (${res.status} ${body.error ?? ""}). ${body.detail ?? ""} Using the browser voice.`);
+    throw new Error(`tts failed (${res.status})`);
+  }
   return ((await res.json()) as { url: string }).url;
 }
