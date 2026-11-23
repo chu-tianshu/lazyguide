@@ -487,6 +487,9 @@ button, input { font: inherit; color: inherit; }
 .pref-save:disabled { opacity: 0.6; cursor: not-allowed; }
 .personal-guide { margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--line); }
 .personal-guide h3 { margin: 0 0 0.5rem; }
+.invite-note { margin: 0 0 0.75rem; font-size: 1.05rem; }
+.personal-guide.invite { padding: 1.1rem; border: 1px solid var(--line); border-radius: 12px; background: rgba(127, 127, 127, 0.07); }
+.personal-guide.invite .expand { font-size: 1.05rem; }
 .personal-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
 .personal-actions .expand { margin-top: 0; }
 .personal-actions .expand:disabled { opacity: 0.6; cursor: progress; }

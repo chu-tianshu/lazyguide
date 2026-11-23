@@ -199,7 +199,7 @@ export function PaintingDetail({
 
       <section className="guide" aria-labelledby="guide-heading">
         <h2 id="guide-heading">{t.audioGuide}</h2>
-        {unavailable && !custom && <p className="muted">{t.guideUnavailable}</p>}
+        {unavailable && !custom && <p className="invite-note">{t.guideUnavailable}</p>}
         {!isSingle && (
         <div className="effort-choice" role="group" aria-label={t.guideDepth}>
           <button aria-pressed={effort === "low"} onClick={() => chooseEffort("low")}>
@@ -236,7 +236,7 @@ export function PaintingDetail({
         )}
 
         {preferences && (
-          <div className="personal-guide">
+          <div className={`personal-guide${unavailable && !custom ? " invite" : ""}`}>
             <div className="personal-actions">
               <button className="expand" onClick={generate} disabled={generating}>
                 {generating ? t.generating : unavailable ? t.generateGuide : t.rewriteGuide}
