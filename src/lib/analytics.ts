@@ -5,7 +5,7 @@
 import { track as vercelTrack } from "@vercel/analytics";
 import { supabase } from "./supabaseClient";
 
-export type EventName = "app_open" | "work_view" | "play" | "replay" | "complete" | "expand" | "question";
+export type EventName = "app_open" | "work_view" | "play" | "replay" | "complete" | "expand" | "question" | "explore_topic";
 
 export async function track(
   event: EventName,

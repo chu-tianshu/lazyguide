@@ -2,7 +2,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import { fetchMuseumName, fetchWork } from "@/lib/catalogApi";
 import { claudeConfig, guideMaxTokens } from "@/lib/config";
 import { isLanguageCode, strings } from "@/lib/i18n";
-import { GUIDE_SYSTEM_PROMPT, buildGuideMessage } from "@/lib/prompts";
+import { GUIDE_SYSTEM_PROMPT, buildGuideMessage, splitGuideReply } from "@/lib/prompts";
 import { isPreferences, topicsKey, type Preferences } from "@/lib/preferences";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import { logUsage } from "@/lib/usageLog";
@@ -62,11 +62,13 @@ export async function POST(request: Request) {
     topics_key: key,
   };
 
-  const found = await admin.from("generated_guides").select("body").match(match).maybeSingle();
+  const found = await admin.from("generated_guides").select("body, suggestions").match(match).maybeSingle();
   if (found.error) return json({ error: e.failed }, 502);
-  if (found.data) return json({ text: found.data.body as string, cached: true });
+  if (found.data) {
+    return json({ text: found.data.body as string, suggestions: (found.data.suggestions as string[] | null) ?? [], cached: true });
+  }
   // A lookup only reuses a stored guide; it never spends Claude credits.
-  if (b.lookupOnly === true) return json({ text: null, cached: false });
+  if (b.lookupOnly === true) return json({ text: null, suggestions: [], cached: false });
 
   let museumName: string | undefined;
   let work;
@@ -97,12 +99,13 @@ export async function POST(request: Request) {
           ];
 
   let text: string;
+  let suggestions: string[] = [];
   let tokens = { input: 0, output: 0 };
   try {
     const client = new Anthropic({ apiKey, timeout: 55_000, maxRetries: 0 });
     const message = await client.messages.create({
       model,
-      max_tokens: guideMaxTokens[prefs.length],
+      max_tokens: guideMaxTokens[prefs.length] + 300,
       // Thinking tokens count against max_tokens and the script is a writing task, so turn thinking off
       // (this model rejects "disabled" and asks for "between_tools", which only applies once tools are used).
       thinking: { type: "between_tools" },
@@ -124,10 +127,11 @@ export async function POST(request: Request) {
     });
     // A cut-off script would be stored and replayed to everyone, so treat it as a failure.
     if (message.stop_reason === "max_tokens") throw new Error("the reply hit the token limit before finishing");
-    text = message.content
+    const reply = message.content
       .flatMap((block) => (block.type === "text" ? [block.text] : []))
       .join("\n")
       .trim();
+    ({ script: text, suggestions } = splitGuideReply(reply));
     if (!text) throw new Error("the model returned no text");
     tokens = { input: message.usage.input_tokens, output: message.usage.output_tokens };
   } catch (err) {
@@ -157,13 +161,17 @@ export async function POST(request: Request) {
   const stored = await admin
     .from("generated_guides")
     .upsert(
-      { ...match, topics: prefs.topics, body: text, model },
+      { ...match, topics: prefs.topics, body: text, suggestions, model },
       { onConflict: "museum_id,work_id,language,length,style,topics_key", ignoreDuplicates: true },
     );
   if (stored.error) {
     console.error("storing generated guide failed:", stored.error.code);
-    return json({ text, cached: false });
+    return json({ text, suggestions, cached: false });
   }
-  const winner = await admin.from("generated_guides").select("body").match(match).maybeSingle();
-  return json({ text: (winner.data?.body as string | undefined) ?? text, cached: false });
+  const winner = await admin.from("generated_guides").select("body, suggestions").match(match).maybeSingle();
+  return json({
+    text: (winner.data?.body as string | undefined) ?? text,
+    suggestions: (winner.data ? (winner.data.suggestions as string[] | null) : suggestions) ?? [],
+    cached: false,
+  });
 }

@@ -46,6 +46,8 @@ export interface Strings {
   thinking: string;
   yourGuide: string;
   generateGuide: string;
+  exploreHeading: string;
+  exploring: string;
   rewriteGuide: string;
   generating: string;
   generatingNote: string;
@@ -118,6 +120,8 @@ export const strings: Record<LanguageCode, Strings> = {
     thinking: "Thinking…",
     yourGuide: "Your guide",
     generateGuide: "Get my personalized guide",
+    exploreHeading: "Keep exploring",
+    exploring: "Writing…",
     rewriteGuide: "Rewrite to my preferences",
     generating: "Writing your guide…",
     generatingNote: "A new guide can take up to a minute.",
@@ -186,6 +190,8 @@ export const strings: Record<LanguageCode, Strings> = {
     thinking: "思考中…",
     yourGuide: "为您定制的导览",
     generateGuide: "获取我的专属导览",
+    exploreHeading: "继续探索",
+    exploring: "撰写中…",
     rewriteGuide: "按我的偏好重写",
     generating: "正在撰写您的导览…",
     generatingNote: "生成新导览最多需要一分钟。",

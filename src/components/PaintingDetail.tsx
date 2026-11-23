@@ -6,7 +6,7 @@ import { strings, type LanguageCode } from "@/lib/i18n";
 import { useAuth } from "@/lib/auth";
 import { recordVisit } from "@/lib/visits";
 import { track } from "@/lib/analytics";
-import { cachedGuide, generateGuide, lookupGuide } from "@/lib/generatedGuides";
+import { cachedGuide, exploreTopic, generateGuide, lookupGuide, type GeneratedGuide } from "@/lib/generatedGuides";
 import { OPTION_LABELS, topicsKey, type Preferences } from "@/lib/preferences";
 import { GuidePlayer, type Section } from "./GuidePlayer";
 import { FollowUpPanel } from "./FollowUpPanel";
@@ -48,10 +48,14 @@ export function PaintingDetail({
   const [expandToken, setExpandToken] = useState(0);
   const [listenedText, setListenedText] = useState("");
   // A generated guide, with the preferences it was written for.
-  const [custom, setCustom] = useState<{ text: string; summary: string } | null>(() => {
-    const text = preferences ? cachedGuide(museumId, work.id, language, preferences) : null;
-    return text && preferences ? { text, summary: prefsSummary(preferences) } : null;
+  const [custom, setCustom] = useState<(GeneratedGuide & { summary: string }) | null>(() => {
+    const g = preferences ? cachedGuide(museumId, work.id, language, preferences) : null;
+    return g && preferences ? { ...g, summary: prefsSummary(preferences) } : null;
   });
+  // Extra segments the visitor asked for from the suggested angles, in the order they were requested.
+  const [explored, setExplored] = useState<Array<{ topic: string; text: string }>>([]);
+  const [exploring, setExploring] = useState<string | null>(null);
+  const [exploreError, setExploreError] = useState<string | null>(null);
   const [generating, setGenerating] = useState(false);
   const [genError, setGenError] = useState<string | null>(null);
   const [customShown, setCustomShown] = useState(() => custom !== null);
@@ -96,9 +100,10 @@ export function PaintingDetail({
     if (!preferences || !user) return;
     let cancelled = false;
     lookupGuide(museumId, work.id, language, preferences)
-      .then((text) => {
-        if (cancelled || !text) return;
-        setCustom({ text, summary: prefsSummary(preferences) });
+      .then((g) => {
+        if (cancelled || !g) return;
+        setCustom({ ...g, summary: prefsSummary(preferences) });
+        setExplored([]);
         setCustomShown(true);
         setExpanded(false);
         setExpandToken(0);
@@ -119,8 +124,9 @@ export function PaintingDetail({
     setGenerating(true);
     setGenError(null);
     try {
-      const text = await generateGuide(museumId, work.id, language, preferences);
-      setCustom({ text, summary: prefsSummary(preferences) });
+      const g = await generateGuide(museumId, work.id, language, preferences);
+      setCustom({ ...g, summary: prefsSummary(preferences) });
+      setExplored([]);
       setCustomShown(true);
       setExpanded(false);
       setExpandToken(0);
@@ -130,6 +136,30 @@ export function PaintingDetail({
       setGenerating(false);
     }
   }
+
+  async function explore(topic: string) {
+    if (!custom || exploring) return;
+    setExploring(topic);
+    setExploreError(null);
+    // Everything heard so far, so the model does not repeat it.
+    const covered = [custom.text, ...explored.map((x) => `[${x.topic}]\n${x.text}`)].join("\n\n");
+    try {
+      const text = await exploreTopic(museumId, work.id, language, topic, covered);
+      track("explore_topic", { museumId, workId: work.id, language });
+      setExplored((prev) => [...prev, { topic, text }]);
+    } catch (err) {
+      setExploreError(err instanceof Error ? err.message : t.errors.failed);
+    } finally {
+      setExploring(null);
+    }
+  }
+
+  const currentSummary = preferences ? prefsSummary(preferences) : null;
+  // The button is only needed until a guide exists for the current preferences.
+  const hasGuideForPrefs = custom !== null && custom.summary === currentSummary;
+  const remainingTopics = custom
+    ? custom.suggestions.filter((s) => !explored.some((x) => x.topic === s))
+    : [];
 
   // Counts as "visited" once the guide actually has something to show.
   useEffect(() => {
@@ -238,9 +268,11 @@ export function PaintingDetail({
         {preferences && (
           <div className={`personal-guide${unavailable && !custom ? " invite" : ""}`}>
             <div className="personal-actions">
-              <button className="expand" onClick={generate} disabled={generating}>
-                {generating ? t.generating : unavailable ? t.generateGuide : t.rewriteGuide}
-              </button>
+              {!hasGuideForPrefs && (
+                <button className="expand" onClick={generate} disabled={generating}>
+                  {generating ? t.generating : unavailable ? t.generateGuide : t.rewriteGuide}
+                </button>
+              )}
               {custom && !unavailable && (
                 <button className="user-link" onClick={() => setCustomShown((v) => !v)}>
                   {customShown ? t.showOriginal : t.showYours}
@@ -263,6 +295,32 @@ export function PaintingDetail({
           </div>
         )}
       </section>
+
+      {custom && (explored.length > 0 || remainingTopics.length > 0) && (
+        <section className="explore" aria-labelledby="explore-heading">
+          <h2 id="explore-heading">{t.exploreHeading}</h2>
+          {explored.map((x) => (
+            <div key={x.topic} className="explored">
+              <h3>{x.topic}</h3>
+              <GuidePlayer sections={[{ text: x.text }]} language={language} autoPlay={x === explored[explored.length - 1]} />
+            </div>
+          ))}
+          {remainingTopics.length > 0 && (
+            <div className="explore-chips" role="group" aria-label={t.exploreHeading}>
+              {remainingTopics.map((topic) => (
+                <button key={topic} onClick={() => explore(topic)} disabled={exploring !== null}>
+                  {exploring === topic ? t.exploring : topic}
+                </button>
+              ))}
+            </div>
+          )}
+          {exploreError && (
+            <p className="notice" role="alert">
+              {exploreError}
+            </p>
+          )}
+        </section>
+      )}
 
       {mode && (!unavailable || mode === "custom") && (
         <FollowUpPanel

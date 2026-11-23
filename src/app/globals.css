@@ -597,3 +597,11 @@ label.search {
 .x-visited { margin-left: 0.3rem; color: var(--accent); font-weight: 700; }
 .x-off { margin-top: 1.5rem; }
 .x-off summary { cursor: pointer; color: var(--muted); margin-bottom: 0.75rem; }
+
+.explore { margin-top: 2rem; }
+.explored { padding: 0.9rem 0; border-bottom: 1px solid var(--line); }
+.explored h3 { margin: 0 0 0.5rem; }
+.explore-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.75rem; }
+.explore-chips button { padding: 0.5rem 0.9rem; border: 1px solid var(--line); border-radius: 999px; background: transparent; color: inherit; font: inherit; cursor: pointer; }
+.explore-chips button:hover:not(:disabled) { background: rgba(127, 127, 127, 0.12); }
+.explore-chips button:disabled { opacity: 0.6; cursor: default; }
