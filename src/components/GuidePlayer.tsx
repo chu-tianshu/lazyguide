@@ -93,7 +93,7 @@ export function GuidePlayer({
   /** Pause this player because another one is starting. */
   const interruptSelf = () => {
     audioRef.current?.pause();
-    if (aiFailed.current) interrupted.current = true;
+    interrupted.current = true;
     setStatus((s) => (s === "playing" ? "paused" : s));
   };
   const interruptRef = useRef(interruptSelf);
@@ -160,6 +160,11 @@ export function GuidePlayer({
       speechUrl(flat[index].text, language).then(
         (url) => {
           if (!isCurrent()) return;
+          if (interrupted.current) {
+            // Another guide took over while this sentence was loading: stay quiet; resuming restarts from here.
+            audio.src = SILENT;
+            return;
+          }
           audio.src = url;
           audio.playbackRate = r;
           audio.onplay = () => {
@@ -279,14 +284,16 @@ export function GuidePlayer({
     } else if (status === "paused") {
       if (ai) {
         const audio = audioRef.current;
-        if (audio?.src && audio.src !== SILENT) audio.play().catch(() => {});
+        if (audio?.src && audio.src !== SILENT) {
+          claimPlayback();
+          audio.play().catch(() => {});
+        }
         else speakFrom(current, rate, true); // never got going (e.g. blocked autoplay)
       } else if (interrupted.current) speakFrom(current, rate, true);
       else {
         claimPlayback();
         synth.resume();
       }
-      if (ai) claimPlayback();
       setStatus("playing");
     } else {
       if (status === "ended" || current === 0) logPlay(status === "ended");
