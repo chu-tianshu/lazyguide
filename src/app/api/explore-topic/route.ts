@@ -1,5 +1,5 @@
 import Anthropic from "@anthropic-ai/sdk";
-import { fetchMuseumName, fetchWork } from "@/lib/catalogApi";
+import { fetchLanguageCodes, fetchMuseumName, fetchWork } from "@/lib/catalogApi";
 import { claudeConfig, limits } from "@/lib/config";
 import { isLanguageCode, strings } from "@/lib/i18n";
 import { EXPLORE_SYSTEM_PROMPT, buildExploreMessage } from "@/lib/prompts";
@@ -51,10 +51,21 @@ export async function POST(request: Request) {
   let museumName: string | undefined;
   let work;
   try {
+    // Try fetching work in the user's preferred language first.
     [museumName, work] = await Promise.all([
       fetchMuseumName(museumId, language),
       fetchWork(museumId, language, workId),
     ]);
+    // If not available in preferred language, try other available languages.
+    if (!work) {
+      const availableLangs = await fetchLanguageCodes(museumId);
+      for (const lang of availableLangs) {
+        if (lang !== language) {
+          work = await fetchWork(museumId, lang, workId);
+          if (work) break;
+        }
+      }
+    }
   } catch {
     return json({ error: e.failed }, 502);
   }

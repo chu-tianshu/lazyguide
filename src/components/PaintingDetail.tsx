@@ -99,7 +99,7 @@ export function PaintingDetail({
   useEffect(() => {
     if (!preferences || !user) return;
     let cancelled = false;
-    lookupGuide(museumId, work.id, language, preferences)
+    lookupGuide(museumId, work.id, preferences.language, preferences)
       .then((g) => {
         if (cancelled || !g) return;
         setCustom({ ...g, summary: prefsSummary(preferences) });
@@ -116,7 +116,7 @@ export function PaintingDetail({
       cancelled = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [prefsKey, museumId, work.id, language, user]);
+  }, [prefsKey, museumId, work.id, user]);
 
   // Reuses the stored guide for the visitor's exact combination, or has one written.
   async function generate() {
@@ -124,7 +124,7 @@ export function PaintingDetail({
     setGenerating(true);
     setGenError(null);
     try {
-      const g = await generateGuide(museumId, work.id, language, preferences);
+      const g = await generateGuide(museumId, work.id, preferences.language, preferences);
       setCustom({ ...g, summary: prefsSummary(preferences) });
       setExplored([]);
       setCustomShown(true);
@@ -138,14 +138,14 @@ export function PaintingDetail({
   }
 
   async function explore(topic: string) {
-    if (!custom || exploring) return;
+    if (!custom || exploring || !preferences) return;
     setExploring(topic);
     setExploreError(null);
     // Everything heard so far, so the model does not repeat it.
     const covered = [custom.text, ...explored.map((x) => `[${x.topic}]\n${x.text}`)].join("\n\n");
     try {
-      const text = await exploreTopic(museumId, work.id, language, topic, covered);
-      track("explore_topic", { museumId, workId: work.id, language });
+      const text = await exploreTopic(museumId, work.id, preferences.language, topic, covered);
+      track("explore_topic", { museumId, workId: work.id, language: preferences.language });
       setExplored((prev) => [...prev, { topic, text }]);
     } catch (err) {
       setExploreError(err instanceof Error ? err.message : t.errors.failed);
