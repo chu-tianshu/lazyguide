@@ -72,7 +72,6 @@ export function GuidePlayer({
 
   const [supported, setSupported] = useState(true);
   const [noVoice, setNoVoice] = useState(false);
-  const [debug, setDebug] = useState("Voice: not started"); // TEMP: diagnostics
   const [status, setStatus] = useState<Status>("idle");
   const [current, setCurrent] = useState(0);
   const [within, setWithin] = useState(0); // 0–1 progress through the current sentence
@@ -128,7 +127,6 @@ export function GuidePlayer({
 
     const fail = (index: number, why = "audio element error") => {
       if (!isCurrent()) return;
-      setDebug(`Voice: BROWSER fallback at sentence ${index}. Reason: ${why}`);
       aiFailed.current = true;
       audio.pause();
       speakBrowser(index, r, true);
@@ -139,7 +137,6 @@ export function GuidePlayer({
       speechUrl(flat[index].text, language).then(
         (url) => {
           if (!isCurrent()) return;
-          setDebug(`Voice: NEURAL, sentence ${index + 1}/${flat.length}. ${url}`);
           audio.src = url;
           audio.playbackRate = r;
           audio.onplay = () => {
@@ -164,7 +161,6 @@ export function GuidePlayer({
           audio.play().catch(() => {
             // Blocked or failed to start: pause rather than skipping ahead.
             if (isCurrent()) {
-              setDebug(`Voice: play() blocked for ${url}`);
               setStatus("paused");
             }
           });
@@ -403,10 +399,6 @@ export function GuidePlayer({
           {t.noVoice}
         </p>
       )}
-
-      <p className="notice" role="note" style={{ wordBreak: "break-all" }}>
-        {debug}
-      </p>
 
       <div className="captions">
         {sections.map((section, si) => (
