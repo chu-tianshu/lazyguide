@@ -120,7 +120,6 @@ export function CollectionPage({
       <header className="masthead">
         <p className="eyebrow">{catalog.museumLocation}</p>
         <h1>{catalog.museumName}</h1>
-        <p className="lede">{t.collectionLede}</p>
       </header>
 
       <section aria-labelledby="collection-heading">

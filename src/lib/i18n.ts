@@ -4,7 +4,6 @@ export interface Strings {
   speechLang: string; // BCP 47 tag used for speech synthesis
   joiner: string; // how sentences are joined when shown or sent as one text
   collectionHeading: string;
-  collectionLede: string;
   searchLabel: string;
   searchPlaceholderTitleArtist: string;
   searchPlaceholderTitle: string;
@@ -76,8 +75,6 @@ export const strings: Record<LanguageCode, Strings> = {
     speechLang: "en-US",
     joiner: " ",
     collectionHeading: "Selected works",
-    collectionLede:
-      "An audio guide to a curated selection of works, not the museum’s full collection.",
     searchLabel: "Search by title or artist",
     searchPlaceholderTitleArtist: "Search by title or artist",
     searchPlaceholderTitle: "Search by title",
@@ -148,7 +145,6 @@ export const strings: Record<LanguageCode, Strings> = {
     speechLang: "zh-CN",
     joiner: "",
     collectionHeading: "精选展品",
-    collectionLede: "这是一份精选展品的语音导览，并非博物馆的全部藏品。",
     searchLabel: "按名称搜索",
     searchPlaceholderTitleArtist: "按名称或艺术家搜索",
     searchPlaceholderTitle: "按名称搜索",
