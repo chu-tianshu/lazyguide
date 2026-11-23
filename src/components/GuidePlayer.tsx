@@ -15,7 +15,7 @@ type Status = "idle" | "playing" | "paused" | "ended";
 // Tiny silent clip played inside a click so mobile browsers allow later, asynchronous playback.
 const SILENT =
   "data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=";
-const RATES = [1, 1.5, 2] as const;
+const RATES = [1, 1.2, 1.5, 2] as const;
 type Rate = (typeof RATES)[number];
 
 function pickVoice(speechLang: string): SpeechSynthesisVoice | undefined {
