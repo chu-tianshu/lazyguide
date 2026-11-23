@@ -23,24 +23,47 @@ export interface Preferences {
 }
 
 export const OPTION_LABELS = {
-  length: {
-    short: { title: "Short", desc: "About 1 minute" },
-    medium: { title: "Medium", desc: "About 2–3 minutes" },
-    long: { title: "Long", desc: "About 5 minutes" },
+  en: {
+    length: {
+      short: { title: "Short", desc: "About 1 minute" },
+      medium: { title: "Medium", desc: "About 2–3 minutes" },
+      long: { title: "Long", desc: "About 5 minutes" },
+    },
+    style: {
+      conversational: { title: "Conversational", desc: "Warm and easy, like a friend beside you" },
+      storytelling: { title: "Storytelling", desc: "Told as a narrative with a thread" },
+      scholarly: { title: "Scholarly", desc: "Precise, with art-historical depth" },
+      playful: { title: "Playful", desc: "Light, witty and curious" },
+    },
+    topic: {
+      history: { title: "History", desc: "When and why it was made" },
+      technique: { title: "Technique", desc: "Materials and how it was made" },
+      symbolism: { title: "Symbolism", desc: "Hidden meanings and iconography" },
+      artist: { title: "The artist", desc: "Their life and career" },
+      culture: { title: "Culture & society", desc: "The world around the work" },
+      anecdotes: { title: "Anecdotes", desc: "Surprising stories and trivia" },
+    },
   },
-  style: {
-    conversational: { title: "Conversational", desc: "Warm and easy, like a friend beside you" },
-    storytelling: { title: "Storytelling", desc: "Told as a narrative with a thread" },
-    scholarly: { title: "Scholarly", desc: "Precise, with art-historical depth" },
-    playful: { title: "Playful", desc: "Light, witty and curious" },
-  },
-  topic: {
-    history: { title: "History", desc: "When and why it was made" },
-    technique: { title: "Technique", desc: "Materials and how it was made" },
-    symbolism: { title: "Symbolism", desc: "Hidden meanings and iconography" },
-    artist: { title: "The artist", desc: "Their life and career" },
-    culture: { title: "Culture & society", desc: "The world around the work" },
-    anecdotes: { title: "Anecdotes", desc: "Surprising stories and trivia" },
+  zh: {
+    length: {
+      short: { title: "简短", desc: "约1分钟" },
+      medium: { title: "适中", desc: "约2–3分钟" },
+      long: { title: "详尽", desc: "约5分钟" },
+    },
+    style: {
+      conversational: { title: "轻松对话", desc: "亲切自然，像朋友在身边讲解" },
+      storytelling: { title: "讲故事", desc: "以叙事的方式娓娓道来" },
+      scholarly: { title: "学术严谨", desc: "精确，具有艺术史深度" },
+      playful: { title: "俏皮有趣", desc: "轻松、机智、充满好奇" },
+    },
+    topic: {
+      history: { title: "历史", desc: "创作的时间与缘由" },
+      technique: { title: "技法", desc: "材料与制作方式" },
+      symbolism: { title: "象征意义", desc: "隐藏的寓意与图像学" },
+      artist: { title: "艺术家", desc: "其生平与创作历程" },
+      culture: { title: "文化与社会", desc: "作品背后的时代背景" },
+      anecdotes: { title: "轶事", desc: "令人惊讶的故事与趣闻" },
+    },
   },
 } as const;
 

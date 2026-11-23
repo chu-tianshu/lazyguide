@@ -16,11 +16,8 @@ type Effort = "low" | "high";
 type Mode = Effort | "full" | "custom";
 
 function prefsSummary(p: Preferences): string {
-  return [
-    OPTION_LABELS.length[p.length].title,
-    OPTION_LABELS.style[p.style].title,
-    ...p.topics.map((x) => OPTION_LABELS.topic[x].title),
-  ].join(" · ");
+  const labels = OPTION_LABELS[p.language];
+  return [labels.length[p.length].title, labels.style[p.style].title, ...p.topics.map((x) => labels.topic[x].title)].join(" · ");
 }
 
 export function PaintingDetail({

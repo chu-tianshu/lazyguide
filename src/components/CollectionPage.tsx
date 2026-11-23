@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { searchWorks, type Catalog, type WorkSummary } from "@/data/catalog";
 import { fetchSourceNames, searchSources } from "@/lib/catalogApi";
-import { strings } from "@/lib/i18n";
+import { strings, uiStrings } from "@/lib/i18n";
 import { fetchVisits } from "@/lib/visits";
 import { museumHeader } from "@/data/museumImages";
 import { LouvreExplorer } from "./LouvreExplorer";
@@ -20,6 +20,7 @@ export function CollectionPage({
   onAddWorks: (works: WorkSummary[]) => void;
 }) {
   const t = strings[catalog.language];
+  const ui = uiStrings[catalog.language];
   const header = museumHeader(catalog.museumId);
   const [query, setQuery] = useState("");
   // Works the signed-in visitor has already opened a guide for.
@@ -111,7 +112,7 @@ export function CollectionPage({
           <img src={header.src} alt={catalog.museumName} loading="eager" />
           <figcaption>
             <a href={header.creditUrl} target="_blank" rel="noreferrer">
-              Photo: Wikimedia Commons
+              {ui.photoCredit}
             </a>
           </figcaption>
         </figure>
@@ -154,7 +155,7 @@ export function CollectionPage({
 
         {/* The Louvre is browsed by floor, wing and room; a search falls back to the plain list below. */}
         {catalog.museumId === "louvre" && !phrase && (
-          <LouvreExplorer works={catalog.works} visited={visited} onSelect={onSelect} />
+          <LouvreExplorer language={catalog.language} works={catalog.works} visited={visited} onSelect={onSelect} />
         )}
 
         {!(catalog.museumId === "louvre" && !phrase) && groups.map((group) => (
@@ -180,7 +181,7 @@ export function CollectionPage({
                     <span className="result-title">
                       {w.title}
                       {visited.has(w.id) && (
-                        <span className="visited-mark" role="img" aria-label="Visited" title="Visited">
+                        <span className="visited-mark" role="img" aria-label={ui.visited} title={ui.visited}>
                           ✓
                         </span>
                       )}

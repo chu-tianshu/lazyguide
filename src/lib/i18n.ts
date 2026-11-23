@@ -215,3 +215,199 @@ export const strings: Record<LanguageCode, Strings> = {
 export function isLanguageCode(value: unknown): value is LanguageCode {
   return value === "en" || value === "zh";
 }
+
+/** Texts outside a museum's pages (sign-in, map, settings, visits), in the visitor's chosen language. */
+export interface UiStrings {
+  tagline: string;
+  signInGoogle: string;
+  continueGuest: string;
+  guestFailed: (reason: string) => string;
+  guest: string;
+  signedIn: string;
+  myVisits: string;
+  settings: string;
+  signOut: string;
+  loading: string;
+  loadFailed: string;
+  allMuseums: string;
+  mapHint: string;
+  mapLabel: string;
+  museumCount: (n: number) => string;
+  noGuidesYet: string;
+  fallbackNotice: (language: string) => string;
+  backToTop: string;
+  visited: string;
+  photoCredit: string;
+  visitsSignIn: string;
+  visitsNone: string;
+  worksViewed: (n: number) => string;
+  firstVisited: (date: string) => string;
+  prefsOnboardingTitle: string;
+  prefsSettingsTitle: string;
+  prefsOnboardingNote: string;
+  prefsSettingsNote: string;
+  prefLanguage: string;
+  prefLanguageNote: string;
+  prefLength: string;
+  prefStyle: string;
+  prefTopics: string;
+  prefTopicsNote: string;
+  prefTopicsMin: string;
+  saving: string;
+  saveContinue: string;
+  save: string;
+  saveFailed: string;
+  explorer: {
+    floor: string;
+    wing: string;
+    subArea: string;
+    allWings: string;
+    allAreas: string;
+    levels: Record<number, string>;
+    wingName: (w: string) => string;
+    wingSuffix: (w: string) => string;
+    room: (n: string) => string;
+    rooms: (ns: string[]) => string;
+    works: (n: number) => string;
+    floorPlan: (level: string) => string;
+    loadingPlan: string;
+    clickHint: string;
+    otherRooms: string;
+    credit: string;
+    allRoomsOnLevel: string;
+    noMatch: string;
+    notOnDisplay: (n: number) => string;
+  };
+}
+
+export const uiStrings: Record<LanguageCode, UiStrings> = {
+  en: {
+    tagline: "Audio guides, at your own pace",
+    signInGoogle: "Sign in with Google",
+    continueGuest: "Continue without an account",
+    guestFailed: (r) => `Couldn’t continue as a guest: ${r}`,
+    guest: "Guest",
+    signedIn: "Signed in",
+    myVisits: "My visits",
+    settings: "Settings",
+    signOut: "Sign out",
+    loading: "Loading…",
+    loadFailed: "The collection couldn’t be loaded. Check your connection and reload.",
+    allMuseums: "← All museums",
+    mapHint: "Zoom in to find a museum. Click its icon to see the name, then click the name to enter.",
+    mapLabel: "World map of museums. Use plus and minus to zoom.",
+    museumCount: (n) => `${n} ${n === 1 ? "museum" : "museums"}`,
+    noGuidesYet: "This museum has no guides yet.",
+    fallbackNotice: (l) => `This museum has no guides in your language yet, so it is shown in ${l}.`,
+    backToTop: "Back to top",
+    visited: "Visited",
+    photoCredit: "Photo: Wikimedia Commons",
+    visitsSignIn: "Sign in to track the museums and works you’ve viewed.",
+    visitsNone: "No visits yet — explore a museum and open a guide.",
+    worksViewed: (n) => `${n} work${n === 1 ? "" : "s"} viewed`,
+    firstVisited: (d) => `first visited ${d}`,
+    prefsOnboardingTitle: "How would you like your guides?",
+    prefsSettingsTitle: "Settings",
+    prefsOnboardingNote: "Choose once; you can change this any time. These shape the guides we write for you.",
+    prefsSettingsNote: "Guide preferences. They apply to guides you generate or rewrite.",
+    prefLanguage: "Language",
+    prefLanguageNote: "For guide pages and guides. If a museum has no guides in this language, we show what it has.",
+    prefLength: "Length",
+    prefStyle: "Style",
+    prefTopics: "Topics",
+    prefTopicsNote: "Pick one or more.",
+    prefTopicsMin: "Choose at least one topic.",
+    saving: "Saving…",
+    saveContinue: "Save and continue",
+    save: "Save",
+    saveFailed: "Couldn’t save your preferences. Please try again.",
+    explorer: {
+      floor: "Floor",
+      wing: "Wing",
+      subArea: "Sub-area",
+      allWings: "All wings",
+      allAreas: "All areas",
+      levels: { 2: "Level 2", 1: "Level 1", 0: "Ground", [-1]: "Level −1", [-2]: "Level −2" },
+      wingName: (w) => w,
+      wingSuffix: (w) => `${w} Wing`,
+      room: (n) => `Room ${n}`,
+      rooms: (ns) => `Rooms ${ns.join(", ")}`,
+      works: (n) => `${n} ${n === 1 ? "work" : "works"}`,
+      floorPlan: (l) => `Floor plan, ${l}`,
+      loadingPlan: "Loading floor plan…",
+      clickHint: "Click a coloured room to see its works. Schematic plan, not every room is outlined.",
+      otherRooms: "Other rooms on this level",
+      credit: "Room locations: Louvre collection database. Plan: © OpenStreetMap contributors (ODbL).",
+      allRoomsOnLevel: "← All rooms on this level",
+      noMatch: "No works match these filters on this level.",
+      notOnDisplay: (n) => `Not on display right now (${n})`,
+    },
+  },
+  zh: {
+    tagline: "按自己的节奏聆听导览",
+    signInGoogle: "使用 Google 登录",
+    continueGuest: "无需账号，继续使用",
+    guestFailed: (r) => `无法以访客身份继续：${r}`,
+    guest: "访客",
+    signedIn: "已登录",
+    myVisits: "我的参观",
+    settings: "设置",
+    signOut: "退出登录",
+    loading: "加载中…",
+    loadFailed: "无法加载藏品，请检查网络后刷新页面。",
+    allMuseums: "← 全部博物馆",
+    mapHint: "放大地图以查找博物馆。点击图标查看名称，再点击名称进入。",
+    mapLabel: "博物馆世界地图。使用加号和减号缩放。",
+    museumCount: (n) => `${n}座博物馆`,
+    noGuidesYet: "该博物馆暂无导览。",
+    fallbackNotice: (l) => `该博物馆暂无您所选语言的导览，现以${l}显示。`,
+    backToTop: "回到顶部",
+    visited: "已参观",
+    photoCredit: "照片：维基共享资源",
+    visitsSignIn: "登录后可记录您看过的博物馆和展品。",
+    visitsNone: "还没有参观记录——去逛逛博物馆，打开一份导览吧。",
+    worksViewed: (n) => `已看${n}件展品`,
+    firstVisited: (d) => `首次参观于${d}`,
+    prefsOnboardingTitle: "您希望导览是什么样的？",
+    prefsSettingsTitle: "设置",
+    prefsOnboardingNote: "只需选择一次，之后可随时更改。这些选择会决定我们为您撰写的导览风格。",
+    prefsSettingsNote: "导览偏好，适用于您生成或重写的导览。",
+    prefLanguage: "语言",
+    prefLanguageNote: "用于导览页面和导览内容。如果博物馆没有该语言的导览，将显示其现有语言。",
+    prefLength: "篇幅",
+    prefStyle: "风格",
+    prefTopics: "主题",
+    prefTopicsNote: "可多选。",
+    prefTopicsMin: "请至少选择一个主题。",
+    saving: "保存中…",
+    saveContinue: "保存并继续",
+    save: "保存",
+    saveFailed: "无法保存您的偏好，请重试。",
+    explorer: {
+      floor: "楼层",
+      wing: "展馆",
+      subArea: "分区",
+      allWings: "全部展馆",
+      allAreas: "全部分区",
+      levels: { 2: "2层", 1: "1层", 0: "地面层", [-1]: "负1层", [-2]: "负2层" },
+      wingName: (w) => ({ Denon: "德农馆", Sully: "叙利馆", Richelieu: "黎塞留馆" })[w] ?? w,
+      wingSuffix: (w) => ({ Denon: "德农馆", Sully: "叙利馆", Richelieu: "黎塞留馆" })[w] ?? w,
+      room: (n) => `${n}号厅`,
+      rooms: (ns) => `${ns.join("、")}号厅`,
+      works: (n) => `${n}件展品`,
+      floorPlan: (l) => `平面图，${l}`,
+      loadingPlan: "正在加载平面图…",
+      clickHint: "点击彩色展厅查看其中的展品。这是示意图，并未标出所有展厅。",
+      otherRooms: "本层其他展厅",
+      credit: "展厅位置：卢浮宫藏品数据库。平面图：© OpenStreetMap 贡献者 (ODbL)。",
+      allRoomsOnLevel: "← 本层全部展厅",
+      noMatch: "本层没有符合这些筛选条件的展品。",
+      notOnDisplay: (n) => `目前未展出（${n}）`,
+    },
+  },
+};
+
+/** The language to show app-level text in before the visitor has chosen one: their browser's. */
+export function browserLanguage(): LanguageCode {
+  return typeof navigator !== "undefined" && navigator.language.toLowerCase().startsWith("zh") ? "zh" : "en";
+}

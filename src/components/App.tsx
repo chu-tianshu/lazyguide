@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { Catalog, Work, WorkSummary } from "@/data/catalog";
 import type { Museum } from "@/data/museums";
 import { languages } from "@/data/languages";
-import type { LanguageCode } from "@/lib/i18n";
-import { fetchCatalog, fetchLanguageCodes, fetchMuseums, fetchWork } from "@/lib/catalogApi";
+import { browserLanguage, uiStrings, type LanguageCode } from "@/lib/i18n";
+import { fetchCatalog, fetchLanguageCodes, fetchMuseumNames, fetchMuseums, fetchWork, localizeMuseums } from "@/lib/catalogApi";
 import { MuseumMap } from "./MuseumMap";
 import { CollectionPage } from "./CollectionPage";
 import { PaintingDetail } from "./PaintingDetail";
@@ -43,7 +43,13 @@ function AppContent() {
   const [work, setWork] = useState<Work | null>(null);
   const [loadFailed, setLoadFailed] = useState(false);
 
-  const museum = museums?.find((m) => m.id === museumId);
+  const [names, setNames] = useState<Awaited<ReturnType<typeof fetchMuseumNames>> | null>(null);
+
+  // Language is a user-level setting; until it is saved, app-level text follows the browser's language.
+  const uiLang: LanguageCode = prefs && prefs !== "error" ? prefs.language : browserLanguage();
+  const ui = uiStrings[uiLang];
+  const localized = useMemo(() => (museums ? localizeMuseums(museums, names) : null), [museums, names]);
+  const museum = localized?.find((m) => m.id === museumId);
 
   // Language is a user-level setting. A museum that has no guides in it shows its first available language.
   const preferredLanguage: LanguageCode = prefs && prefs !== "error" ? prefs.language : "en";
@@ -69,6 +75,19 @@ function AppContent() {
       current = false;
     };
   }, [user]);
+
+  useEffect(() => {
+    if (!user) return;
+    let current = true;
+    // Museum names in the visitor's language; the English names stay if this fails.
+    fetchMuseumNames(uiLang).then(
+      (n) => current && setNames(n),
+      () => {},
+    );
+    return () => {
+      current = false;
+    };
+  }, [user, uiLang]);
 
   useEffect(() => {
     if (!user) {
@@ -157,16 +176,16 @@ function AppContent() {
 
   if (loadFailed) {
     return (
-      <main className="shell" lang="en">
-        <p className="muted">The collection couldn’t be loaded. Check your connection and reload.</p>
+      <main className="shell" lang={uiLang === "zh" ? "zh-Hans" : "en"}>
+        <p className="muted">{ui.loadFailed}</p>
       </main>
     );
   }
 
   if (prefs === undefined) {
     return (
-      <main className="shell" lang="en">
-        <p className="muted">Loading…</p>
+      <main className="shell" lang={uiLang === "zh" ? "zh-Hans" : "en"}>
+        <p className="muted">{ui.loading}</p>
       </main>
     );
   }
@@ -193,6 +212,7 @@ function AppContent() {
   if (showVisits) {
     return (
       <VisitsPage
+        language={uiLang}
         onBack={() => setShowVisits(false)}
         onSelectMuseum={(id) => {
           setShowVisits(false);
@@ -204,22 +224,22 @@ function AppContent() {
 
   if (!museums) {
     return (
-      <main className="shell" lang="en">
-        <p className="muted">Loading…</p>
+      <main className="shell" lang={uiLang === "zh" ? "zh-Hans" : "en"}>
+        <p className="muted">{ui.loading}</p>
       </main>
     );
   }
 
   if (!museum) {
     return (
-      <main className="map-shell" lang="en">
+      <main className="map-shell" lang={uiLang === "zh" ? "zh-Hans" : "en"}>
         <header className="brand map-brand">
           <h1>Lazy Guide</h1>
-          <p className="brand-tag">Audio guides, at your own pace</p>
+          <p className="brand-tag">{ui.tagline}</p>
         </header>
-        <UserBar onShowVisits={() => setShowVisits(true)} onShowSettings={() => setShowSettings(true)} />
-        <MuseumMap museums={museums} onSelect={chooseMuseum} />
-        <p className="map-hint">Zoom in to find a museum. Click its icon to see the name, then click the name to enter.</p>
+        <UserBar language={uiLang} onShowVisits={() => setShowVisits(true)} onShowSettings={() => setShowSettings(true)} />
+        <MuseumMap museums={localized ?? museums} language={uiLang} onSelect={chooseMuseum} />
+        <p className="map-hint">{ui.mapHint}</p>
       </main>
     );
   }
@@ -229,13 +249,13 @@ function AppContent() {
     content = (
       <>
         <button className="back" onClick={reset}>
-          ← All museums
+          {ui.allMuseums}
         </button>
-        <p className="muted">This museum has no guides yet.</p>
+        <p className="muted">{ui.noGuidesYet}</p>
       </>
     );
   } else if (!languageCode || !catalog) {
-    content = <p className="muted">Loading…</p>;
+    content = <p className="muted">{ui.loading}</p>;
   } else if (selectedId) {
     content = work ? (
       <PaintingDetail
@@ -249,7 +269,7 @@ function AppContent() {
         onBack={() => chooseWork(null)}
       />
     ) : (
-      <p className="muted">Loading…</p>
+      <p className="muted">{ui.loading}</p>
     );
   } else {
     content = <CollectionPage catalog={catalog} onSelect={chooseWork} onChangeMuseum={reset} onAddWorks={addWorks} />;
@@ -257,10 +277,10 @@ function AppContent() {
 
   return (
     <main className="shell" lang={languageCode === "zh" ? "zh-Hans" : "en"}>
-      <BackToTop />
+      <BackToTop label={ui.backToTop} />
       {languageFallback && languageCode && (
-        <p className="notice" role="note" lang="en">
-          This museum has no guides in your language yet, so it is shown in {languages.find((l) => l.code === languageCode)?.label}.
+        <p className="notice" role="note">
+          {ui.fallbackNotice(languages.find((l) => l.code === languageCode)?.label ?? "")}
         </p>
       )}
       {content}
@@ -269,7 +289,7 @@ function AppContent() {
 }
 
 /** Floating button that appears after scrolling down and returns to the top (where "back" lives). */
-function BackToTop() {
+function BackToTop({ label }: { label: string }) {
   const [show, setShow] = useState(false);
   useEffect(() => {
     const onScroll = () => setShow(window.scrollY > 400);
@@ -279,7 +299,7 @@ function BackToTop() {
   }, []);
   if (!show) return null;
   return (
-    <button className="back-to-top" aria-label="Back to top" title="Back to top" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
+    <button className="back-to-top" aria-label={label} title={label} onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
       ↑
     </button>
   );

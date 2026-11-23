@@ -1,15 +1,25 @@
 "use client";
 
 import { useAuth } from "@/lib/auth";
+import { uiStrings, type LanguageCode } from "@/lib/i18n";
 
 /** Only ever rendered once AppContent has confirmed a user is signed in (Google or guest). */
-export function UserBar({ onShowVisits, onShowSettings }: { onShowVisits: () => void; onShowSettings: () => void }) {
+export function UserBar({
+  language,
+  onShowVisits,
+  onShowSettings,
+}: {
+  language: LanguageCode;
+  onShowVisits: () => void;
+  onShowSettings: () => void;
+}) {
   const { user, signOut } = useAuth();
+  const ui = uiStrings[language];
   if (!user) return null;
 
   const name = user.is_anonymous
-    ? "Guest"
-    : (user.user_metadata?.full_name as string | undefined) ?? user.email ?? "Signed in";
+    ? ui.guest
+    : (user.user_metadata?.full_name as string | undefined) ?? user.email ?? ui.signedIn;
   const avatar = user.user_metadata?.avatar_url as string | undefined;
 
   return (
@@ -18,13 +28,13 @@ export function UserBar({ onShowVisits, onShowSettings }: { onShowVisits: () => 
       {avatar ? <img className="user-avatar" src={avatar} alt="" /> : null}
       <span className="user-name">{name}</span>
       <button className="user-link" onClick={onShowVisits}>
-        My visits
+        {ui.myVisits}
       </button>
       <button className="user-link" onClick={onShowSettings}>
-        Settings
+        {ui.settings}
       </button>
       <button className="user-link" onClick={() => signOut()}>
-        Sign out
+        {ui.signOut}
       </button>
     </div>
   );

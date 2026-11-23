@@ -7,6 +7,7 @@
  */
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { WorkSummary } from "@/data/catalog";
+import { uiStrings, type LanguageCode } from "@/lib/i18n";
 import roomsData from "@/data/louvre/rooms.json";
 
 interface RoomInfo {
@@ -33,7 +34,6 @@ const WORK_AREAS = roomsData.workAreas as Record<string, string>;
 const AREA_ORDER = roomsData.areaOrder as string[];
 
 const LEVELS = [2, 1, 0, -1, -2];
-const LEVEL_NAME: Record<number, string> = { 2: "Level 2", 1: "Level 1", 0: "Ground", [-1]: "Level −1", [-2]: "Level −2" };
 const WINGS = ["Denon", "Sully", "Richelieu"];
 
 /** One colour (hue) per sub-area, in the order the areas are listed. */
@@ -78,9 +78,6 @@ const groupOfWork = (id: string): Group | undefined => {
   return r ? GROUPS.get(r.shape ?? `r${num}`) : undefined;
 };
 
-const roomLabel = (g: Group) => (g.rooms.length === 1 ? `Room ${g.rooms[0]}` : `Rooms ${g.rooms.join(", ")}`);
-
-const worksLabel = (n: number) => `${n} ${n === 1 ? "work" : "works"}`;
 
 const factValue = (w: WorkSummary, label: string) => w.facts.find((f) => f.label === label)?.value;
 
@@ -110,14 +107,20 @@ let saved: { level: number; wing: string | null; area: string | null; selected: 
 };
 
 export function LouvreExplorer({
+  language,
   works,
   visited,
   onSelect: openWork,
 }: {
+  language: LanguageCode;
   works: WorkSummary[];
   visited: Set<string>;
   onSelect: (id: string) => void;
 }) {
+  const x = uiStrings[language].explorer;
+  const LEVEL_NAME = x.levels;
+  const roomLabel = (g: Group) => (g.rooms.length === 1 ? x.room(g.rooms[0]) : x.rooms(g.rooms));
+  const worksLabel = x.works;
   // Opening a work remembers the scroll position, so "back" lands exactly where the visitor was.
   const onSelect = (id: string) => {
     saved.scrollY = window.scrollY;
@@ -236,7 +239,7 @@ export function LouvreExplorer({
   return (
     <div className="explorer">
       <div className="x-controls">
-        <div className="x-row" role="group" aria-label="Floor">
+        <div className="x-row" role="group" aria-label={x.floor}>
           {LEVELS.map((l) => (
             <button
               key={l}
@@ -249,9 +252,9 @@ export function LouvreExplorer({
             </button>
           ))}
         </div>
-        <div className="x-row" role="group" aria-label="Wing">
+        <div className="x-row" role="group" aria-label={x.wing}>
           <button className="x-chip" aria-pressed={wing === null} onClick={() => setWing(null)}>
-            All wings
+            {x.allWings}
           </button>
           {WINGS.map((w) => (
             <button
@@ -261,13 +264,13 @@ export function LouvreExplorer({
               onClick={() => setWing(wing === w ? null : w)}
               disabled={!wingCounts.get(w) && wing !== w}
             >
-              {w} <span className="x-count">{wingCounts.get(w) ?? 0}</span>
+              {x.wingName(w)} <span className="x-count">{wingCounts.get(w) ?? 0}</span>
             </button>
           ))}
         </div>
-        <div className="x-row" role="group" aria-label="Sub-area">
+        <div className="x-row" role="group" aria-label={x.subArea}>
           <button className="x-chip" aria-pressed={area === null} onClick={() => setArea(null)}>
-            All areas
+            {x.allAreas}
           </button>
           {AREA_ORDER.filter((a) => areaCounts.get(a) || a === area).map((a) => (
             <button key={a} className="x-chip" aria-pressed={area === a} onClick={() => setArea(area === a ? null : a)}>
@@ -282,7 +285,7 @@ export function LouvreExplorer({
         <div className="x-mapcol">
           <figure className="x-map">
             {plan && planLevel ? (
-              <svg viewBox={viewBox} className={activeKey ? "x-picked" : undefined} role="group" aria-label={`Floor plan, ${LEVEL_NAME[level]}`} onMouseLeave={() => setHover(null)}>
+              <svg viewBox={viewBox} className={activeKey ? "x-picked" : undefined} role="group" aria-label={x.floorPlan(LEVEL_NAME[level])} onMouseLeave={() => setHover(null)}>
                 {planLevel.corridors.map((d, i) => (
                   <path key={i} d={d} className="x-corridor" />
                 ))}
@@ -325,30 +328,30 @@ export function LouvreExplorer({
                 ))}
                 {Object.entries(plan.wingLabels)
                   .filter(([w]) => !wing || w === wing)
-                  .map(([w, [x, y]]) => (
-                    <text key={w} x={x} y={y} className="x-wing" textAnchor="middle">
-                      {w.toUpperCase()}
+                  .map(([w, [px, py]]) => (
+                    <text key={w} x={px} y={py} className="x-wing" textAnchor="middle">
+                      {x.wingName(w).toUpperCase()}
                     </text>
                   ))}
               </svg>
             ) : (
-              <p className="muted x-loading">Loading floor plan…</p>
+              <p className="muted x-loading">{x.loadingPlan}</p>
             )}
             <figcaption className="x-caption" aria-live="polite">
               {focusGroup ? (
                 <>
-                  <strong>{roomLabel(focusGroup)}</strong> · {focusGroup.name} · {focusGroup.wing} Wing ·{" "}
+                  <strong>{roomLabel(focusGroup)}</strong> · {focusGroup.name} · {x.wingSuffix(focusGroup.wing)} ·{" "}
                   {worksLabel(byGroup.get(focusGroup.key)?.length ?? 0)}
                 </>
               ) : (
-                <>Click a coloured room to see its works. Schematic plan, not every room is outlined.</>
+                <>{x.clickHint}</>
               )}
             </figcaption>
           </figure>
 
           {unoutlined.length > 0 && (
             <div className="x-unoutlined">
-              <p className="muted">Other rooms on this level</p>
+              <p className="muted">{x.otherRooms}</p>
               <div className="x-row">
                 {unoutlined.map((g) => (
                   <button key={g.key} className="x-chip" aria-pressed={activeKey === g.key} onClick={() => toggleSelected(g.key)}>
@@ -360,7 +363,7 @@ export function LouvreExplorer({
             </div>
           )}
           <p className="x-credit muted">
-            Room locations: Louvre collection database. Plan: © OpenStreetMap contributors (ODbL).
+            {x.credit}
           </p>
         </div>
 
@@ -373,7 +376,7 @@ export function LouvreExplorer({
             ) : (
               <>
                 {LEVEL_NAME[level]}
-                {wing ? ` · ${wing} Wing` : ""}
+                {wing ? ` · ${x.wingSuffix(wing)}` : ""}
                 {area ? ` · ${area}` : ""}
               </>
             )}
@@ -381,10 +384,10 @@ export function LouvreExplorer({
           </h2>
           {activeKey && (
             <button className="x-back" onClick={() => setSelected(null)}>
-              ← All rooms on this level
+              {x.allRoomsOnLevel}
             </button>
           )}
-          {shown.length === 0 && <p className="empty">No works match these filters on this level.</p>}
+          {shown.length === 0 && <p className="empty">{x.noMatch}</p>}
           {shown.map((g) => (
             <section key={g.key} className="x-group">
               {!activeKey && (
@@ -392,7 +395,7 @@ export function LouvreExplorer({
                   <button onClick={() => toggleSelected(g.key)} onMouseEnter={() => setHover(g.key)} onMouseLeave={() => setHover(null)}>
                     <span className="x-dot" style={{ background: `hsl(${hueOf(g.area)} 55% 52%)` }} aria-hidden="true" />
                     {roomLabel(g)} · {g.name}
-                    <span className="x-count"> {g.wing} · {byGroup.get(g.key)?.length}</span>
+                    <span className="x-count"> {x.wingName(g.wing)} · {byGroup.get(g.key)?.length}</span>
                   </button>
                 </h3>
               )}
@@ -411,7 +414,7 @@ export function LouvreExplorer({
                       <span className="x-card-title">
                         {w.title}
                         {visited.has(w.id) && (
-                          <span className="x-visited" role="img" aria-label="Visited" title="Visited">
+                          <span className="x-visited" role="img" aria-label={uiStrings[language].visited} title={uiStrings[language].visited}>
                             ✓
                           </span>
                         )}
@@ -427,7 +430,7 @@ export function LouvreExplorer({
           ))}
           {!activeKey && offDisplay.length > 0 && !wing && !area && (
             <details className="x-off">
-              <summary>Not on display right now ({offDisplay.length})</summary>
+              <summary>{x.notOnDisplay(offDisplay.length)}</summary>
               <ul className="x-cards">
                 {offDisplay.map(({ work: w }) => (
                   <li key={w.id}>

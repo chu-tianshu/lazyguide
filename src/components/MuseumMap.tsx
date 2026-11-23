@@ -4,6 +4,7 @@ import "leaflet/dist/leaflet.css";
 import { useEffect, useRef } from "react";
 import type { Marker } from "leaflet";
 import type { Museum } from "@/data/museums";
+import { uiStrings, type LanguageCode } from "@/lib/i18n";
 
 /** From this zoom on, individual museum icons replace the count badges. */
 const ICON_ZOOM = 8;
@@ -38,9 +39,11 @@ const esc = (s: string) =>
  */
 export function MuseumMap({
   museums,
+  language,
   onSelect,
 }: {
   museums: Museum[];
+  language: LanguageCode;
   onSelect: (id: string) => void;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -82,7 +85,7 @@ export function MuseumMap({
         animate: false,
       });
       if (map.getZoom() < minZoom) map.setZoom(minZoom, { animate: false });
-      container.setAttribute("aria-label", "World map of museums. Use plus and minus to zoom.");
+      container.setAttribute("aria-label", uiStrings[language].mapLabel);
 
       const layer = L.layerGroup().addTo(map);
       const pins = new Map<string, Marker>();
@@ -148,7 +151,7 @@ export function MuseumMap({
         for (const [name, members] of groups) {
           const lat = members.reduce((a, m) => a + m.place.lat, 0) / members.length;
           const lng = members.reduce((a, m) => a + m.place.lng, 0) / members.length;
-          const label = `${name}: ${members.length} ${members.length === 1 ? "museum" : "museums"}`;
+          const label = `${name}: ${uiStrings[language].museumCount(members.length)}`;
           const marker = L.marker([lat, lng], {
             title: label,
             icon: L.divIcon({
@@ -183,7 +186,7 @@ export function MuseumMap({
       disposed = true;
       cleanup();
     };
-  }, [museums]);
+  }, [museums, language]);
 
   return <div ref={containerRef} className="map-canvas" />;
 }

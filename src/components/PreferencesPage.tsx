@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { languages } from "@/data/languages";
+import { browserLanguage, uiStrings } from "@/lib/i18n";
 import { CnFlag } from "./CnFlag";
 import { UsFlag } from "./UsFlag";
 import {
@@ -33,9 +34,11 @@ export function PreferencesPage({
   const [prefs, setPrefs] = useState<Preferences>(() => ({
     ...DEFAULT_PREFERENCES,
     // A first-time visitor starts from their browser's language.
-    language: typeof navigator !== "undefined" && navigator.language.toLowerCase().startsWith("zh") ? "zh" : "en",
+    language: browserLanguage(),
     ...initial,
   }));
+  const ui = uiStrings[prefs.language];
+  const labels = OPTION_LABELS[prefs.language];
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string>();
 
@@ -52,31 +55,29 @@ export function PreferencesPage({
       await savePreferences(prefs);
       onSaved(prefs);
     } catch {
-      setError("Couldn’t save your preferences. Please try again.");
+      setError(uiStrings[prefs.language].saveFailed);
       setSaving(false);
     }
   }
 
   return (
-    <main className="shell" lang="en">
+    <main className="shell" lang={prefs.language === "zh" ? "zh-Hans" : "en"}>
       {!onboarding && onBack && (
         <button className="back" onClick={onBack}>
-          ← All museums
+          {ui.allMuseums}
         </button>
       )}
 
       <header className="masthead">
-        <h1>{onboarding ? "How would you like your guides?" : "Settings"}</h1>
+        <h1>{onboarding ? ui.prefsOnboardingTitle : ui.prefsSettingsTitle}</h1>
         <p className="muted">
-          {onboarding
-            ? "Choose once; you can change this any time. These shape the guides we write for you."
-            : "Guide preferences. They apply to guides you generate or rewrite."}
+          {onboarding ? ui.prefsOnboardingNote : ui.prefsSettingsNote}
         </p>
       </header>
 
       <section className="pref-section" aria-labelledby="pref-language">
-        <h2 id="pref-language">Language · 语言</h2>
-        <p className="muted">For guide pages and guides. If a museum has no guides in this language, we show what it has.</p>
+        <h2 id="pref-language">{ui.prefLanguage}</h2>
+        <p className="muted">{ui.prefLanguageNote}</p>
         <div className="pref-grid" role="radiogroup" aria-labelledby="pref-language">
           {languages.map((l) => (
             <button
@@ -95,7 +96,7 @@ export function PreferencesPage({
       </section>
 
       <section className="pref-section" aria-labelledby="pref-length">
-        <h2 id="pref-length">Length</h2>
+        <h2 id="pref-length">{ui.prefLength}</h2>
         <div className="pref-grid" role="radiogroup" aria-labelledby="pref-length">
           {LENGTHS.map((v) => (
             <button
@@ -104,15 +105,15 @@ export function PreferencesPage({
               aria-checked={prefs.length === v}
               onClick={() => setPrefs((p) => ({ ...p, length: v }))}
             >
-              <strong>{OPTION_LABELS.length[v].title}</strong>
-              <span>{OPTION_LABELS.length[v].desc}</span>
+              <strong>{labels.length[v].title}</strong>
+              <span>{labels.length[v].desc}</span>
             </button>
           ))}
         </div>
       </section>
 
       <section className="pref-section" aria-labelledby="pref-style">
-        <h2 id="pref-style">Style</h2>
+        <h2 id="pref-style">{ui.prefStyle}</h2>
         <div className="pref-grid" role="radiogroup" aria-labelledby="pref-style">
           {STYLES.map((v) => (
             <button
@@ -121,21 +122,21 @@ export function PreferencesPage({
               aria-checked={prefs.style === v}
               onClick={() => setPrefs((p) => ({ ...p, style: v }))}
             >
-              <strong>{OPTION_LABELS.style[v].title}</strong>
-              <span>{OPTION_LABELS.style[v].desc}</span>
+              <strong>{labels.style[v].title}</strong>
+              <span>{labels.style[v].desc}</span>
             </button>
           ))}
         </div>
       </section>
 
       <section className="pref-section" aria-labelledby="pref-topics">
-        <h2 id="pref-topics">Topics</h2>
-        <p className="muted">Pick one or more.</p>
+        <h2 id="pref-topics">{ui.prefTopics}</h2>
+        <p className="muted">{ui.prefTopicsNote}</p>
         <div className="pref-grid" role="group" aria-labelledby="pref-topics">
           {TOPICS.map((v) => (
             <button key={v} role="checkbox" aria-checked={prefs.topics.includes(v)} onClick={() => toggleTopic(v)}>
-              <strong>{OPTION_LABELS.topic[v].title}</strong>
-              <span>{OPTION_LABELS.topic[v].desc}</span>
+              <strong>{labels.topic[v].title}</strong>
+              <span>{labels.topic[v].desc}</span>
             </button>
           ))}
         </div>
@@ -148,9 +149,9 @@ export function PreferencesPage({
       )}
 
       <button className="gate-primary pref-save" onClick={save} disabled={saving || prefs.topics.length === 0}>
-        {saving ? "Saving…" : onboarding ? "Save and continue" : "Save"}
+        {saving ? ui.saving : onboarding ? ui.saveContinue : ui.save}
       </button>
-      {prefs.topics.length === 0 && <p className="muted">Choose at least one topic.</p>}
+      {prefs.topics.length === 0 && <p className="muted">{ui.prefTopicsMin}</p>}
     </main>
   );
 }

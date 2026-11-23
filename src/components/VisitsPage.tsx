@@ -2,7 +2,8 @@
 
 import { useEffect, useMemo, useState } from "react";
 import type { Museum } from "@/data/museums";
-import { fetchMuseums } from "@/lib/catalogApi";
+import { fetchMuseumNames, fetchMuseums, localizeMuseums } from "@/lib/catalogApi";
+import { uiStrings, type LanguageCode } from "@/lib/i18n";
 import { useAuth } from "@/lib/auth";
 import { fetchVisits, type Visit } from "@/lib/visits";
 
@@ -33,12 +34,15 @@ function groupByMuseum(visits: Visit[], museums: Museum[]): MuseumVisit[] {
 }
 
 export function VisitsPage({
+  language,
   onBack,
   onSelectMuseum,
 }: {
+  language: LanguageCode;
   onBack: () => void;
   onSelectMuseum: (museumId: string) => void;
 }) {
+  const ui = uiStrings[language];
   const { user, loading: authLoading } = useAuth();
   const [visits, setVisits] = useState<Visit[] | null>(null);
   const [museums, setMuseums] = useState<Museum[]>([]);
@@ -53,27 +57,37 @@ export function VisitsPage({
 
   useEffect(() => {
     // Only used to show museum names; ids are shown if this fails.
-    fetchMuseums().then(setMuseums, () => {});
-  }, []);
+    let current = true;
+    fetchMuseums().then(
+      async (list) => {
+        const names = await fetchMuseumNames(language).catch(() => null);
+        if (current) setMuseums(localizeMuseums(list, names));
+      },
+      () => {},
+    );
+    return () => {
+      current = false;
+    };
+  }, [language]);
 
   const grouped = useMemo(() => groupByMuseum(visits ?? [], museums), [visits, museums]);
 
   return (
-    <main className="shell" lang="en">
+    <main className="shell" lang={language === "zh" ? "zh-Hans" : "en"}>
       <button className="back" onClick={onBack}>
-        ← All museums
+        {ui.allMuseums}
       </button>
 
       <header className="masthead">
-        <h1>My visits</h1>
+        <h1>{ui.myVisits}</h1>
       </header>
 
       {authLoading || visits === null ? (
-        <p className="muted">Loading…</p>
+        <p className="muted">{ui.loading}</p>
       ) : !user ? (
-        <p className="muted">Sign in to track the museums and works you've viewed.</p>
+        <p className="muted">{ui.visitsSignIn}</p>
       ) : grouped.length === 0 ? (
-        <p className="muted">No visits yet — explore a museum and open a guide.</p>
+        <p className="muted">{ui.visitsNone}</p>
       ) : (
         <ul className="visit-list">
           {grouped.map((m) => (
@@ -81,8 +95,7 @@ export function VisitsPage({
               <button className="result visit-item" onClick={() => onSelectMuseum(m.museumId)}>
                 <span className="result-title">{m.name}</span>
                 <span className="result-meta">
-                  {m.workCount} work{m.workCount === 1 ? "" : "s"} viewed · first visited{" "}
-                  {new Date(m.firstVisited).toLocaleDateString()}
+                  {ui.worksViewed(m.workCount)} · {ui.firstVisited(new Date(m.firstVisited).toLocaleDateString(language === "zh" ? "zh-CN" : undefined))}
                 </span>
               </button>
             </li>

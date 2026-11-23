@@ -56,6 +56,22 @@ export async function fetchMuseums(): Promise<Museum[]> {
   }));
 }
 
+/** Each museum's name and location as written in one language (museums with no catalog in it are absent). */
+export async function fetchMuseumNames(language: LanguageCode): Promise<Record<string, { name: string; location: string }>> {
+  const { data, error } = await db().from("catalogs").select("museum_id, museum_name, location").eq("language", language);
+  if (error) throw error;
+  return Object.fromEntries(data.map((r) => [r.museum_id, { name: r.museum_name, location: r.location }]));
+}
+
+/** Museums with their names and locations in the given language where the catalog has them. */
+export function localizeMuseums(museums: Museum[], names: Record<string, { name: string; location: string }> | null): Museum[] {
+  if (!names) return museums;
+  return museums.map((m) => {
+    const n = names[m.id];
+    return n ? { ...m, name: n.name, subtitle: n.location } : m;
+  });
+}
+
 /** Languages a museum has guides for. */
 export async function fetchLanguageCodes(museumId: string): Promise<LanguageCode[]> {
   const { data, error } = await db().from("catalogs").select("language").eq("museum_id", museumId);
