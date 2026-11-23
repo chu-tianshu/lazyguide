@@ -6,6 +6,7 @@ import { fetchSourceNames, searchSources } from "@/lib/catalogApi";
 import { strings } from "@/lib/i18n";
 import { fetchVisits } from "@/lib/visits";
 import { museumHeader } from "@/data/museumImages";
+import { LouvreExplorer } from "./LouvreExplorer";
 
 export function CollectionPage({
   catalog,
@@ -152,7 +153,12 @@ export function CollectionPage({
           </div>
         )}
 
-        {groups.map((group) => (
+        {/* The Louvre is browsed by floor, wing and room; a search falls back to the plain list below. */}
+        {catalog.museumId === "louvre" && !phrase && (
+          <LouvreExplorer works={catalog.works} visited={visited} onSelect={onSelect} />
+        )}
+
+        {!(catalog.museumId === "louvre" && !phrase) && groups.map((group) => (
           <div className="category" key={group.name || "other"}>
             {group.name && (
               <h3 className="category-heading">

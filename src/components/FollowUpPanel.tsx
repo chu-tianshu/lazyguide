@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import { strings, type LanguageCode } from "@/lib/i18n";
+import { track } from "@/lib/analytics";
 import { GuidePlayer } from "./GuidePlayer";
 
 interface Turn {
@@ -64,6 +65,7 @@ export function FollowUpPanel({
         setError(data.error ?? t.errors.failed);
         return;
       }
+      track("question", { museumId, workId, language });
       setTurns((prev) => [...prev, { question: q, answer: data.answer as string }]);
       setQuestion("");
     } catch {

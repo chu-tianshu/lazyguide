@@ -14,6 +14,7 @@ import { VisitsPage } from "./VisitsPage";
 import { PreferencesPage } from "./PreferencesPage";
 import { fetchPreferences, type Preferences } from "@/lib/preferences";
 import { SignInGate } from "./SignInGate";
+import { track } from "@/lib/analytics";
 import { AuthProvider, useAuth } from "@/lib/auth";
 
 export function App() {
@@ -52,6 +53,10 @@ function AppContent() {
       : (offered[0] ?? null)
     : null;
   const languageFallback = Boolean(offered && languageCode && languageCode !== preferredLanguage);
+
+  useEffect(() => {
+    if (user) track("app_open");
+  }, [user?.id]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (!user) return;

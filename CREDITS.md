@@ -221,3 +221,10 @@ The Seattle Art Museum, National Gallery of Art, MoMA, Art Institute of Chicago,
 ## The King Center & King Birth Home (text only)
 
 The eight English guide texts were drafted for this project from public pages of the National Park Service (Martin Luther King, Jr. National Historical Park: [Birth Home](https://www.nps.gov/malu/planyourvisit/birth-home.htm), [Fire Station No. 6](https://www.nps.gov/malu/planyourvisit/firestation_no_6.htm), [Ebenezer Baptist Church](https://www.nps.gov/malu/planyourvisit/ebenezer_baptist_church.htm), [The King Center](https://www.nps.gov/malu/planyourvisit/the_king_center.htm), [King Center FAQ](https://www.nps.gov/malu/frequently_asked_questions_the_king_center.htm), [Sweet Auburn](https://www.nps.gov/malu/the-sweet-auburn-community.htm)) and [thekingcenter.org](https://thekingcenter.org/visit/). They are not official interpretive text. Details the sources disagree on (such as tomb dates) are left out or attributed to visitor accounts. No images are included. The museum header photo is "The King Center – Reflecting Pool" by Michael Barera, [CC BY-SA 4.0](https://commons.wikimedia.org/wiki/File:Martin_Luther_King_Jr._National_Historic_Site_August_2016_23_(The_King_Center_-_Reflecting_Pool).jpg).
+
+# Louvre (metadata, plan and images)
+
+- **Works and locations:** text metadata (title, dates, dimensions, inventory number, room, wing, level, department) is read from the Musée du Louvre's public collection records at https://collections.louvre.fr. Each work's page links to its record. The Louvre's own photographs are not used.
+- **Floor plan:** room, corridor and wall outlines are © OpenStreetMap contributors, available under the Open Database Licence (https://www.openstreetmap.org/copyright). The plan is simplified and not every room is outlined.
+- **Identification and English titles:** Wikidata (CC0).
+- **Images:** Wikimedia Commons thumbnails, linked rather than copied. Only files marked Public domain, CC0, CC BY or CC BY-SA are used; each work's page links to its Commons file page and credits the author where the licence requires it.
