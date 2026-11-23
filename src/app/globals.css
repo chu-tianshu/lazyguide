@@ -620,3 +620,18 @@ label.search {
   font-size: 1.25rem; line-height: 1; cursor: pointer;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
 }
+
+/* Artwork page: a full-width bar that stays pinned to the top while scrolling. */
+.back-bar {
+  position: -webkit-sticky; position: sticky; top: 0; z-index: 60;
+  margin: -2.5rem -1rem 1rem; padding: 0.6rem 1rem;
+  background: var(--bg); border-bottom: 1px solid var(--line);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+}
+.back-large {
+  display: block; width: 100%; padding: 0.9rem 1rem;
+  border: 2px solid var(--accent); border-radius: 12px;
+  background: var(--accent); color: #fff;
+  font: inherit; font-size: 1.2rem; font-weight: 700; text-align: left; cursor: pointer;
+}
+.back-large:hover { filter: brightness(1.1); }

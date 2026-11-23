@@ -175,9 +175,11 @@ export function PaintingDetail({
 
   return (
     <article>
-      <button className="back" onClick={onBack}>
-        {t.backToCollection}
-      </button>
+      <div className="back-bar">
+        <button className="back-large" onClick={onBack}>
+          {t.backToCollection}
+        </button>
+      </div>
 
       {work.image ? (
         <figure className="artwork">
