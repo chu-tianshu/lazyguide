@@ -605,3 +605,11 @@ label.search {
 .explore-chips button { padding: 0.5rem 0.9rem; border: 1px solid var(--line); border-radius: 999px; background: transparent; color: inherit; font: inherit; cursor: pointer; }
 .explore-chips button:hover:not(:disabled) { background: rgba(127, 127, 127, 0.12); }
 .explore-chips button:disabled { opacity: 0.6; cursor: default; }
+
+.back-to-top {
+  position: fixed; right: 1rem; bottom: 1rem; z-index: 50;
+  width: 2.75rem; height: 2.75rem; border-radius: 50%;
+  border: 1px solid var(--line); background: var(--accent); color: #fff;
+  font-size: 1.25rem; line-height: 1; cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}

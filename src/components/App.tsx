@@ -257,6 +257,7 @@ function AppContent() {
 
   return (
     <main className="shell" lang={languageCode === "zh" ? "zh-Hans" : "en"}>
+      <BackToTop />
       {languageFallback && languageCode && (
         <p className="notice" role="note" lang="en">
           This museum has no guides in your language yet, so it is shown in {languages.find((l) => l.code === languageCode)?.label}.
@@ -264,5 +265,22 @@ function AppContent() {
       )}
       {content}
     </main>
+  );
+}
+
+/** Floating button that appears after scrolling down and returns to the top (where "back" lives). */
+function BackToTop() {
+  const [show, setShow] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setShow(window.scrollY > 400);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+  if (!show) return null;
+  return (
+    <button className="back-to-top" aria-label="Back to top" title="Back to top" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
+      ↑
+    </button>
   );
 }

@@ -18,6 +18,9 @@ const SILENT =
 const RATES = [1, 1.2, 1.5, 2] as const;
 type Rate = (typeof RATES)[number];
 
+// Only one guide plays at a time: starting one pauses whichever was playing before.
+let interruptActive: (() => void) | null = null;
+
 function pickVoice(speechLang: string): SpeechSynthesisVoice | undefined {
   // An empty voice list is fine: the browser falls back to its default voice.
   const voices = window.speechSynthesis.getVoices();
@@ -85,11 +88,30 @@ export function GuidePlayer({
   const aiFailed = useRef(false); // neural voice unavailable: use the browser voice from now on
   const hasPlayed = useRef(false); // later starts from the top count as replays
   const aiIndex = useRef(0); // sentence the audio element is on
+  const interrupted = useRef(false); // paused because another guide started; browser speech was cancelled
+
+  /** Pause this player because another one is starting. */
+  const interruptSelf = () => {
+    audioRef.current?.pause();
+    if (aiFailed.current) interrupted.current = true;
+    setStatus((s) => (s === "playing" ? "paused" : s));
+  };
+  const interruptRef = useRef(interruptSelf);
+  interruptRef.current = interruptSelf;
+  const claimPlayback = () => {
+    const mine = () => interruptRef.current();
+    if (interruptActive && interruptActive !== lastClaim.current) interruptActive();
+    lastClaim.current = mine;
+    interruptActive = mine;
+    interrupted.current = false;
+  };
+  const lastClaim = useRef<(() => void) | null>(null);
 
   useEffect(() => {
     setSupported(typeof window !== "undefined" && "speechSynthesis" in window);
     return () => {
       runRef.current++;
+      if (interruptActive === lastClaim.current) interruptActive = null;
       audioRef.current?.pause();
       if ("speechSynthesis" in window) window.speechSynthesis.cancel();
     };
@@ -111,6 +133,7 @@ export function GuidePlayer({
   /** Neural voice: audio is requested one sentence at a time (the next is fetched while one plays). */
   function speakAi(start: number, r: Rate, keepHeard: boolean) {
     const audio = (audioRef.current ??= new Audio());
+    claimPlayback();
     window.speechSynthesis?.cancel();
     const runId = ++runRef.current;
     const isCurrent = () => runId === runRef.current;
@@ -176,6 +199,7 @@ export function GuidePlayer({
     {
       if (!supported) return;
       const synth = window.speechSynthesis;
+      claimPlayback();
       synth.cancel();
 
       const runId = ++runRef.current;
@@ -257,7 +281,12 @@ export function GuidePlayer({
         const audio = audioRef.current;
         if (audio?.src && audio.src !== SILENT) audio.play().catch(() => {});
         else speakFrom(current, rate, true); // never got going (e.g. blocked autoplay)
-      } else synth.resume();
+      } else if (interrupted.current) speakFrom(current, rate, true);
+      else {
+        claimPlayback();
+        synth.resume();
+      }
+      if (ai) claimPlayback();
       setStatus("playing");
     } else {
       if (status === "ended" || current === 0) logPlay(status === "ended");
