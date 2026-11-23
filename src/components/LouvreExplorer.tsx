@@ -101,22 +101,33 @@ function bboxOf(ds: string[]): [number, number, number, number] | null {
 }
 
 // The visitor's place survives opening a work and coming back.
-let saved: { level: number; wing: string | null; area: string | null; selected: string | null } = {
+let saved: { level: number; wing: string | null; area: string | null; selected: string | null; scrollY: number } = {
   level: 1,
   wing: null,
   area: null,
   selected: null,
+  scrollY: 0,
 };
 
 export function LouvreExplorer({
   works,
   visited,
-  onSelect,
+  onSelect: openWork,
 }: {
   works: WorkSummary[];
   visited: Set<string>;
   onSelect: (id: string) => void;
 }) {
+  // Opening a work remembers the scroll position, so "back" lands exactly where the visitor was.
+  const onSelect = (id: string) => {
+    saved.scrollY = window.scrollY;
+    openWork(id);
+  };
+  useEffect(() => {
+    const y = saved.scrollY;
+    saved.scrollY = 0;
+    if (y) requestAnimationFrame(() => window.scrollTo({ top: y }));
+  }, []);
   const [level, setLevel] = useState(saved.level);
   const [wing, setWing] = useState<string | null>(saved.wing);
   const [area, setArea] = useState<string | null>(saved.area);
@@ -124,7 +135,7 @@ export function LouvreExplorer({
   const [hover, setHover] = useState<string | null>(null);
   const [plan, setPlan] = useState<Plan | null>(null);
   useEffect(() => {
-    saved = { level, wing, area, selected };
+    saved = { ...saved, level, wing, area, selected };
   }, [level, wing, area, selected]);
   useEffect(() => {
     let current = true;
