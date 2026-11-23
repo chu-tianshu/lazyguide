@@ -248,7 +248,7 @@ export function PaintingDetail({
             <GuidePlayer
               key={`${work.id}-${mode}-${mode === "custom" ? custom?.text.length : ""}`}
               sections={sections}
-              language={language}
+              language={mode === "custom" && preferences ? preferences.language : language}
               track={{ museumId, workId: work.id }}
               onListenedChange={setListenedText}
               jumpTo={expandToken ? { section: 1, token: expandToken } : undefined}
@@ -302,7 +302,7 @@ export function PaintingDetail({
           {explored.map((x) => (
             <div key={x.topic} className="explored">
               <h3>{x.topic}</h3>
-              <GuidePlayer sections={[{ text: x.text }]} language={language} autoPlay={x === explored[explored.length - 1]} />
+              <GuidePlayer sections={[{ text: x.text }]} language={preferences?.language ?? language} autoPlay={x === explored[explored.length - 1]} />
             </div>
           ))}
           {remainingTopics.length > 0 && (
@@ -325,7 +325,7 @@ export function PaintingDetail({
       {mode && (!unavailable || mode === "custom") && (
         <FollowUpPanel
           museumId={museumId}
-          language={language}
+          language={mode === "custom" && preferences ? preferences.language : language}
           workId={work.id}
           effort={mode}
           listenedText={listenedText}

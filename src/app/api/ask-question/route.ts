@@ -1,5 +1,5 @@
 import Anthropic from "@anthropic-ai/sdk";
-import { fetchMuseumName, fetchWork } from "@/lib/catalogApi";
+import { fetchPromptSource } from "@/lib/catalogApi";
 import { claudeConfig, limits } from "@/lib/config";
 import { isLanguageCode, strings, type LanguageCode } from "@/lib/i18n";
 import { logUsage } from "@/lib/usageLog";
@@ -97,17 +97,14 @@ export async function POST(request: Request) {
   const e = strings[body.language].errors;
 
   // Facts come from the server-side catalog; the client only supplies ids.
-  let museumName: string | undefined;
-  let work;
+  let source;
   try {
-    [museumName, work] = await Promise.all([
-      fetchMuseumName(body.museumId, body.language),
-      fetchWork(body.museumId, body.language, body.workId),
-    ]);
+    source = await fetchPromptSource(body.museumId, body.language, body.workId);
   } catch {
     return json({ error: e.failed }, 502);
   }
-  if (!museumName || !work) return json({ error: e.unknownWork }, 404);
+  if (!source) return json({ error: e.unknownWork }, 404);
+  const { museumName, work } = source;
 
   const { apiKey, model } = claudeConfig;
   if (!apiKey || !model) {

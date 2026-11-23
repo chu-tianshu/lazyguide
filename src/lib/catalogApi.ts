@@ -142,6 +142,24 @@ export async function searchSources(museumId: string, language: LanguageCode, qu
   return (await res.json()) as SourceSearch;
 }
 
+/**
+ * Catalog facts for prompting, taken from the requested language if the museum has it, otherwise
+ * from any language it does have. The model writes in the requested language either way.
+ */
+export async function fetchPromptSource(
+  museumId: string,
+  language: LanguageCode,
+  workId: string,
+): Promise<{ museumName: string; work: Work } | undefined> {
+  const offered = await fetchLanguageCodes(museumId);
+  const order = [language, ...offered.filter((l) => l !== language)];
+  for (const lang of order) {
+    const [museumName, work] = await Promise.all([fetchMuseumName(museumId, lang), fetchWork(museumId, lang, workId)]);
+    if (museumName && work) return { museumName, work };
+  }
+  return undefined;
+}
+
 export async function fetchMuseumName(museumId: string, language: LanguageCode): Promise<string | undefined> {
   const { data, error } = await db()
     .from("catalogs")

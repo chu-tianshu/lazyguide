@@ -1,5 +1,5 @@
 import Anthropic from "@anthropic-ai/sdk";
-import { fetchLanguageCodes, fetchMuseumName, fetchWork } from "@/lib/catalogApi";
+import { fetchPromptSource } from "@/lib/catalogApi";
 import { claudeConfig, guideMaxTokens } from "@/lib/config";
 import { isLanguageCode, strings } from "@/lib/i18n";
 import { GUIDE_SYSTEM_PROMPT, buildGuideMessage, splitGuideReply } from "@/lib/prompts";
@@ -70,28 +70,14 @@ export async function POST(request: Request) {
   // A lookup only reuses a stored guide; it never spends Claude credits.
   if (b.lookupOnly === true) return json({ text: null, suggestions: [], cached: false });
 
-  let museumName: string | undefined;
-  let work;
+  let source;
   try {
-    // Try fetching work in the user's preferred language first.
-    [museumName, work] = await Promise.all([
-      fetchMuseumName(museumId, language),
-      fetchWork(museumId, language, workId),
-    ]);
-    // If not available in preferred language, try other available languages.
-    if (!work) {
-      const availableLangs = await fetchLanguageCodes(museumId);
-      for (const lang of availableLangs) {
-        if (lang !== language) {
-          work = await fetchWork(museumId, lang, workId);
-          if (work) break;
-        }
-      }
-    }
+    source = await fetchPromptSource(museumId, language, workId);
   } catch {
     return json({ error: e.failed }, 502);
   }
-  if (!museumName || !work) return json({ error: e.unknownWork }, 404);
+  if (!source) return json({ error: e.unknownWork }, 404);
+  const { museumName, work } = source;
 
   const { apiKey, model } = claudeConfig;
   if (!apiKey || !model) return json({ error: e.notConfigured }, 503);
