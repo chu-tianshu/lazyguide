@@ -228,3 +228,7 @@ The eight English guide texts were drafted for this project from public pages of
 - **Floor plan:** room, corridor and wall outlines are © OpenStreetMap contributors, available under the Open Database Licence (https://www.openstreetmap.org/copyright). The plan is simplified and not every room is outlined.
 - **Identification and English titles:** Wikidata (CC0).
 - **Images:** Wikimedia Commons thumbnails, linked rather than copied. Only files marked Public domain, CC0, CC BY or CC BY-SA are used; each work's page links to its Commons file page and credits the author where the licence requires it.
+
+# Prado (hall index, metadata and images)
+
+Which hall a work hangs in, and its title, creator, date, materials and size, come from Wikidata (CC0). Each work's page links to its Wikidata item. Images are Wikimedia Commons thumbnails, linked rather than copied; only files marked Public domain, CC0, CC BY or CC BY-SA are used, with the author credited where the licence requires it.

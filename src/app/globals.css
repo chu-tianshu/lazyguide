@@ -635,3 +635,7 @@ label.search {
   font: inherit; font-size: 1.2rem; font-weight: 700; text-align: left; cursor: pointer;
 }
 .back-large:hover { filter: brightness(1.1); }
+
+/* Prado explorer: no plan, so the list takes the full width. */
+.x-list-full { margin-top: 1.25rem; }
+.x-list-full .x-cards { grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr)); }

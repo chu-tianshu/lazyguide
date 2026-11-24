@@ -46,6 +46,10 @@ Preview images are in `public/images/<museum>/`, Public domain or CC0 only. Cred
 
 The Louvre (about 760 works) is browsed as an interactive floor plan instead of a list: choose a level, a wing or a sub-area, click a room on the plan (or in the list) and then an artwork. Typing in the search box switches to the plain result list. Rooms, locations and metadata come from the Louvre's public collection records, the plan outlines from OpenStreetMap indoor data, images from Wikimedia Commons; [`scripts/louvre/README.md`](scripts/louvre/README.md) describes the import. Component: [`LouvreExplorer`](src/components/LouvreExplorer.tsx). After regenerating, run `supabase/seed/louvre.sql` in the Supabase SQL editor.
 
+## Prado explorer
+
+The Prado is browsed hall by hall ([`PradoExplorer`](src/components/PradoExplorer.tsx)): sub-area and hall filters, then artworks. Only about 70 works have a hall recorded (from Wikidata); there is no open floor-plan data, so there are no floors or plan. Import notes: [`scripts/prado/README.md`](scripts/prado/README.md). After regenerating, run `supabase/seed/prado.sql` in the Supabase SQL editor.
+
 ## Searching online
 
 When a search matches nothing in the cached catalog, the collection page offers to look the phrase up by title in the museum's online sources. Sources are rows of `museum_sources` ([`supabase/sources.sql`](supabase/sources.sql)), tried in priority order: the Cleveland Museum of Art Open Access API and the Art Institute of Chicago API where they exist, and Wikidata (items in the museum's collection) with the Wikipedia article as text and a public-domain Wikimedia Commons image for the rest. `/api/search-source` (signed-in users only) stores up to three title matches in `works` (ids `x-<source>-<id>`), so they are cached for everyone afterwards. The Deshou Palace museum has no source. Adapters: [`src/lib/sourceSearch/`](src/lib/sourceSearch/).

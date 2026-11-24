@@ -7,6 +7,7 @@ import { strings, uiStrings } from "@/lib/i18n";
 import { fetchVisits } from "@/lib/visits";
 import { museumHeader } from "@/data/museumImages";
 import { LouvreExplorer } from "./LouvreExplorer";
+import { PradoExplorer } from "./PradoExplorer";
 
 export function CollectionPage({
   catalog,
@@ -153,7 +154,7 @@ export function CollectionPage({
           </div>
         )}
 
-        {/* The Louvre is browsed by floor, wing and room; a search falls back to the plain list below. */}
+        {/* The Louvre and the Prado are browsed by room; a search falls back to the plain list below. */}
         {catalog.museumId === "louvre" && !phrase && (
           <LouvreExplorer language={catalog.language} works={catalog.works} visited={visited} onSelect={onSelect} />
         )}
