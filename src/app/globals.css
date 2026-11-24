@@ -636,6 +636,6 @@ label.search {
 }
 .back-large:hover { filter: brightness(1.1); }
 
-/* Prado explorer: no plan, so the list takes the full width. */
-.x-list-full { margin-top: 1.25rem; }
-.x-list-full .x-cards { grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr)); }
+/* Prado explorer: collapsed halls in the normal reading column. */
+.explorer.x-prado { position: static; left: auto; width: auto; transform: none; }
+.x-prado .x-cards { margin: 0.5rem 0 1rem; grid-template-columns: repeat(auto-fill, minmax(8.5rem, 1fr)); }
