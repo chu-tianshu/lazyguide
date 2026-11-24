@@ -8,7 +8,6 @@ import { fetchVisits } from "@/lib/visits";
 import { museumHeader } from "@/data/museumImages";
 import { LouvreExplorer } from "./LouvreExplorer";
 import { PradoExplorer } from "./PradoExplorer";
-import { PradoExplorer } from "./PradoExplorer";
 
 export function CollectionPage({
   catalog,
