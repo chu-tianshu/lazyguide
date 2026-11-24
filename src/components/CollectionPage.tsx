@@ -8,6 +8,7 @@ import { fetchVisits } from "@/lib/visits";
 import { museumHeader } from "@/data/museumImages";
 import { LouvreExplorer } from "./LouvreExplorer";
 import { PradoExplorer } from "./PradoExplorer";
+import { PradoExplorer } from "./PradoExplorer";
 
 export function CollectionPage({
   catalog,
@@ -159,7 +160,11 @@ export function CollectionPage({
           <LouvreExplorer language={catalog.language} works={catalog.works} visited={visited} onSelect={onSelect} />
         )}
 
-        {!(catalog.museumId === "louvre" && !phrase) && groups.map((group) => (
+        {catalog.museumId === "prado" && !phrase && (
+          <PradoExplorer works={catalog.works} visited={visited} onSelect={onSelect} />
+        )}
+
+        {!((catalog.museumId === "louvre" || catalog.museumId === "prado") && !phrase) && groups.map((group) => (
           <div className="category" key={group.name || "other"}>
             {group.name && (
               <h3 className="category-heading">
