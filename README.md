@@ -28,7 +28,7 @@ npm run dev                  # http://localhost:3000
 The catalog and visit history both live in Supabase Postgres, accessed from the browser under row-level security. Without the Supabase variables the sign-in gate cannot be passed.
 
 1. Create a Supabase project.
-2. In the SQL editor, run [`supabase/schema.sql`](supabase/schema.sql) (`visits`, `anonymous_logins`), [`supabase/personalization.sql`](supabase/personalization.sql) (`user_preferences`, `generated_guides`), [`supabase/catalog.sql`](supabase/catalog.sql) (`museums`, `catalogs`, `works`, public-read), then [`supabase/seed-all.sql`](supabase/seed-all.sql) (the whole catalog in one file), then [`supabase/sources.sql`](supabase/sources.sql) (`museum_sources`, for online search).
+2. In the SQL editor, run [`supabase/schema.sql`](supabase/schema.sql) (`visits`, `anonymous_logins`), [`supabase/personalization.sql`](supabase/personalization.sql) (`user_preferences`, `generated_guides`), [`supabase/catalog.sql`](supabase/catalog.sql) (`museums`, `catalogs`, `works`, public-read), then the files in [`supabase/seed/`](supabase/seed/) one by one (`00_museums.sql` first, then each museum; a large museum such as the Prado is split into `prado-1.sql`, `prado-2.sql`, … to run in order, because the SQL editor rejects very large queries), then [`supabase/sources.sql`](supabase/sources.sql) (`museum_sources`, for online search).
 3. Authentication → Sign In / Providers: enable **Allow anonymous sign-ins** (needed for guest access).
 4. Enable the **Google** provider with an OAuth client from Google Cloud Console; its authorized redirect URI is `https://<project-ref>.supabase.co/auth/v1/callback`.
 5. Authentication → URL Configuration: allow `http://localhost:3000` and the production URL.
@@ -38,7 +38,7 @@ Guest sessions are counted in `anonymous_logins`: `select count(*) from anonymou
 
 ## Catalog data
 
-Editable source is JSON in `supabase/data/` (`museums.json` plus `<museum>/<language>.json`). Regenerate the SQL with `node scripts/build-seed.mjs`, which writes `supabase/seed/*.sql` and the combined `supabase/seed-all.sql` (upserts, safe to re-run). The app reads the catalog through [`src/lib/catalogApi.ts`](src/lib/catalogApi.ts); guide texts are fetched when a work is opened.
+Editable source is JSON in `supabase/data/` (`museums.json` plus `<museum>/<language>.json`). Regenerate the SQL with `node scripts/build-seed.mjs`, which writes `supabase/seed/*.sql` (upserts, safe to re-run; big catalogs are split into numbered parts). The app reads the catalog through [`src/lib/catalogApi.ts`](src/lib/catalogApi.ts); guide texts are fetched when a work is opened.
 
 Preview images are in `public/images/<museum>/`, Public domain or CC0 only. Credits: [CREDITS.md](CREDITS.md).
 
@@ -48,7 +48,7 @@ The Louvre (about 760 works) is browsed as an interactive floor plan instead of 
 
 ## Prado explorer
 
-The Prado is browsed room by room ([`PradoExplorer`](src/components/PradoExplorer.tsx)): rooms are listed collapsed, and opening one shows its artworks. About 1,800 works across 118 rooms; room numbers come from the Prado's own collection pages, collected in a browser because the site blocks bots. There is no open floor-plan data, so no floors. Import notes: [`scripts/prado/README.md`](scripts/prado/README.md). After regenerating, run `supabase/seed/prado.sql` in the Supabase SQL editor.
+The Prado is browsed room by room ([`PradoExplorer`](src/components/PradoExplorer.tsx)): rooms are listed collapsed, and opening one shows its artworks. About 1,800 works across 118 rooms; room numbers come from the Prado's own collection pages, collected in a browser because the site blocks bots. There is no open floor-plan data, so no floors. Import notes: [`scripts/prado/README.md`](scripts/prado/README.md). After regenerating, run `supabase/seed/prado-1.sql` … `prado-4.sql` in order in the Supabase SQL editor.
 
 ## Searching online
 
