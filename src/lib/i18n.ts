@@ -269,6 +269,9 @@ export interface UiStrings {
     works: (n: number) => string;
     floorPlan: (level: string) => string;
     loadingPlan: string;
+    zoomIn: string;
+    zoomOut: string;
+    zoomReset: string;
     clickHint: string;
     otherRooms: string;
     credit: string;
@@ -331,6 +334,9 @@ export const uiStrings: Record<LanguageCode, UiStrings> = {
       works: (n) => `${n} ${n === 1 ? "work" : "works"}`,
       floorPlan: (l) => `Floor plan, ${l}`,
       loadingPlan: "Loading floor plan…",
+      zoomIn: "Zoom in",
+      zoomOut: "Zoom out",
+      zoomReset: "Reset view",
       clickHint: "Click a coloured room to see its works. Schematic plan, not every room is outlined.",
       otherRooms: "Other rooms on this level",
       credit: "Room locations: Louvre collection database. Plan: © OpenStreetMap contributors (ODbL).",
@@ -391,6 +397,9 @@ export const uiStrings: Record<LanguageCode, UiStrings> = {
       works: (n) => `${n}件展品`,
       floorPlan: (l) => `平面图，${l}`,
       loadingPlan: "正在加载平面图…",
+      zoomIn: "放大",
+      zoomOut: "缩小",
+      zoomReset: "重置视图",
       clickHint: "点击彩色展厅查看其中的展品。这是示意图，并未标出所有展厅。",
       otherRooms: "本层其他展厅",
       credit: "展厅位置：卢浮宫藏品数据库。平面图：© OpenStreetMap 贡献者 (ODbL)。",

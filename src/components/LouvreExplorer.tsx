@@ -93,12 +93,17 @@ function bboxOf(ds: string[]): [number, number, number, number] | null {
 }
 
 // The visitor's place survives opening a work and coming back.
-let saved: { level: number; wing: string | null; selected: string | null; scrollY: number } = {
+let saved: { level: number; wing: string | null; selected: string | null; open: string[]; scrollY: number } = {
   level: DEFAULT_LEVEL,
   wing: null,
   selected: null,
+  open: [],
   scrollY: 0,
 };
+
+const MAX_ZOOM = 8;
+/** Room numbers appear on the plan once the visible width is below this many metres. */
+const LABEL_BELOW = 240;
 
 export function LouvreExplorer({
   language,
@@ -128,11 +133,19 @@ export function LouvreExplorer({
   const [level, setLevel] = useState(saved.level);
   const [wing, setWing] = useState<string | null>(saved.wing);
   const [selected, setSelected] = useState<string | null>(saved.selected);
+  const [open, setOpen] = useState<Set<string>>(new Set(saved.open));
+  const [zoom, setZoom] = useState(1);
+  const [pan, setPan] = useState<[number, number]>([0, 0]);
   const [hover, setHover] = useState<string | null>(null);
   const [plan, setPlan] = useState<Plan | null>(null);
   useEffect(() => {
-    saved = { ...saved, level, wing, selected };
-  }, [level, wing, selected]);
+    saved = { ...saved, level, wing, selected, open: [...open] };
+  }, [level, wing, selected, open]);
+  // A new floor or wing starts from the whole framed view.
+  useEffect(() => {
+    setZoom(1);
+    setPan([0, 0]);
+  }, [level, wing]);
   useEffect(() => {
     let current = true;
     import("@/data/louvre/plan.json").then((m) => current && setPlan(m.default as unknown as Plan));
@@ -180,20 +193,125 @@ export function LouvreExplorer({
 
   // A selected room that the filters no longer show is dropped.
   const activeKey = selected && byGroup.has(selected) ? selected : null;
-  const shown = activeKey ? [GROUPS.get(activeKey)!] : listedGroups;
 
   const planLevel = plan?.levels[String(level)];
-  // The plan is framed on this floor's outlined rooms (this wing's, when one is chosen).
-  const viewBox = useMemo(() => {
-    if (!plan || !planLevel) return "-310 -197 604 376";
+  // The plan is framed on this floor's outlined rooms (this wing's, when one is chosen); zoom and pan work inside that frame.
+  const baseBox = useMemo((): [number, number, number, number] => {
+    if (!plan || !planLevel) return [-310, -197, 604, 376];
     const ids = new Set(
       [...GROUPS.values()].filter((g) => g.level === level && g.shape && (!wing || g.wing === wing)).map((g) => g.shape!),
     );
     const box = bboxOf(planLevel.shapes.filter((s) => ids.has(s.id)).map((s) => s.d));
     const [x0, y0, x1, y1] = box ?? plan.bounds;
     const pad = 20;
-    return `${x0 - pad} ${y0 - pad} ${x1 - x0 + pad * 2} ${y1 - y0 + pad * 2}`;
+    return [x0 - pad, y0 - pad, x1 - x0 + pad * 2, y1 - y0 + pad * 2];
   }, [plan, planLevel, wing, level]);
+  const view = useMemo(() => {
+    const [bx, by, bw, bh] = baseBox;
+    const w = bw / zoom;
+    const h = bh / zoom;
+    const cx = bx + bw / 2 + pan[0];
+    const cy = by + bh / 2 + pan[1];
+    return { x: cx - w / 2, y: cy - h / 2, w, h };
+  }, [baseBox, zoom, pan]);
+  const viewBox = `${view.x} ${view.y} ${view.w} ${view.h}`;
+  const showNumbers = view.w < LABEL_BELOW;
+  // Where each outlined room's number goes: the centre of its outline.
+  const centres = useMemo(() => {
+    const m = new Map<string, [number, number]>();
+    if (!planLevel) return m;
+    for (const sh of planLevel.shapes) {
+      const b = bboxOf([sh.d]);
+      if (b) m.set(sh.id, [(b[0] + b[2]) / 2, (b[1] + b[3]) / 2]);
+    }
+    return m;
+  }, [planLevel]);
+  const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v));
+  // Zoom to level z2 so that plan point P sits at fraction (fx, fy) of the visible area.
+  const zoomTo = (z2: number, P: [number, number], fx: number, fy: number) => {
+    z2 = clamp(z2, 1, MAX_ZOOM);
+    const [bx, by, bw, bh] = baseBox;
+    const w2 = bw / z2;
+    const h2 = bh / z2;
+    const cx = P[0] - fx * w2 + w2 / 2;
+    const cy = P[1] - fy * h2 + h2 / 2;
+    setZoom(z2);
+    setPan(z2 === 1 ? [0, 0] : [clamp(cx - (bx + bw / 2), -bw / 2, bw / 2), clamp(cy - (by + bh / 2), -bh / 2, bh / 2)]);
+  };
+  // Zooming in goes to something worth seeing: the marked room, else the room with works nearest the middle of the view
+  // (the middle itself can be empty, e.g. the Sully courtyard).
+  const focusPoint = (): [number, number] => {
+    const mid: [number, number] = [view.x + view.w / 2, view.y + view.h / 2];
+    const marked = activeKey ? GROUPS.get(activeKey)?.shape : undefined;
+    if (marked && centres.has(marked)) return centres.get(marked)!;
+    let best: [number, number] | null = null;
+    let bestD = Infinity;
+    for (const g of GROUPS.values()) {
+      if (!g.shape || g.level !== level || !byGroup.has(g.key)) continue;
+      const c = centres.get(g.shape);
+      if (!c) continue;
+      const d = Math.hypot(c[0] - mid[0], c[1] - mid[1]);
+      if (d < bestD) {
+        bestD = d;
+        best = c;
+      }
+    }
+    return best ?? mid;
+  };
+  const changeZoom = (factor: number) => {
+    if (factor > 1) zoomTo(zoom * factor, focusPoint(), 0.5, 0.5);
+    else zoomTo(zoom * factor, [view.x + view.w / 2, view.y + view.h / 2], 0.5, 0.5);
+  };
+  // Pinch (and Cmd/Ctrl + scroll) zooms under the pointer; a plain scroll still scrolls the page.
+  const svgRef = useRef<SVGSVGElement>(null);
+  const wheelZoom = useRef<(e: WheelEvent) => void>(() => {});
+  wheelZoom.current = (e) => {
+    if (!e.ctrlKey && !e.metaKey) return;
+    const el = svgRef.current;
+    if (!el) return;
+    e.preventDefault();
+    const r = el.getBoundingClientRect();
+    const scale = Math.min(r.width / view.w, r.height / view.h);
+    const offX = (r.width - view.w * scale) / 2;
+    const offY = (r.height - view.h * scale) / 2;
+    const fx = clamp((e.clientX - r.left - offX) / (view.w * scale), 0, 1);
+    const fy = clamp((e.clientY - r.top - offY) / (view.h * scale), 0, 1);
+    zoomTo(zoom * (e.deltaY < 0 ? 1.25 : 0.8), [view.x + fx * view.w, view.y + fy * view.h], fx, fy);
+  };
+  useEffect(() => {
+    const el = svgRef.current;
+    if (!el) return;
+    const h = (e: WheelEvent) => wheelZoom.current(e);
+    el.addEventListener("wheel", h, { passive: false });
+    return () => el.removeEventListener("wheel", h);
+  }, [plan, planLevel]);
+  // Drag to pan. A drag that moved is not a click on a room.
+  const drag = useRef<{ x: number; y: number; moved: boolean } | null>(null);
+  const moved = useRef(false);
+  const onPointerDown = (e: React.PointerEvent<SVGSVGElement>) => {
+    drag.current = { x: e.clientX, y: e.clientY, moved: false };
+    moved.current = false;
+  };
+  const onPointerMove = (e: React.PointerEvent<SVGSVGElement>) => {
+    const d = drag.current;
+    if (!d || zoom === 1) return;
+    const dx = e.clientX - d.x;
+    const dy = e.clientY - d.y;
+    if (!d.moved && Math.hypot(dx, dy) < 5) return;
+    d.moved = moved.current = true;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const unitsPerPx = Math.max(view.w / rect.width, view.h / rect.height);
+    d.x = e.clientX;
+    d.y = e.clientY;
+    const [, , bw, bh] = baseBox;
+    setPan(([px, py]) => [
+      Math.max(-bw / 2, Math.min(bw / 2, px - dx * unitsPerPx)),
+      Math.max(-bh / 2, Math.min(bh / 2, py - dy * unitsPerPx)),
+    ]);
+  };
+  const endDrag = () => {
+    drag.current = null;
+  };
 
   const focus = hover ?? activeKey;
   const focusGroup = focus ? GROUPS.get(focus) : undefined;
@@ -219,16 +337,25 @@ export function LouvreExplorer({
     setLevel(l);
     setSelected(null);
   };
-  const listRef = useRef<HTMLDivElement>(null);
-  const toggleSelected = (key: string) => {
-    setSelected((s) => (s === key ? null : key));
-    // The list is below the map on a narrow screen, and may be scrolled out of sight on a wide one.
-    requestAnimationFrame(() => {
-      const el = listRef.current;
-      if (el && (window.matchMedia("(max-width: 55.99rem)").matches || el.getBoundingClientRect().top < 0)) {
-        el.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
+  // Rooms are collapsed until opened. Opening one (here or on the plan) also marks it on the plan; closing clears the mark.
+  const toggleRoom = (key: string) => {
+    const opening = !open.has(key);
+    setOpen((prev) => {
+      const next = new Set(prev);
+      if (opening) next.add(key);
+      else next.delete(key);
+      return next;
     });
+    setSelected(opening ? key : selected === key ? null : selected);
+    if (opening) {
+      // On a narrow screen the list is below the plan, and on a wide one the room may be scrolled out of sight.
+      requestAnimationFrame(() => {
+        const el = document.getElementById(`room-${key}`);
+        if (el && (window.matchMedia("(max-width: 55.99rem)").matches || el.getBoundingClientRect().top < 0)) {
+          el.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      });
+    }
   };
 
   return (
@@ -280,7 +407,21 @@ export function LouvreExplorer({
         <div className="x-mapcol">
           <figure className="x-map">
             {plan && planLevel ? (
-              <svg viewBox={viewBox} className={activeKey ? "x-picked" : undefined} role="group" aria-label={x.floorPlan(LEVEL_NAME[level])} onMouseLeave={() => setHover(null)}>
+              <svg
+                ref={svgRef}
+                viewBox={viewBox}
+                className={[activeKey ? "x-picked" : "", zoom > 1 ? "x-zoomed" : ""].join(" ").trim() || undefined}
+                role="group"
+                aria-label={x.floorPlan(LEVEL_NAME[level])}
+                onMouseLeave={() => {
+                  setHover(null);
+                  endDrag();
+                }}
+                onPointerDown={onPointerDown}
+                onPointerMove={onPointerMove}
+                onPointerUp={endDrag}
+                onPointerCancel={endDrag}
+              >
                 {planLevel.corridors.map((d, i) => (
                   <path key={i} d={d} className="x-corridor" />
                 ))}
@@ -303,11 +444,14 @@ export function LouvreExplorer({
                       tabIndex={0}
                       aria-label={`${roomLabel(g)}, ${g.name}: ${worksLabel(count)}`}
                       aria-pressed={activeKey === g.key}
-                      onClick={() => toggleSelected(g.key)}
+                      onClick={() => {
+                        if (moved.current) return;
+                        toggleRoom(g.key);
+                      }}
                       onKeyDown={(e) => {
                         if (e.key === "Enter" || e.key === " ") {
                           e.preventDefault();
-                          toggleSelected(g.key);
+                          toggleRoom(g.key);
                         }
                       }}
                       onMouseEnter={() => setHover(g.key)}
@@ -321,7 +465,20 @@ export function LouvreExplorer({
                 {planLevel.walls.map((d, i) => (
                   <path key={i} d={d} className="x-wall" />
                 ))}
-                {Object.entries(plan.wingLabels)
+                {showNumbers &&
+                  [...GROUPS.values()]
+                    .filter((g) => g.shape && g.level === level && (!wing || g.wing === wing) && centres.has(g.shape))
+                    .map((g) => {
+                      const [cx, cy] = centres.get(g.shape!)!;
+                      const text = g.rooms.length === 1 ? g.rooms[0] : `${g.rooms[0]}–${g.rooms[g.rooms.length - 1]}`;
+                      return (
+                        <text key={`n-${g.key}`} x={cx} y={cy} className="x-roomnum" textAnchor="middle" dominantBaseline="central" style={{ fontSize: view.w / 38 }}>
+                          {text}
+                        </text>
+                      );
+                    })}
+                {!showNumbers &&
+                Object.entries(plan.wingLabels)
                   .filter(([w]) => !wing || w === wing)
                   .map(([w, [px, py]]) => (
                     <text key={w} x={px} y={py} className="x-wing" textAnchor="middle">
@@ -331,6 +488,26 @@ export function LouvreExplorer({
               </svg>
             ) : (
               <p className="muted x-loading">{x.loadingPlan}</p>
+            )}
+            {plan && planLevel && (
+              <div className="x-zoom">
+                <button onClick={() => changeZoom(1.6)} aria-label={x.zoomIn} disabled={zoom >= MAX_ZOOM}>
+                  +
+                </button>
+                <button onClick={() => changeZoom(1 / 1.6)} aria-label={x.zoomOut} disabled={zoom <= 1}>
+                  −
+                </button>
+                <button
+                  onClick={() => {
+                    setZoom(1);
+                    setPan([0, 0]);
+                  }}
+                  aria-label={x.zoomReset}
+                  disabled={zoom === 1}
+                >
+                  ⟲
+                </button>
+              </div>
             )}
             <figcaption className="x-caption" aria-live="polite">
               {focusGroup ? (
@@ -349,7 +526,7 @@ export function LouvreExplorer({
               <p className="muted">{x.otherRooms}</p>
               <div className="x-row">
                 {unoutlined.map((g) => (
-                  <button key={g.key} className="x-chip" aria-pressed={activeKey === g.key} onClick={() => toggleSelected(g.key)}>
+                  <button key={g.key} className="x-chip" aria-pressed={activeKey === g.key} onClick={() => toggleRoom(g.key)}>
                     <span className="x-dot" style={{ background: `hsl(${hueOf(g.wing)} 55% 52%)` }} aria-hidden="true" />
                     {g.rooms[0]} · {g.name} <span className="x-count">{byGroup.get(g.key)?.length ?? 0}</span>
                   </button>
@@ -362,67 +539,65 @@ export function LouvreExplorer({
           </p>
         </div>
 
-        <div className="x-list" ref={listRef}>
+        <div className="x-list">
           <h2 className="x-heading">
-            {activeKey ? (
-              <>
-                {roomLabel(shown[0])} · {shown[0].name}
-              </>
-            ) : (
-              <>
-                {LEVEL_NAME[level]}
-                {wing ? ` · ${x.wingSuffix(wing)}` : ""}
-              </>
-            )}
-            <span className="x-total"> {worksLabel(activeKey ? (byGroup.get(activeKey)?.length ?? 0) : total)}</span>
+            {LEVEL_NAME[level]}
+            {wing ? ` · ${x.wingSuffix(wing)}` : ""}
+            <span className="x-total"> {worksLabel(total)}</span>
           </h2>
-          {activeKey && (
-            <button className="x-back" onClick={() => setSelected(null)}>
-              {x.allRoomsOnLevel}
-            </button>
-          )}
-          {shown.length === 0 && <p className="empty">{x.noMatch}</p>}
-          {shown.map((g) => (
-            <section key={g.key} className="x-group">
-              {!activeKey && (
+          {listedGroups.length === 0 && <p className="empty">{x.noMatch}</p>}
+          {listedGroups.map((g) => {
+            const isOpen = open.has(g.key);
+            return (
+              <section key={g.key} id={`room-${g.key}`} className={`x-group${activeKey === g.key ? " x-group-selected" : ""}`}>
                 <h3 className="x-group-title">
-                  <button onClick={() => toggleSelected(g.key)} onMouseEnter={() => setHover(g.key)} onMouseLeave={() => setHover(null)}>
+                  <button
+                    aria-expanded={isOpen}
+                    onClick={() => toggleRoom(g.key)}
+                    onMouseEnter={() => setHover(g.key)}
+                    onMouseLeave={() => setHover(null)}
+                  >
+                    <span className="category-chevron" aria-hidden="true">
+                      {isOpen ? "▾" : "▸"}
+                    </span>
                     <span className="x-dot" style={{ background: `hsl(${hueOf(g.wing)} 55% 52%)` }} aria-hidden="true" />
                     {roomLabel(g)} · {g.name}
                     <span className="x-count"> {x.wingName(g.wing)} · {byGroup.get(g.key)?.length}</span>
                   </button>
                 </h3>
-              )}
-              <ul className="x-cards">
-                {(byGroup.get(g.key) ?? []).map((w) => (
-                  <li key={w.id}>
-                    <button className="x-card" onClick={() => onSelect(w.id)}>
-                      <span className="x-thumb">
-                        {w.image ? (
-                          // eslint-disable-next-line @next/next/no-img-element
-                          <img src={w.image.src} alt="" loading="lazy" decoding="async" />
-                        ) : (
-                          <span className="x-noimg" aria-hidden="true" />
-                        )}
-                      </span>
-                      <span className="x-card-title">
-                        {w.title}
-                        {visited.has(w.id) && (
-                          <span className="x-visited" role="img" aria-label={uiStrings[language].visited} title={uiStrings[language].visited}>
-                            ✓
+                {isOpen && (
+                  <ul className="x-cards">
+                    {(byGroup.get(g.key) ?? []).map((w) => (
+                      <li key={w.id}>
+                        <button className="x-card" onClick={() => onSelect(w.id)}>
+                          <span className="x-thumb">
+                            {w.image ? (
+                              // eslint-disable-next-line @next/next/no-img-element
+                              <img src={w.image.src} alt="" loading="lazy" decoding="async" />
+                            ) : (
+                              <span className="x-noimg" aria-hidden="true" />
+                            )}
                           </span>
-                        )}
-                      </span>
-                      <span className="x-card-meta">
-                        {[w.artist?.replace(/\s*\(.*\)$/, ""), factValue(w, "Date")].filter(Boolean).join(" · ")}
-                      </span>
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          ))}
-          {!activeKey && offDisplay.length > 0 && !wing && (
+                          <span className="x-card-title">
+                            {w.title}
+                            {visited.has(w.id) && (
+                              <span className="x-visited" role="img" aria-label={uiStrings[language].visited} title={uiStrings[language].visited}>
+                                ✓
+                              </span>
+                            )}
+                          </span>
+                          <span className="x-card-meta">
+                            {[w.artist?.replace(/\s*\(.*\)$/, ""), factValue(w, "Date")].filter(Boolean).join(" · ")}
+                          </span>
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </section>
+            );
+          })}
+          {offDisplay.length > 0 && !wing && (
             <details className="x-off">
               <summary>{x.notOnDisplay(offDisplay.length)}</summary>
               <ul className="x-cards">

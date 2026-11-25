@@ -641,3 +641,17 @@ label.search {
 /* Prado explorer: collapsed halls in the normal reading column. */
 .explorer.x-prado { position: static; left: auto; width: auto; transform: none; }
 .x-prado .x-cards { margin: 0.5rem 0 1rem; grid-template-columns: repeat(auto-fill, minmax(8.5rem, 1fr)); }
+
+/* Louvre plan: zoom controls, room numbers, collapsible rooms. */
+.x-map { position: relative; }
+.x-map svg.x-zoomed { touch-action: none; cursor: grab; }
+.x-zoom { position: absolute; top: 0.5rem; right: 0.5rem; display: flex; flex-direction: column; gap: 0.25rem; }
+.x-zoom button {
+  width: 2rem; height: 2rem; border: 1px solid var(--line); border-radius: 6px;
+  background: var(--surface); color: var(--ink); font-size: 1.1rem; line-height: 1; cursor: pointer;
+}
+.x-zoom button:hover:not(:disabled) { border-color: var(--accent); }
+.x-zoom button:disabled { opacity: 0.35; cursor: default; }
+.x-roomnum { fill: var(--ink); font-family: var(--sans); font-weight: 600; pointer-events: none; paint-order: stroke; stroke: var(--surface); stroke-width: 0.25em; stroke-linejoin: round; }
+.x-group-selected .x-group-title button { color: var(--accent); }
+.x-group-title .category-chevron { width: 1em; flex: none; }
