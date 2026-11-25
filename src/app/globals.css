@@ -559,8 +559,6 @@ label.search {
 }
 .x-chip:hover:not(:disabled) { border-color: var(--accent); }
 .x-chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
-.x-chip:disabled { opacity: 0.4; cursor: default; }
-.x-chip[data-empty]:not([aria-pressed="true"]) { opacity: 0.55; }
 .x-floor { font-weight: 600; }
 .x-count { color: var(--muted); font-weight: 400; font-size: 0.8rem; }
 .x-chip[aria-pressed="true"] .x-count { color: rgba(255, 255, 255, 0.8); }

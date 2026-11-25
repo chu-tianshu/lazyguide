@@ -206,7 +206,8 @@ export function LouvreExplorer({
     return byGroup.has(id) ? 2 : 1;
   };
 
-  // A wing with nothing on this level is still selectable; the visitor is then taken back to the ground level.
+  // No filter chip is ever disabled or dimmed. A wing with nothing on this level is still selectable; the visitor is then
+  // taken back to the ground level. A level with nothing for the chosen wing is also selectable and just shows no works.
   const chooseWing = (next: string | null) => {
     setWing(next);
     if (next && !wingCounts.get(next)) {
@@ -248,7 +249,6 @@ export function LouvreExplorer({
                 className="x-chip"
                 aria-pressed={wing === w}
                 onClick={() => chooseWing(wing === w ? null : w)}
-                data-empty={!wingCounts.get(w) || undefined}
               >
                 <span className="x-dot" style={{ background: `hsl(${hueOf(w)} 55% 52%)` }} aria-hidden="true" />
                 {x.wingName(w)} <span className="x-count">{wingCounts.get(w) ?? 0}</span>
@@ -268,7 +268,6 @@ export function LouvreExplorer({
                 aria-pressed={l === level}
                 aria-label={LEVEL_NAME[l]}
                 onClick={() => chooseLevel(l)}
-                disabled={!levelCounts.get(l) && l !== level}
               >
                 {levelChip(l)} <span className="x-count">{levelCounts.get(l) ?? 0}</span>
               </button>
