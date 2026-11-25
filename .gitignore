@@ -12,3 +12,4 @@ design.md
 
 # Saved copies of the Prado website (not ours to redistribute); keep the collector script and any JSON we derive.
 research/prado/*.html
+.DS_Store
