@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * Interactive way into the Louvre's collection: pick a floor, a wing or a sub-area, click a room on the
+ * Interactive way into the Louvre's collection: pick a floor or a wing, click a room on the
  * floor plan (or in the list) and then an artwork. Rooms and which work hangs where come from the Louvre's
  * own collection database; the room outlines are OpenStreetMap indoor data. See scripts/louvre/.
  */
@@ -14,7 +14,6 @@ interface RoomInfo {
   level: number;
   wing: string;
   name: string;
-  area: string;
   shape?: string;
 }
 interface PlanLevel {
@@ -30,24 +29,19 @@ interface Plan {
 
 const ROOMS = roomsData.rooms as unknown as Record<string, RoomInfo>;
 const WORK_ROOMS = roomsData.workRooms as Record<string, string>;
-const WORK_AREAS = roomsData.workAreas as Record<string, string>;
-const AREA_ORDER = roomsData.areaOrder as string[];
 
 const LEVELS = [2, 1, 0, -1, -2];
 const WINGS = ["Denon", "Sully", "Richelieu"];
 
-/** One colour (hue) per sub-area, in the order the areas are listed. */
-const hueOf = (area: string) => {
-  const i = AREA_ORDER.indexOf(area);
-  return ((i < 0 ? AREA_ORDER.length : i) * 137.5 + 20) % 360;
-};
+/** One colour (hue) per wing, so the plan reads by geometry rather than by what hangs in a room. */
+const WING_HUE: Record<string, number> = { Denon: 25, Sully: 205, Richelieu: 145 };
+const hueOf = (wing: string) => WING_HUE[wing] ?? 280;
 
 interface Group {
   key: string; // an outline's id, or r<number> for a room with no outline
   rooms: string[]; // room numbers, sorted
   level: number;
   wing: string;
-  area: string;
   name: string;
   shape?: string;
 }
@@ -61,13 +55,12 @@ const GROUPS: Map<string, Group> = (() => {
     const key = r.shape ?? `r${num}`;
     const g = map.get(key);
     if (g) g.rooms.push(num);
-    else map.set(key, { key, rooms: [num], level: r.level, wing: r.wing, area: r.area, name: r.name, shape: r.shape });
+    else map.set(key, { key, rooms: [num], level: r.level, wing: r.wing, name: r.name, shape: r.shape });
   }
   for (const g of map.values()) {
     g.rooms.sort((a, b) => roomNumber(a) - roomNumber(b));
     const first = ROOMS[g.rooms[0]];
     g.name = first.name;
-    g.area = first.area;
   }
   return map;
 })();
@@ -98,10 +91,9 @@ function bboxOf(ds: string[]): [number, number, number, number] | null {
 }
 
 // The visitor's place survives opening a work and coming back.
-let saved: { level: number; wing: string | null; area: string | null; selected: string | null; scrollY: number } = {
+let saved: { level: number; wing: string | null; selected: string | null; scrollY: number } = {
   level: 1,
   wing: null,
-  area: null,
   selected: null,
   scrollY: 0,
 };
@@ -133,13 +125,12 @@ export function LouvreExplorer({
   }, []);
   const [level, setLevel] = useState(saved.level);
   const [wing, setWing] = useState<string | null>(saved.wing);
-  const [area, setArea] = useState<string | null>(saved.area);
   const [selected, setSelected] = useState<string | null>(saved.selected);
   const [hover, setHover] = useState<string | null>(null);
   const [plan, setPlan] = useState<Plan | null>(null);
   useEffect(() => {
-    saved = { ...saved, level, wing, area, selected };
-  }, [level, wing, area, selected]);
+    saved = { ...saved, level, wing, selected };
+  }, [level, wing, selected]);
   useEffect(() => {
     let current = true;
     import("@/data/louvre/plan.json").then((m) => current && setPlan(m.default as unknown as Plan));
@@ -155,38 +146,31 @@ export function LouvreExplorer({
   );
   const offDisplay = placed.filter((p) => !p.group);
 
-  const matches = (p: (typeof placed)[number], f: { level?: boolean; wing?: boolean; area?: boolean }) =>
+  const matches = (p: (typeof placed)[number], f: { level?: boolean; wing?: boolean }) =>
     !!p.group &&
     (!f.level || p.group.level === level) &&
-    (!f.wing || !wing || p.group.wing === wing) &&
-    (!f.area || !area || WORK_AREAS[p.work.id] === area);
+    (!f.wing || !wing || p.group.wing === wing);
 
   // Counts shown on the controls: each ignores its own filter, so the choices stay visible.
   const levelCounts = useMemo(() => {
     const c = new Map<number, number>();
-    for (const p of placed) if (matches(p, { wing: true, area: true })) c.set(p.group!.level, (c.get(p.group!.level) ?? 0) + 1);
+    for (const p of placed) if (matches(p, { wing: true })) c.set(p.group!.level, (c.get(p.group!.level) ?? 0) + 1);
     return c;
-  }, [placed, wing, area]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [placed, wing]); // eslint-disable-line react-hooks/exhaustive-deps
   const wingCounts = useMemo(() => {
     const c = new Map<string, number>();
-    for (const p of placed) if (matches(p, { level: true, area: true })) c.set(p.group!.wing, (c.get(p.group!.wing) ?? 0) + 1);
+    for (const p of placed) if (matches(p, { level: true })) c.set(p.group!.wing, (c.get(p.group!.wing) ?? 0) + 1);
     return c;
-  }, [placed, level, area]); // eslint-disable-line react-hooks/exhaustive-deps
-  const areaCounts = useMemo(() => {
-    const c = new Map<string, number>();
-    for (const p of placed) if (matches(p, { level: true, wing: true })) c.set(WORK_AREAS[p.work.id], (c.get(WORK_AREAS[p.work.id]) ?? 0) + 1);
-    return c;
-  }, [placed, level, wing]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  // What is listed: this level, narrowed by wing and sub-area, grouped by room.
+  }, [placed, level]); // eslint-disable-line react-hooks/exhaustive-deps
+  // What is listed: this level, narrowed by wing, grouped by room.
   const byGroup = useMemo(() => {
     const m = new Map<string, WorkSummary[]>();
-    for (const p of placed) if (matches(p, { level: true, wing: true, area: true })) {
+    for (const p of placed) if (matches(p, { level: true, wing: true })) {
       const k = p.group!.key;
       m.set(k, [...(m.get(k) ?? []), p.work]);
     }
     return m;
-  }, [placed, level, wing, area]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [placed, level, wing]); // eslint-disable-line react-hooks/exhaustive-deps
   const listedGroups = [...byGroup.keys()]
     .map((k) => GROUPS.get(k)!)
     .sort((a, b) => roomNumber(a.rooms[0]) - roomNumber(b.rooms[0]));
@@ -264,18 +248,8 @@ export function LouvreExplorer({
               onClick={() => setWing(wing === w ? null : w)}
               disabled={!wingCounts.get(w) && wing !== w}
             >
+              <span className="x-dot" style={{ background: `hsl(${hueOf(w)} 55% 52%)` }} aria-hidden="true" />
               {x.wingName(w)} <span className="x-count">{wingCounts.get(w) ?? 0}</span>
-            </button>
-          ))}
-        </div>
-        <div className="x-row" role="group" aria-label={x.subArea}>
-          <button className="x-chip" aria-pressed={area === null} onClick={() => setArea(null)}>
-            {x.allAreas}
-          </button>
-          {AREA_ORDER.filter((a) => areaCounts.get(a) || a === area).map((a) => (
-            <button key={a} className="x-chip" aria-pressed={area === a} onClick={() => setArea(area === a ? null : a)}>
-              <span className="x-dot" style={{ background: `hsl(${hueOf(a)} 55% 52%)` }} aria-hidden="true" />
-              {a} <span className="x-count">{areaCounts.get(a) ?? 0}</span>
             </button>
           ))}
         </div>
@@ -297,13 +271,13 @@ export function LouvreExplorer({
                   const count = g ? (byGroup.get(g.key)?.length ?? 0) : 0;
                   if (!g || g.level !== level) return <path key={s.id} d={s.d} className="x-room" />;
                   const cls = ["x-room", count ? "x-has" : "x-dim", activeKey === g.key ? "x-selected" : ""].join(" ");
-                  if (!count) return <path key={s.id} d={s.d} className={cls} style={{ ["--h" as string]: hueOf(g.area) }} />;
+                  if (!count) return <path key={s.id} d={s.d} className={cls} style={{ ["--h" as string]: hueOf(g.wing) }} />;
                   return (
                     <path
                       key={s.id}
                       d={s.d}
                       className={cls}
-                      style={{ ["--h" as string]: hueOf(g.area) }}
+                      style={{ ["--h" as string]: hueOf(g.wing) }}
                       role="button"
                       tabIndex={0}
                       aria-label={`${roomLabel(g)}, ${g.name}: ${worksLabel(count)}`}
@@ -355,7 +329,7 @@ export function LouvreExplorer({
               <div className="x-row">
                 {unoutlined.map((g) => (
                   <button key={g.key} className="x-chip" aria-pressed={activeKey === g.key} onClick={() => toggleSelected(g.key)}>
-                    <span className="x-dot" style={{ background: `hsl(${hueOf(g.area)} 55% 52%)` }} aria-hidden="true" />
+                    <span className="x-dot" style={{ background: `hsl(${hueOf(g.wing)} 55% 52%)` }} aria-hidden="true" />
                     {g.rooms[0]} · {g.name} <span className="x-count">{byGroup.get(g.key)?.length ?? 0}</span>
                   </button>
                 ))}
@@ -377,7 +351,6 @@ export function LouvreExplorer({
               <>
                 {LEVEL_NAME[level]}
                 {wing ? ` · ${x.wingSuffix(wing)}` : ""}
-                {area ? ` · ${area}` : ""}
               </>
             )}
             <span className="x-total"> {worksLabel(activeKey ? (byGroup.get(activeKey)?.length ?? 0) : total)}</span>
@@ -393,7 +366,7 @@ export function LouvreExplorer({
               {!activeKey && (
                 <h3 className="x-group-title">
                   <button onClick={() => toggleSelected(g.key)} onMouseEnter={() => setHover(g.key)} onMouseLeave={() => setHover(null)}>
-                    <span className="x-dot" style={{ background: `hsl(${hueOf(g.area)} 55% 52%)` }} aria-hidden="true" />
+                    <span className="x-dot" style={{ background: `hsl(${hueOf(g.wing)} 55% 52%)` }} aria-hidden="true" />
                     {roomLabel(g)} · {g.name}
                     <span className="x-count"> {x.wingName(g.wing)} · {byGroup.get(g.key)?.length}</span>
                   </button>
@@ -428,7 +401,7 @@ export function LouvreExplorer({
               </ul>
             </section>
           ))}
-          {!activeKey && offDisplay.length > 0 && !wing && !area && (
+          {!activeKey && offDisplay.length > 0 && !wing && (
             <details className="x-off">
               <summary>{x.notOnDisplay(offDisplay.length)}</summary>
               <ul className="x-cards">
