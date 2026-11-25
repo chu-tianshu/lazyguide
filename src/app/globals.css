@@ -547,7 +547,10 @@ label.search {
   transform: translateX(-50%);
   margin-top: 1rem;
 }
-.x-controls { display: grid; gap: 0.5rem; }
+.x-controls { display: grid; gap: 0.6rem; }
+/* Two labelled, independent rows (wing and level) that combine; each count ignores only its own row. */
+.x-axis { display: grid; grid-template-columns: 3.6rem minmax(0, 1fr); align-items: start; gap: 0.5rem; }
+.x-axis-label { padding-top: 0.4rem; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
 .x-row { display: flex; flex-wrap: wrap; gap: 0.4rem; }
 .x-chip {
   display: inline-flex; align-items: center; gap: 0.4rem;

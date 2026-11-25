@@ -320,7 +320,7 @@ export const uiStrings: Record<LanguageCode, UiStrings> = {
     save: "Save",
     saveFailed: "Couldn’t save your preferences. Please try again.",
     explorer: {
-      floor: "Floor",
+      floor: "Level",
       wing: "Wing",
       allWings: "All wings",
       levels: { 2: "Level 2", 1: "Level 1", 0: "Ground", [-1]: "Level −1", [-2]: "Level −2" },

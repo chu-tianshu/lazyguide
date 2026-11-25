@@ -30,7 +30,9 @@ interface Plan {
 const ROOMS = roomsData.rooms as unknown as Record<string, RoomInfo>;
 const WORK_ROOMS = roomsData.workRooms as Record<string, string>;
 
-const LEVELS = [2, 1, 0, -1, -2];
+const LEVELS = [-2, -1, 0, 1, 2];
+const DEFAULT_LEVEL = 0; // the ground level
+const levelChip = (l: number) => (l < 0 ? `−${-l}` : String(l));
 const WINGS = ["Denon", "Sully", "Richelieu"];
 
 /** One colour (hue) per wing, so the plan reads by geometry rather than by what hangs in a room. */
@@ -92,7 +94,7 @@ function bboxOf(ds: string[]): [number, number, number, number] | null {
 
 // The visitor's place survives opening a work and coming back.
 let saved: { level: number; wing: string | null; selected: string | null; scrollY: number } = {
-  level: 1,
+  level: DEFAULT_LEVEL,
   wing: null,
   selected: null,
   scrollY: 0,
@@ -223,35 +225,47 @@ export function LouvreExplorer({
   return (
     <div className="explorer">
       <div className="x-controls">
-        <div className="x-row" role="group" aria-label={x.floor}>
-          {LEVELS.map((l) => (
-            <button
-              key={l}
-              className="x-chip x-floor"
-              aria-pressed={l === level}
-              onClick={() => chooseLevel(l)}
-              disabled={!levelCounts.get(l) && l !== level}
-            >
-              {LEVEL_NAME[l]} <span className="x-count">{levelCounts.get(l) ?? 0}</span>
+        {/* Two independent axes: the wing narrows by where along the museum, the level by which floor. */}
+        <div className="x-axis">
+          <span className="x-axis-label" aria-hidden="true">
+            {x.wing}
+          </span>
+          <div className="x-row" role="group" aria-label={x.wing}>
+            <button className="x-chip" aria-pressed={wing === null} onClick={() => setWing(null)}>
+              {x.allWings}
             </button>
-          ))}
+            {WINGS.map((w) => (
+              <button
+                key={w}
+                className="x-chip"
+                aria-pressed={wing === w}
+                onClick={() => setWing(wing === w ? null : w)}
+                disabled={!wingCounts.get(w) && wing !== w}
+              >
+                <span className="x-dot" style={{ background: `hsl(${hueOf(w)} 55% 52%)` }} aria-hidden="true" />
+                {x.wingName(w)} <span className="x-count">{wingCounts.get(w) ?? 0}</span>
+              </button>
+            ))}
+          </div>
         </div>
-        <div className="x-row" role="group" aria-label={x.wing}>
-          <button className="x-chip" aria-pressed={wing === null} onClick={() => setWing(null)}>
-            {x.allWings}
-          </button>
-          {WINGS.map((w) => (
-            <button
-              key={w}
-              className="x-chip"
-              aria-pressed={wing === w}
-              onClick={() => setWing(wing === w ? null : w)}
-              disabled={!wingCounts.get(w) && wing !== w}
-            >
-              <span className="x-dot" style={{ background: `hsl(${hueOf(w)} 55% 52%)` }} aria-hidden="true" />
-              {x.wingName(w)} <span className="x-count">{wingCounts.get(w) ?? 0}</span>
-            </button>
-          ))}
+        <div className="x-axis">
+          <span className="x-axis-label" aria-hidden="true">
+            {x.floor}
+          </span>
+          <div className="x-row" role="group" aria-label={x.floor}>
+            {LEVELS.map((l) => (
+              <button
+                key={l}
+                className="x-chip x-floor"
+                aria-pressed={l === level}
+                aria-label={LEVEL_NAME[l]}
+                onClick={() => chooseLevel(l)}
+                disabled={!levelCounts.get(l) && l !== level}
+              >
+                {levelChip(l)} <span className="x-count">{levelCounts.get(l) ?? 0}</span>
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
