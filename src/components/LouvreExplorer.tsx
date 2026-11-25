@@ -206,6 +206,14 @@ export function LouvreExplorer({
     return byGroup.has(id) ? 2 : 1;
   };
 
+  // A wing with nothing on this level is still selectable; the visitor is then taken back to the ground level.
+  const chooseWing = (next: string | null) => {
+    setWing(next);
+    if (next && !wingCounts.get(next)) {
+      setLevel(DEFAULT_LEVEL);
+      setSelected(null);
+    }
+  };
   const chooseLevel = (l: number) => {
     setLevel(l);
     setSelected(null);
@@ -231,7 +239,7 @@ export function LouvreExplorer({
             {x.wing}
           </span>
           <div className="x-row" role="group" aria-label={x.wing}>
-            <button className="x-chip" aria-pressed={wing === null} onClick={() => setWing(null)}>
+            <button className="x-chip" aria-pressed={wing === null} onClick={() => chooseWing(null)}>
               {x.allWings}
             </button>
             {WINGS.map((w) => (
@@ -239,8 +247,8 @@ export function LouvreExplorer({
                 key={w}
                 className="x-chip"
                 aria-pressed={wing === w}
-                onClick={() => setWing(wing === w ? null : w)}
-                disabled={!wingCounts.get(w) && wing !== w}
+                onClick={() => chooseWing(wing === w ? null : w)}
+                data-empty={!wingCounts.get(w) || undefined}
               >
                 <span className="x-dot" style={{ background: `hsl(${hueOf(w)} 55% 52%)` }} aria-hidden="true" />
                 {x.wingName(w)} <span className="x-count">{wingCounts.get(w) ?? 0}</span>
