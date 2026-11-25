@@ -48,7 +48,7 @@ The Louvre (about 760 works) is browsed as an interactive floor plan instead of 
 
 ## Prado explorer
 
-The Prado is browsed hall by hall ([`PradoExplorer`](src/components/PradoExplorer.tsx)): halls are listed collapsed, and opening one shows its artworks. Only about 70 works have a hall recorded (from Wikidata); there is no open floor-plan data, so there are no floors or plan. Import notes: [`scripts/prado/README.md`](scripts/prado/README.md). After regenerating, run `supabase/seed/prado.sql` in the Supabase SQL editor.
+The Prado is browsed room by room ([`PradoExplorer`](src/components/PradoExplorer.tsx)): rooms are listed collapsed, and opening one shows its artworks. About 1,800 works across 118 rooms; room numbers come from the Prado's own collection pages, collected in a browser because the site blocks bots. There is no open floor-plan data, so no floors. Import notes: [`scripts/prado/README.md`](scripts/prado/README.md). After regenerating, run `supabase/seed/prado.sql` in the Supabase SQL editor.
 
 ## Searching online
 

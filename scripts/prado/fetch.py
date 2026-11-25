@@ -1,15 +1,17 @@
 #!/usr/bin/env python3
-"""Downloads the Prado works that Wikidata places in a numbered hall ("Prado Hall 012"), plus Commons image licences.
+"""Downloads Wikidata and Commons data for the works in research/prado/prado-rooms.json.
 
-    python3 scripts/prado/fetch.py <cache-dir>
+    python3 scripts/prado/fetch.py <cache-dir> [research/prado/prado-rooms.json]
 
-The Prado's own website blocks automated clients and has no floor plan data in OpenStreetMap, so Wikidata (CC0)
-is the only open source for which hall a work hangs in. Output: wd_prado.json, commons_prado.json.
+prado-rooms.json is collected by research/prado/collect-rooms.js, run by hand in a browser (the Prado's site blocks
+bots). Each work's Prado UUID is also its Wikidata "Museo del Prado artwork ID" (P8905), which gives a Wikidata item,
+inventory number, size and a Commons image. Output: wd_prado.json (uuid -> fields), commons_prado.json.
 """
 import json, sys, time, urllib.error, urllib.parse, urllib.request
 from pathlib import Path
 
 CACHE = Path(sys.argv[1]); CACHE.mkdir(parents=True, exist_ok=True)
+ROOMS = Path(sys.argv[2] if len(sys.argv) > 2 else "research/prado/prado-rooms.json")
 UA = "LazyGuidePradoImport/1.0 (museum audio guide prototype)"
 
 
@@ -18,36 +20,34 @@ def get(url, data=None, accept=None):
     if accept: h["Accept"] = accept
     for attempt in range(6):
         try:
-            return json.load(urllib.request.urlopen(urllib.request.Request(url, data=data, headers=h), timeout=120))
+            return json.load(urllib.request.urlopen(urllib.request.Request(url, data=data, headers=h), timeout=180))
         except urllib.error.HTTPError as e:
             if e.code not in (429, 502, 503, 504): raise
             time.sleep(15 * (attempt + 1))
     raise SystemExit("giving up on " + url)
 
 
-QUERY = """SELECT ?item ?itemLabel ?hallLabel ?inv ?img ?when ?h ?w
- (GROUP_CONCAT(DISTINCT ?cl;separator="|") AS ?creators) (GROUP_CONCAT(DISTINCT ?country;separator="|") AS ?countries)
- (GROUP_CONCAT(DISTINCT ?ml;separator="|") AS ?mats) WHERE {
-  ?item wdt:P8905 ?pid; wdt:P276 ?hall.
-  ?hall rdfs:label ?hallLabel FILTER(LANG(?hallLabel)="en" && REGEX(?hallLabel,"^Prado [Hh]all"))
-  ?item rdfs:label ?itemLabel FILTER(LANG(?itemLabel)="en")
-  OPTIONAL { ?item wdt:P217 ?inv } OPTIONAL { ?item wdt:P18 ?img } OPTIONAL { ?item wdt:P571 ?when }
-  OPTIONAL { ?item p:P2048/psn:P2048/wikibase:quantityAmount ?h } OPTIONAL { ?item p:P2049/psn:P2049/wikibase:quantityAmount ?w }
-  OPTIONAL { ?item wdt:P170 ?c. ?c rdfs:label ?cl FILTER(LANG(?cl)="en")
-             OPTIONAL { ?c wdt:P27 ?co. ?co rdfs:label ?country FILTER(LANG(?country)="en") } }
-  OPTIONAL { ?item wdt:P186 ?m. ?m rdfs:label ?ml FILTER(LANG(?ml)="en") }
-} GROUP BY ?item ?itemLabel ?hallLabel ?inv ?img ?when ?h ?w"""
+uuids = sorted({w["uuid"] for r in json.loads(ROOMS.read_text())["rooms"].values() for w in r["works"] if w.get("uuid")})
+print(len(uuids), "works in rooms")
 
 p = CACHE / "wd_prado.json"
 if not p.exists():
-    rows = get("https://query.wikidata.org/sparql", urllib.parse.urlencode({"query": QUERY}).encode(), "application/sparql-results+json")["results"]["bindings"]
-    p.write_text(json.dumps([{k: v["value"] for k, v in r.items()} for r in rows]))
-rows = json.loads(p.read_text())
-print(len(rows), "rows")
+    out = {}
+    for i in range(0, len(uuids), 150):
+        values = " ".join(f'"{u}"' for u in uuids[i:i + 150])
+        q = """SELECT ?pid ?item ?img ?inv ?h ?w WHERE { VALUES ?pid { %s } ?item wdt:P8905 ?pid.
+          OPTIONAL { ?item wdt:P18 ?img } OPTIONAL { ?item wdt:P217 ?inv }
+          OPTIONAL { ?item p:P2048/psn:P2048/wikibase:quantityAmount ?h } OPTIONAL { ?item p:P2049/psn:P2049/wikibase:quantityAmount ?w } }""" % values
+        for r in get("https://query.wikidata.org/sparql", urllib.parse.urlencode({"query": q}).encode(), "application/sparql-results+json")["results"]["bindings"]:
+            out.setdefault(r["pid"]["value"], {k: v["value"] for k, v in r.items() if k != "pid"})
+        time.sleep(2)
+    p.write_text(json.dumps(out))
+wd = json.loads(p.read_text())
+print(len(wd), "matched to Wikidata,", sum(1 for v in wd.values() if v.get("img")), "with a Commons image")
 
 p = CACHE / "commons_prado.json"
 if not p.exists():
-    files = sorted({urllib.parse.unquote(r["img"].split("Special:FilePath/")[-1]).replace("_", " ") for r in rows if r.get("img")})
+    files = sorted({urllib.parse.unquote(v["img"].split("Special:FilePath/")[-1]).replace("_", " ") for v in wd.values() if v.get("img")})
     info, redir = {}, {}
     for i in range(0, len(files), 40):
         q = get("https://commons.wikimedia.org/w/api.php?" + urllib.parse.urlencode({

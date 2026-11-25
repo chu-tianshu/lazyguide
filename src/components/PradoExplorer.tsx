@@ -1,10 +1,9 @@
 "use client";
 
 /**
- * Hall-by-hall way into the Prado's collection: halls are listed collapsed, and opening one shows its works. Which hall a work hangs
- * in comes from Wikidata (CC0); only about 70 works have one recorded. There is no floor or plan data from any open
- * source (the Prado's site blocks bots and OpenStreetMap has no indoor map), so unlike the Louvre there are no floors.
- * See scripts/prado/.
+ * Room-by-room way into the Prado's collection: rooms are listed collapsed, and opening one shows its works. Which room a work hangs
+ * in comes from the Prado's own room listings (collected in a browser, see scripts/prado/ and research/prado/). There
+ * is no floor or plan data from any open source, so unlike the Louvre there are no floors.
  */
 import { useEffect, useMemo, useState } from "react";
 import type { WorkSummary } from "@/data/catalog";
@@ -90,14 +89,14 @@ export function PradoExplorer({
     const halls = [...m.keys()].filter((k) => k !== NOT_RECORDED).sort(hallSort);
     return [...halls, ...(m.has(NOT_RECORDED) ? [NOT_RECORDED] : [])].map((key) => ({
       key,
-      name: key === NOT_RECORDED ? "Hall not recorded" : HALLS[key],
+      name: key === NOT_RECORDED ? "Room not recorded" : HALLS[key],
       works: m.get(key)!,
     }));
   }, [works]);
 
   return (
     <div className="explorer x-prado">
-      <p className="x-credit muted">Hall locations: Wikidata (CC0), recorded for only some works.</p>
+      <p className="x-credit muted">Room numbers: Museo del Prado collection pages. No floor plan is available from open sources.</p>
       {groups.map((g) => {
         const isOpen = open.has(g.key);
         return (

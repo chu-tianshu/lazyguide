@@ -1,123 +1,114 @@
 #!/usr/bin/env python3
-"""Builds the Prado catalog and hall index from the Wikidata/Commons downloads of fetch.py.
+"""Builds the Prado catalog and room index from the Prado's room listings plus Wikidata/Commons.
 
-    python3 scripts/prado/build.py <cache-dir>
+    python3 scripts/prado/build.py <cache-dir> [research/prado/prado-rooms.json]
 
-Outputs supabase/data/prado/en.json (the original 30 works plus the works Wikidata places in a numbered hall) and
-src/data/prado/halls.json (work -> hall, work -> sub-area), read by src/components/PradoExplorer.tsx.
-There is no floor or plan data: no open source has it (the Prado site blocks bots, OpenStreetMap has no indoor map).
+Inputs: prado-rooms.json (collected by research/prado/collect-rooms.js in a browser: room -> works with the Prado's own
+English title, author, medium/date, URL), and wd_prado.json / commons_prado.json from fetch.py (matched by the Prado UUID,
+which is Wikidata property P8905).
+Outputs: supabase/data/prado/en.json (the original 30 works plus every work in a room) and src/data/prado/halls.json
+(work -> room), read by src/components/PradoExplorer.tsx. The Prado's own images are never used; images are Commons only.
+There is no floor data.
 """
-import html, json, re, sys
-from collections import defaultdict
+import html, json, re, sys, unicodedata, urllib.parse
 from pathlib import Path
 
 CACHE = Path(sys.argv[1]); ROOT = Path(__file__).resolve().parents[2]
-rows = json.loads((CACHE / "wd_prado.json").read_text())
+ROOMS = Path(sys.argv[2]) if len(sys.argv) > 2 else ROOT / "research/prado/prado-rooms.json"
+rooms = json.loads(ROOMS.read_text())["rooms"]
+wd = json.loads((CACHE / "wd_prado.json").read_text())
 commons = json.loads((CACHE / "commons_prado.json").read_text())
 existing = json.loads((ROOT / "supabase/data/prado/en.json").read_text())
 
-ORIGINAL = {w["id"]: w for w in existing["works"] if re.fullmatch(r"prado-\d\d", w["id"])}
-# Original works that Wikidata also places in a hall (checked by title and artist).
-ORIGINAL_QIDS = {"prado-22": "Q2388965", "prado-25": "Q2378567", "prado-28": "Q75846"}
-QID_TO_ORIGINAL = {q: i for i, q in ORIGINAL_QIDS.items()}
-
-AREAS = {
-    "Spanish Painting": {"Spain", "Crown of Aragon", "Crown of Castile", "Kingdom of Castile", "Kingdom of Aragon"},
-    "Flemish & Dutch Painting": {"Habsburg Netherlands", "Duchy of Brabant", "Netherlands", "Belgium", "County of Flanders",
-                                 "Dutch Republic", "Spanish Netherlands", "Southern Netherlands", "Burgundian Netherlands"},
-    "Italian Painting": {"Italy", "Republic of Venice", "Duchy of Milan", "Papal States", "Republic of Florence", "Kingdom of Naples", "Duchy of Mantua"},
-    "German Painting": {"Germany", "Holy Roman Empire", "Electorate of Saxony", "Free imperial city of Nuremberg"},
-    "French Painting": {"France"},
-}
-AREA_ORDER = list(AREAS) + ["Other & anonymous"]
+ORIGINAL = [w for w in existing["works"] if re.fullmatch(r"prado-\d\d", w["id"])]
+PREVIOUS_Q_IDS = {w["id"] for w in existing["works"] if re.match(r"prado-Q\d+$", w["id"])}
 
 
-def area_of(countries: str) -> str:
-    cs = {c for c in countries.split("|") if c}
-    for name, members in AREAS.items():
-        if cs & members:
-            return name
-    return "Other & anonymous"
+def norm(s):
+    return set(re.sub(r"[^a-z0-9 ]", " ", unicodedata.normalize("NFKD", s).encode("ascii", "ignore").decode().lower()).split()) - {"the", "of", "and", "a", "in", "de", "el", "la"}
 
 
-def hall_key(label: str) -> str:
-    return re.sub(r"^Prado [Hh]all\s*", "", label).strip()  # "056B"
+def room_name(r): return "Room " + r
+def room_sort(r):
+    m = re.match(r"(\d+)(.*)", r); return (int(m[1]), m[2])
 
 
-def hall_name(key: str) -> str:
-    return "Hall " + key.lstrip("0")
+def tidy_author(a):
+    m = re.fullmatch(r"([^,]+),\s*([^,]+)", a.strip())
+    return f"{m[2]} {m[1]}" if m else a.strip()
 
 
-def hall_sort(key: str):
-    m = re.match(r"(\d+)(.*)", key)
-    return (int(m[1]), m[2]) if m else (999, key)
+listed = {}  # uuid -> (room, card)
+for r, v in rooms.items():
+    for w in v["works"]:
+        if w.get("uuid"): listed[w["uuid"]] = (r, w)
 
-
-by_item = defaultdict(list)
-for r in rows:
-    by_item[r["item"].split("/")[-1]].append(r)
+# Original works -> their listing, by title and artist (a few need a hint: the Prado's English titles differ).
+HINT = {"prado-04": "The Feast of Bacchus", "prado-06": "3rd of May", "prado-07": "2nd of May", "prado-08": "Saturn",
+        "prado-11": "Family of Carlos IV", "prado-24": "The Andrians", "prado-27": "The Cardinal", "prado-05": "1632"}
+orig_uuid = {}
+for e in ORIGINAL:
+    t = norm(re.sub(r"\s*\(.*\)", "", e["title"])); a = norm(e["artist"].split("(")[0])
+    cands = [(u, r, w) for u, (r, w) in listed.items() if a & norm(w["author"]) and (
+        (e["id"] in HINT and (HINT[e["id"]].lower() in w["title"].lower() or HINT[e["id"]] in w["detail"])) or
+        (e["id"] not in HINT and len(t & norm(w["title"])) >= max(1, len(t) * 0.7)))]
+    if e["id"] == "prado-05":
+        cands = [c for c in cands if "crucified" in c[2]["title"].lower()] or cands
+    if cands: orig_uuid[e["id"]] = cands[0][0]
+used_uuids = set(orig_uuid.values())
 
 f = lambda v: f"{v:.1f}".rstrip("0").rstrip(".")
-new_works, work_hall, work_area = [], {}, {}
-for qid, rs in by_item.items():
-    r0 = rs[0]
-    key = hall_key(r0["hallLabel"])
-    wid = QID_TO_ORIGINAL.get(qid, f"prado-{qid}")
-    old = ORIGINAL.get(wid)
-    area = area_of("|".join(r.get("countries", "") for r in rs))
-    work_hall[wid] = key
-    work_area[wid] = area
-    if old:
-        continue
-    years = sorted({int(r["when"][:4]) for r in rs if r.get("when")})
-    date = None if not years else (str(years[0]) if len(years) == 1 else f"{years[0]}–{years[-1]}")
-    mats = set(r0.get("mats", "").split("|")) - {""}
-    techniques = {"oil paint": "oil", "tempera": "tempera", "fresco": "fresco"}
-    tech = [techniques[m] for m in sorted(mats) if m in techniques]
-    sup = [m for m in sorted(mats) if m not in techniques]
-    medium = f"{tech[0]} on {', '.join(sup)}" if tech and sup else ", ".join(sorted(mats)) or None
+work_room, works = {}, []
+for e in ORIGINAL:
+    u = orig_uuid.get(e["id"])
+    if u:
+        r = listed[u][0]
+        work_room[e["id"]] = r
+        facts = [x for x in e["facts"] if x["label"] != "Location"] + [{"label": "Location", "value": f"{room_name(r)}, Museo del Prado"}]
+        e = {**e, "facts": facts, "category": room_name(r)}
+    works.append(e)
+
+new = []
+for u, (r, c) in listed.items():
+    if u in used_uuids: continue
+    m = wd.get(u, {})
+    q = m.get("item", "").split("/")[-1]
+    wid = f"prado-{q}" if f"prado-{q}" in PREVIOUS_Q_IDS else f"prado-{u}"
+    detail = c["detail"].strip()
+    mm = re.match(r"^(.*?)\.\s+(.+)$", detail)
+    medium, date = (mm[1], mm[2]) if mm and re.search(r"\d", mm[2]) else (detail or None, None)
     facts = []
     if date: facts.append({"label": "Date", "value": date})
     if medium: facts.append({"label": "Medium", "value": medium})
-    if r0.get("h") and r0.get("w"):
-        facts.append({"label": "Dimensions", "value": f"{f(float(r0['h']) * 100)} × {f(float(r0['w']) * 100)} cm"})
-    facts.append({"label": "Location", "value": f"{hall_name(key)}, Museo del Prado"})
-    if r0.get("inv"): facts.append({"label": "Inventory no.", "value": r0["inv"]})
-    work = {"id": wid, "title": r0["itemLabel"], "category": area, "facts": facts,
-            "objectUrl": f"https://www.wikidata.org/wiki/{qid}",
-            "guide": {"text": "Audio guide unavailable.", "unavailable": True}}
-    creators = sorted({c for r in rs for c in r.get("creators", "").split("|") if c})
-    if creators: work["artist"] = creators[0]
-    if r0.get("img"):
-        name = r0["img"].split("Special:FilePath/")[-1]
-        c = commons.get(re.sub("_", " ", __import__("urllib.parse").parse.unquote(name)))
-        if c:
-            lic = html.unescape(re.sub("<[^>]+>", "", c["meta"].get("LicenseShortName", "")))
+    if m.get("h") and m.get("w"):
+        facts.append({"label": "Dimensions", "value": f"{f(float(m['h']) * 100)} × {f(float(m['w']) * 100)} cm"})
+    facts.append({"label": "Location", "value": f"{room_name(r)}, Museo del Prado"})
+    if m.get("inv"): facts.append({"label": "Inventory no.", "value": m["inv"]})
+    work = {"id": wid, "title": html.unescape(c["title"]) or "Untitled", "category": room_name(r), "facts": facts,
+            "objectUrl": c["url"], "guide": {"text": "Audio guide unavailable.", "unavailable": True}}
+    if c["author"]: work["artist"] = tidy_author(c["author"])
+    if m.get("img"):
+        name = m["img"].split("Special:FilePath/")[-1]
+        info = commons.get(urllib.parse.unquote(name).replace("_", " "))
+        if info:
+            lic = html.unescape(re.sub("<[^>]+>", "", info["meta"].get("LicenseShortName", "")))
             if re.match(r"(Public domain|PD|CC0|CC BY)", lic, re.I):
                 image = {"src": f"https://commons.wikimedia.org/wiki/Special:FilePath/{name.replace('http://', 'https://')}?width=500",
-                         "sourceUrl": c["page"], "license": lic}
-                author = html.unescape(re.sub(r"\s+", " ", re.sub("<[^>]+>", "", c["meta"].get("Artist", "")))).strip()
+                         "sourceUrl": info["page"], "license": lic}
+                author = html.unescape(re.sub(r"\s+", " ", re.sub("<[^>]+>", "", info["meta"].get("Artist", "")))).strip()
                 if re.match(r"CC BY", lic, re.I) and author and not re.search(r"machine-readable|^Template:", author):
                     image["author"] = author
                 work["image"] = image
-    new_works.append(work)
+    work_room[wid] = r
+    new.append(work)
 
-new_works.sort(key=lambda w: (hall_sort(work_hall[w["id"]]), w["title"]))
-# Mark the original works that are in a hall.
-works = []
-for w in existing["works"]:
-    if w["id"] in work_hall and w["id"] in ORIGINAL:
-        w = {**w, "facts": [x for x in w["facts"] if x["label"] != "Location"] + [{"label": "Location", "value": f"{hall_name(work_hall[w['id']])}, Museo del Prado"}]}
-    if re.fullmatch(r"prado-\d\d", w["id"]):
-        works.append(w)
-works += new_works
-
-used = [a for a in AREA_ORDER if any(w.get("category") == a for w in works)]
-categories = list(existing["categories"]) + [a for a in used if a not in existing["categories"]]
+new.sort(key=lambda w: (room_sort(work_room[w["id"]]), w["title"]))
+works += new
+room_keys = sorted(set(work_room.values()), key=room_sort)
+unplaced_cats = [w["category"] for w in works if w["id"] not in work_room]
+categories = [room_name(r) for r in room_keys] + [c for c in dict.fromkeys(unplaced_cats)]
 (ROOT / "supabase/data/prado/en.json").write_text(json.dumps({"museum": existing["museum"], "categories": categories, "works": works}, ensure_ascii=False, indent=1) + "\n")
-halls = sorted(set(work_hall.values()), key=hall_sort)
 (ROOT / "src/data/prado").mkdir(parents=True, exist_ok=True)
-(ROOT / "src/data/prado/halls.json").write_text(json.dumps(
-    {"halls": {k: hall_name(k) for k in halls}, "workHalls": work_hall, "workAreas": work_area, "areaOrder": AREA_ORDER},
-    ensure_ascii=False, separators=(",", ":")))
-print(len(works), "works;", len(work_hall), "in halls;", len(halls), "halls;", sum(1 for w in new_works if "image" in w), "new with image")
+(ROOT / "src/data/prado/halls.json").write_text(json.dumps({"halls": {r: room_name(r) for r in room_keys}, "workHalls": work_room}, ensure_ascii=False, separators=(",", ":")))
+print(f"{len(works)} works; {len(work_room)} in {len(room_keys)} rooms; {sum(1 for w in new if 'image' in w)}/{len(new)} new with image; originals placed: {len(orig_uuid)}/{len(ORIGINAL)}")
+print("unplaced originals:", [e['id'] for e in ORIGINAL if e['id'] not in orig_uuid])

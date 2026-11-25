@@ -229,6 +229,6 @@ The eight English guide texts were drafted for this project from public pages of
 - **Identification and English titles:** Wikidata (CC0).
 - **Images:** Wikimedia Commons thumbnails, linked rather than copied. Only files marked Public domain, CC0, CC BY or CC BY-SA are used; each work's page links to its Commons file page and credits the author where the licence requires it.
 
-# Prado (hall index, metadata and images)
+# Prado (rooms, metadata and images)
 
-Which hall a work hangs in, and its title, creator, date, materials and size, come from Wikidata (CC0). Each work's page links to its Wikidata item. Images are Wikimedia Commons thumbnails, linked rather than copied; only files marked Public domain, CC0, CC BY or CC BY-SA are used, with the author credited where the licence requires it.
+Titles, authors, medium and date, and which room each work hangs in come from the Museo del Prado's public collection pages (https://www.museodelprado.es); each work's page links to its Prado page. Inventory number and size come from Wikidata (CC0), matched by the Prado's artwork ID. Images are Wikimedia Commons thumbnails, linked rather than copied; only files marked Public domain, CC0, CC BY or CC BY-SA are used, with the author credited where the licence requires it. The Prado's own images are not used.
