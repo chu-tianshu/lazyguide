@@ -713,6 +713,7 @@ export interface UiStrings {
   favoritesHeading: string;
   favoritesMore: string;
   favoritesTab: string;
+  mapTab: string;
   mapLabel: string;
   museumCount: (n: number) => string;
   noGuidesYet: string;
@@ -786,6 +787,7 @@ export const uiStrings: Record<LanguageCode, UiStrings> = {
     favoritesHeading: "My favorites",
     favoritesMore: "Explore more places",
     favoritesTab: "Favorites",
+    mapTab: "Map",
     mapLabel: "World map of museums. Use plus and minus to zoom.",
     museumCount: (n) => `${n} ${n === 1 ? "museum" : "museums"}`,
     noGuidesYet: "This museum has no guides yet.",
@@ -855,6 +857,7 @@ export const uiStrings: Record<LanguageCode, UiStrings> = {
     favoritesHeading: "我的收藏",
     favoritesMore: "探索更多地方",
     favoritesTab: "收藏",
+    mapTab: "地图",
     mapLabel: "博物馆世界地图。使用加号和减号缩放。",
     museumCount: (n) => `${n}座博物馆`,
     noGuidesYet: "该博物馆暂无导览。",
@@ -924,6 +927,7 @@ export const uiStrings: Record<LanguageCode, UiStrings> = {
     favoritesHeading: "Mes favoris",
     favoritesMore: "Explorer d’autres lieux",
     favoritesTab: "Favoris",
+    mapTab: "Carte",
     mapLabel: "Carte du monde des musées. Utilisez plus et moins pour zoomer.",
     museumCount: (n) => `${n} ${n === 1 ? "musée" : "musées"}`,
     noGuidesYet: "Ce musée n’a pas encore de guides.",
@@ -993,6 +997,7 @@ export const uiStrings: Record<LanguageCode, UiStrings> = {
     favoritesHeading: "Mis favoritos",
     favoritesMore: "Explorar más lugares",
     favoritesTab: "Favoritos",
+    mapTab: "Mapa",
     mapLabel: "Mapamundi de museos. Usa más y menos para acercar o alejar.",
     museumCount: (n) => `${n} ${n === 1 ? "museo" : "museos"}`,
     noGuidesYet: "Este museo aún no tiene guías.",
@@ -1062,6 +1067,7 @@ export const uiStrings: Record<LanguageCode, UiStrings> = {
     favoritesHeading: "Meine Favoriten",
     favoritesMore: "Weitere Orte entdecken",
     favoritesTab: "Favoriten",
+    mapTab: "Karte",
     mapLabel: "Weltkarte der Museen. Mit Plus und Minus zoomen.",
     museumCount: (n) => `${n} ${n === 1 ? "Museum" : "Museen"}`,
     noGuidesYet: "Dieses Museum hat noch keine Guides.",
@@ -1131,6 +1137,7 @@ export const uiStrings: Record<LanguageCode, UiStrings> = {
     favoritesHeading: "Os meus favoritos",
     favoritesMore: "Explorar mais lugares",
     favoritesTab: "Favoritos",
+    mapTab: "Mapa",
     mapLabel: "Mapa-múndi de museus. Use mais e menos para aumentar ou diminuir o zoom.",
     museumCount: (n) => `${n} ${n === 1 ? "museu" : "museus"}`,
     noGuidesYet: "Este museu ainda não tem guias.",
@@ -1200,6 +1207,7 @@ export const uiStrings: Record<LanguageCode, UiStrings> = {
     favoritesHeading: "I miei preferiti",
     favoritesMore: "Esplora altri luoghi",
     favoritesTab: "Preferiti",
+    mapTab: "Mappa",
     mapLabel: "Mappa del mondo dei musei. Usa più e meno per ingrandire o ridurre.",
     museumCount: (n) => `${n} ${n === 1 ? "museo" : "musei"}`,
     noGuidesYet: "Questo museo non ha ancora guide.",
@@ -1269,6 +1277,7 @@ export const uiStrings: Record<LanguageCode, UiStrings> = {
     favoritesHeading: "お気に入り",
     favoritesMore: "ほかの場所を探す",
     favoritesTab: "お気に入り",
+    mapTab: "地図",
     mapLabel: "美術館の世界地図。プラスとマイナスで拡大・縮小できます。",
     museumCount: (n) => `${n}館`,
     noGuidesYet: "この美術館にはまだガイドがありません。",
@@ -1338,6 +1347,7 @@ export const uiStrings: Record<LanguageCode, UiStrings> = {
     favoritesHeading: "내 즐겨찾기",
     favoritesMore: "더 많은 장소 둘러보기",
     favoritesTab: "즐겨찾기",
+    mapTab: "지도",
     mapLabel: "박물관 세계 지도. 더하기와 빼기로 확대·축소할 수 있습니다.",
     museumCount: (n) => `박물관 ${n}곳`,
     noGuidesYet: "이 박물관에는 아직 가이드가 없습니다.",

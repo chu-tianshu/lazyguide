@@ -388,7 +388,8 @@ button, input { font: inherit; color: inherit; }
   background: var(--surface);
   cursor: pointer;
 }
-.user-link { border: 0; background: none; padding: 0.2rem; color: var(--accent); }
+.user-link { border: 0; background: none; padding: 0.3rem; color: var(--accent); display: inline-flex; }
+.user-bar { gap: 1.1rem; }
 
 .visit-list { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--line); }
 .visit-item { gap: 0.2rem; }

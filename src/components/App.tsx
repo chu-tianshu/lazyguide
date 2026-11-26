@@ -305,7 +305,7 @@ function AppContent() {
           <h1>Lazy Guide</h1>
           <p className="brand-tag">{ui.tagline}</p>
         </header>
-        <UserBar language={uiLang} onShowVisits={() => setShowVisits(true)} onShowFavorites={() => setShowFavorites(true)} onShowSettings={() => setShowSettings(true)} />
+        <UserBar language={uiLang} onShowMap={() => setShowMap(true)} onShowVisits={() => setShowVisits(true)} onShowFavorites={() => setShowFavorites(true)} onShowSettings={() => setShowSettings(true)} />
         <FavoritesList museums={favoriteMuseums} language={uiLang} onSelect={chooseMuseum} onExplore={() => setShowMap(true)} />
       </main>
     );
@@ -318,7 +318,7 @@ function AppContent() {
           <h1>Lazy Guide</h1>
           <p className="brand-tag">{ui.tagline}</p>
         </header>
-        <UserBar language={uiLang} onShowVisits={() => setShowVisits(true)} onShowFavorites={() => setShowFavorites(true)} onShowSettings={() => setShowSettings(true)} />
+        <UserBar language={uiLang} onShowMap={() => setShowMap(true)} onShowVisits={() => setShowVisits(true)} onShowFavorites={() => setShowFavorites(true)} onShowSettings={() => setShowSettings(true)} />
         <MuseumMap museums={localized ?? museums} language={uiLang} onSelect={chooseMuseum} />
         <p className="map-hint">{ui.mapHint}</p>
       </main>
