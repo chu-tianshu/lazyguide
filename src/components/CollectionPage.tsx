@@ -124,6 +124,9 @@ export function CollectionPage({
         <h1>{catalog.museumName}</h1>
       </header>
 
+      {/* The Louvre explorer's wing and level controls render here, under the title. */}
+      {catalog.museumId === "louvre" && !phrase && <div id="louvre-controls" />}
+
       <section aria-labelledby="collection-heading">
         <h2 id="collection-heading">{t.collectionHeading}</h2>
         <label className="search">

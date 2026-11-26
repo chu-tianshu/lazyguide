@@ -5,6 +5,7 @@
  * floor plan (or in the list) and then an artwork. Rooms and which work hangs where come from the Louvre's
  * own collection database; the room outlines are OpenStreetMap indoor data. See scripts/louvre/.
  */
+import { createPortal } from "react-dom";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { WorkSummary } from "@/data/catalog";
 import { uiStrings, type LanguageCode } from "@/lib/i18n";
@@ -138,6 +139,10 @@ export function LouvreExplorer({
   const [pan, setPan] = useState<[number, number]>([0, 0]);
   const [hover, setHover] = useState<string | null>(null);
   const [plan, setPlan] = useState<Plan | null>(null);
+  const [slot, setSlot] = useState<HTMLElement | null>(null);
+  useEffect(() => {
+    setSlot(document.getElementById("louvre-controls"));
+  }, [wing]);
   useEffect(() => {
     saved = { ...saved, level, wing, selected, open: [...open] };
   }, [level, wing, selected, open]);
@@ -375,25 +380,40 @@ export function LouvreExplorer({
 
   return (
     <div className="explorer">
-      <div className="x-controls">
-        <button className="x-back" onClick={() => chooseWing(null)}>
-          ← {x.changeWing}
-        </button>
-        <span className="x-current">
-          <span className="x-dot" style={{ background: `hsl(${hueOf(wing)} 55% 52%)` }} aria-hidden="true" />
-          {x.wingSuffix(wing)}
-        </span>
-        <label className="x-level">
-          <span className="x-axis-label">{x.floor}</span>
-          <select value={level} onChange={(e) => chooseLevel(Number(e.target.value))}>
-            {[...LEVELS].reverse().map((l) => (
-              <option key={l} value={l}>
-                {LEVEL_NAME[l]} ({levelCounts.get(l) ?? 0})
-              </option>
-            ))}
-          </select>
-        </label>
-      </div>
+      {slot &&
+        createPortal(
+          <div className="x-controls">
+            <label className="x-level">
+              <span className="x-axis-label">{x.floor}</span>
+              <select value={level} onChange={(e) => chooseLevel(Number(e.target.value))}>
+                {[...LEVELS].reverse().map((l) => (
+                  <option key={l} value={l}>
+                    {LEVEL_NAME[l]} ({levelCounts.get(l) ?? 0})
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label className="x-level">
+              <span className="x-axis-label">{x.wing}</span>
+              <select
+                value={wing}
+                onChange={(e) => {
+                  chooseWing(e.target.value);
+                }}
+              >
+                {WINGS.map((w) => (
+                  <option key={w} value={w}>
+                    {x.wingSuffix(w)} ({wingTotals.get(w) ?? 0})
+                  </option>
+                ))}
+              </select>
+            </label>
+            <button className="x-back" onClick={() => chooseWing(null)}>
+              ← {x.changeWing}
+            </button>
+          </div>,
+          slot,
+        )}
 
       <div className="x-body">
         <div className="x-mapcol">
