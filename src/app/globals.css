@@ -689,4 +689,5 @@ label.search {
 /* Favorite museums */
 .fav-btn { background: none; border: 0; padding: 0.2rem; margin-left: 0.5rem; vertical-align: middle; cursor: pointer; color: var(--muted); line-height: 1; }
 .fav-btn.on, .fav-btn:hover { color: var(--accent); }
-.fav-more { margin-top: 1rem; }
+.fav-more { display: inline-block; margin-top: 1.2rem; padding: 0; background: none; border: 0; font: inherit; color: var(--accent); cursor: pointer; text-decoration: underline; text-underline-offset: 0.2em; text-decoration-thickness: 1px; }
+.fav-more:hover { text-decoration-thickness: 2px; }

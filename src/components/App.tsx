@@ -293,7 +293,7 @@ function AppContent() {
             </li>
           ))}
         </ul>
-        <button className="back fav-more" onClick={() => setShowMap(true)}>
+        <button className="fav-more" onClick={() => setShowMap(true)}>
           {ui.favoritesMore} →
         </button>
       </main>
