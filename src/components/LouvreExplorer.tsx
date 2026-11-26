@@ -550,8 +550,8 @@ export function LouvreExplorer({
 
         <div className="x-list">
           <h2 className="x-heading">
+            {wing ? `${x.wingSuffix(wing)} - ` : ""}
             {LEVEL_NAME[level]}
-            {wing ? ` · ${x.wingSuffix(wing)}` : ""}
             <span className="x-total"> {worksLabel(total)}</span>
           </h2>
           {listedGroups.length === 0 && <p className="empty">{x.noMatch}</p>}
