@@ -260,7 +260,9 @@ export interface UiStrings {
   explorer: {
     floor: string;
     wing: string;
-    allWings: string;
+    pickWing: string;
+    pickFloor: string;
+    changeWing: string;
     levels: Record<number, string>;
     wingName: (w: string) => string;
     wingSuffix: (w: string) => string;
@@ -325,7 +327,9 @@ export const uiStrings: Record<LanguageCode, UiStrings> = {
     explorer: {
       floor: "Level",
       wing: "Wing",
-      allWings: "All wings",
+      pickWing: "Which wing are you visiting?",
+      pickFloor: "Which level?",
+      changeWing: "Change wing",
       levels: { 2: "Level 2", 1: "Level 1", 0: "Ground", [-1]: "Level −1", [-2]: "Level −2" },
       wingName: (w) => w,
       wingSuffix: (w) => `${w} Wing`,
@@ -388,7 +392,9 @@ export const uiStrings: Record<LanguageCode, UiStrings> = {
     explorer: {
       floor: "楼层",
       wing: "展馆",
-      allWings: "全部展馆",
+      pickWing: "您要参观哪个展馆？",
+      pickFloor: "哪一层？",
+      changeWing: "更换展馆",
       levels: { 2: "2层", 1: "1层", 0: "地面层", [-1]: "负1层", [-2]: "负2层" },
       wingName: (w) => ({ Denon: "德农馆", Sully: "叙利馆", Richelieu: "黎塞留馆" })[w] ?? w,
       wingSuffix: (w) => ({ Denon: "德农馆", Sully: "叙利馆", Richelieu: "黎塞留馆" })[w] ?? w,
