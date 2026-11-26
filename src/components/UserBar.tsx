@@ -7,10 +7,12 @@ import { uiStrings, type LanguageCode } from "@/lib/i18n";
 export function UserBar({
   language,
   onShowVisits,
+  onShowFavorites,
   onShowSettings,
 }: {
   language: LanguageCode;
   onShowVisits: () => void;
+  onShowFavorites: () => void;
   onShowSettings: () => void;
 }) {
   const { user, signOut } = useAuth();
@@ -29,6 +31,9 @@ export function UserBar({
       <span className="user-name">{name}</span>
       <button className="user-link" onClick={onShowVisits}>
         {ui.myVisits}
+      </button>
+      <button className="user-link" onClick={onShowFavorites}>
+        {ui.favoritesTab}
       </button>
       <button className="user-link" onClick={onShowSettings}>
         {ui.settings}

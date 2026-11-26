@@ -10,6 +10,7 @@ import { fetchCatalog, fetchLanguageCodes, fetchMuseums, fetchWork, localizeMuse
 import { MuseumMap } from "./MuseumMap";
 import { CollectionPage } from "./CollectionPage";
 import { PaintingDetail } from "./PaintingDetail";
+import { FavoritesList } from "./FavoritesList";
 import { UserBar } from "./UserBar";
 import { VisitsPage } from "./VisitsPage";
 import { PreferencesPage } from "./PreferencesPage";
@@ -40,6 +41,7 @@ function AppContent() {
   // Favorite museum ids, newest first; null until loaded. showMap swaps the front-page list for the world map.
   const [favorites, setFavorites] = useState<string[] | null>(null);
   const [showMap, setShowMap] = useState(false);
+  const [showFavorites, setShowFavorites] = useState(false);
   // undefined while loading; null once loaded with nothing saved (first login); "error" if the lookup failed.
   const [prefs, setPrefs] = useState<Preferences | null | "error" | undefined>(undefined);
   // What an earlier, incomplete save held (e.g. from before language was a setting), to prefill the form.
@@ -274,6 +276,28 @@ function AppContent() {
     .map((id) => (localized ?? museums).find((m) => m.id === id))
     .filter((m): m is Museum => !!m);
 
+  if (showFavorites) {
+    return (
+      <main className="shell" lang={htmlLang(uiLang)}>
+        <button className="back" onClick={() => setShowFavorites(false)}>
+          {ui.allMuseums}
+        </button>
+        <FavoritesList
+          museums={favoriteMuseums}
+          language={uiLang}
+          onSelect={(id) => {
+            setShowFavorites(false);
+            chooseMuseum(id);
+          }}
+          onExplore={() => {
+            setShowFavorites(false);
+            setShowMap(true);
+          }}
+        />
+      </main>
+    );
+  }
+
   if (!museum && favoriteMuseums.length > 0 && !showMap) {
     return (
       <main className="shell" lang={htmlLang(uiLang)}>
@@ -281,21 +305,8 @@ function AppContent() {
           <h1>Lazy Guide</h1>
           <p className="brand-tag">{ui.tagline}</p>
         </header>
-        <UserBar language={uiLang} onShowVisits={() => setShowVisits(true)} onShowSettings={() => setShowSettings(true)} />
-        <h2>{ui.favoritesHeading}</h2>
-        <ul className="visit-list">
-          {favoriteMuseums.map((m) => (
-            <li key={m.id}>
-              <button className="result visit-item" onClick={() => chooseMuseum(m.id)}>
-                <span className="result-title">{m.name}</span>
-                <span className="result-meta">{m.subtitle || `${m.place.city}, ${m.place.country}`}</span>
-              </button>
-            </li>
-          ))}
-        </ul>
-        <button className="fav-more" onClick={() => setShowMap(true)}>
-          {ui.favoritesMore} →
-        </button>
+        <UserBar language={uiLang} onShowVisits={() => setShowVisits(true)} onShowFavorites={() => setShowFavorites(true)} onShowSettings={() => setShowSettings(true)} />
+        <FavoritesList museums={favoriteMuseums} language={uiLang} onSelect={chooseMuseum} onExplore={() => setShowMap(true)} />
       </main>
     );
   }
@@ -307,7 +318,7 @@ function AppContent() {
           <h1>Lazy Guide</h1>
           <p className="brand-tag">{ui.tagline}</p>
         </header>
-        <UserBar language={uiLang} onShowVisits={() => setShowVisits(true)} onShowSettings={() => setShowSettings(true)} />
+        <UserBar language={uiLang} onShowVisits={() => setShowVisits(true)} onShowFavorites={() => setShowFavorites(true)} onShowSettings={() => setShowSettings(true)} />
         <MuseumMap museums={localized ?? museums} language={uiLang} onSelect={chooseMuseum} />
         <p className="map-hint">{ui.mapHint}</p>
       </main>
