@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import type { Work } from "@/data/catalog";
+import { factLabel } from "@/data/factLabels";
 import { strings, type LanguageCode } from "@/lib/i18n";
 import { useAuth } from "@/lib/auth";
 import { recordVisit } from "@/lib/visits";
@@ -24,6 +25,7 @@ export function PaintingDetail({
   work,
   museumId,
   language,
+  uiLanguage,
   textCredit,
   preferences,
   onChangePreferences,
@@ -31,14 +33,17 @@ export function PaintingDetail({
 }: {
   work: Work;
   museumId: string;
+  /** The language the guide text is in (the catalog's). */
   language: LanguageCode;
+  /** The visitor's language: all of the page's own text, and generated guides. */
+  uiLanguage: LanguageCode;
   textCredit?: string;
   /** The visitor's saved preferences; null when they could not be loaded. */
   preferences: Preferences | null;
   onChangePreferences: () => void;
   onBack: () => void;
 }) {
-  const t = strings[language];
+  const t = strings[uiLanguage];
   const { user } = useAuth();
   const [effort, setEffort] = useState<Effort | null>(null);
   const [expanded, setExpanded] = useState(false);
@@ -211,7 +216,7 @@ export function PaintingDetail({
         <dl className="meta">
           {work.facts.map((f) => (
             <div key={f.label}>
-              <dt>{f.label}</dt>
+              <dt>{factLabel(f.label, uiLanguage)}</dt>
               <dd>{f.value}</dd>
             </div>
           ))}
@@ -248,6 +253,7 @@ export function PaintingDetail({
               key={`${work.id}-${mode}-${mode === "custom" ? custom?.text.length : ""}`}
               sections={sections}
               language={mode === "custom" && preferences ? preferences.language : language}
+              uiLanguage={uiLanguage}
               track={{ museumId, workId: work.id }}
               onListenedChange={setListenedText}
               jumpTo={expandToken ? { section: 1, token: expandToken } : undefined}
@@ -301,7 +307,7 @@ export function PaintingDetail({
           {explored.map((x) => (
             <div key={x.topic} className="explored">
               <h3>{x.topic}</h3>
-              <GuidePlayer sections={[{ text: x.text }]} language={preferences?.language ?? language} autoPlay={x === explored[explored.length - 1]} />
+              <GuidePlayer sections={[{ text: x.text }]} language={preferences?.language ?? language} uiLanguage={uiLanguage} autoPlay={x === explored[explored.length - 1]} />
             </div>
           ))}
           {remainingTopics.length > 0 && (
@@ -324,7 +330,7 @@ export function PaintingDetail({
       {mode && (!unavailable || mode === "custom") && (
         <FollowUpPanel
           museumId={museumId}
-          language={mode === "custom" && preferences ? preferences.language : language}
+          language={uiLanguage}
           workId={work.id}
           effort={mode}
           listenedText={listenedText}

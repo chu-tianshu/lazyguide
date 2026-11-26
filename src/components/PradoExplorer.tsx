@@ -7,6 +7,7 @@
  */
 import { useEffect, useMemo, useState } from "react";
 import type { WorkSummary } from "@/data/catalog";
+import { uiStrings, type LanguageCode } from "@/lib/i18n";
 import hallData from "@/data/prado/halls.json";
 
 const HALLS = hallData.halls as Record<string, string>;
@@ -23,7 +24,7 @@ const dateOf = (w: WorkSummary) => w.facts.find((f) => f.label === "Date")?.valu
 // The visitor's place survives opening a work and coming back, scroll position included.
 let saved: { open: string[]; scrollY: number } = { open: [], scrollY: 0 };
 
-function Card({ w, visited, onSelect }: { w: WorkSummary; visited: Set<string>; onSelect: (id: string) => void }) {
+function Card({ w, visited, visitedLabel, onSelect }: { w: WorkSummary; visited: Set<string>; visitedLabel: string; onSelect: (id: string) => void }) {
   return (
     <li>
       <button className="x-card" onClick={() => onSelect(w.id)}>
@@ -38,7 +39,7 @@ function Card({ w, visited, onSelect }: { w: WorkSummary; visited: Set<string>; 
         <span className="x-card-title">
           {w.title}
           {visited.has(w.id) && (
-            <span className="x-visited" role="img" aria-label="Visited" title="Visited">
+            <span className="x-visited" role="img" aria-label={visitedLabel} title={visitedLabel}>
               ✓
             </span>
           )}
@@ -52,14 +53,17 @@ function Card({ w, visited, onSelect }: { w: WorkSummary; visited: Set<string>; 
 const NOT_RECORDED = "none";
 
 export function PradoExplorer({
+  language,
   works,
   visited,
   onSelect: openWork,
 }: {
+  language: LanguageCode;
   works: WorkSummary[];
   visited: Set<string>;
   onSelect: (id: string) => void;
 }) {
+  const ui = uiStrings[language];
   const [open, setOpen] = useState<Set<string>>(new Set(saved.open));
   useEffect(() => {
     saved = { ...saved, open: [...open] };
@@ -89,14 +93,14 @@ export function PradoExplorer({
     const halls = [...m.keys()].filter((k) => k !== NOT_RECORDED).sort(hallSort);
     return [...halls, ...(m.has(NOT_RECORDED) ? [NOT_RECORDED] : [])].map((key) => ({
       key,
-      name: key === NOT_RECORDED ? "Room not recorded" : HALLS[key],
+      name: key === NOT_RECORDED ? ui.roomNotRecorded : HALLS[key],
       works: m.get(key)!,
     }));
-  }, [works]);
+  }, [works, ui.roomNotRecorded]);
 
   return (
     <div className="explorer x-prado">
-      <p className="x-credit muted">Room numbers: Museo del Prado collection pages. No floor plan is available from open sources.</p>
+      <p className="x-credit muted">{ui.pradoCredit}</p>
       {groups.map((g) => {
         const isOpen = open.has(g.key);
         return (
@@ -112,7 +116,7 @@ export function PradoExplorer({
             {isOpen && (
               <ul className="x-cards">
                 {g.works.map((w) => (
-                  <Card key={w.id} w={w} visited={visited} onSelect={onSelect} />
+                  <Card key={w.id} w={w} visited={visited} visitedLabel={ui.visited} onSelect={onSelect} />
                 ))}
               </ul>
             )}

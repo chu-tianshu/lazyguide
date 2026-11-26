@@ -6,15 +6,16 @@ import { museumIdForSlug, slugForMuseum } from "@/data/museumSlugs";
 import type { Catalog, Work, WorkSummary } from "@/data/catalog";
 import type { Museum } from "@/data/museums";
 import { languages } from "@/data/languages";
-import { browserLanguage, uiStrings, type LanguageCode } from "@/lib/i18n";
-import { fetchCatalog, fetchLanguageCodes, fetchMuseumNames, fetchMuseums, fetchWork, localizeMuseums } from "@/lib/catalogApi";
+import { htmlLang, initialLanguage, rememberLanguage, uiStrings, type LanguageCode } from "@/lib/i18n";
+import { fetchCatalog, fetchLanguageCodes, fetchMuseums, fetchWork, localizeMuseums } from "@/lib/catalogApi";
 import { MuseumMap } from "./MuseumMap";
 import { CollectionPage } from "./CollectionPage";
 import { PaintingDetail } from "./PaintingDetail";
 import { UserBar } from "./UserBar";
 import { VisitsPage } from "./VisitsPage";
 import { PreferencesPage } from "./PreferencesPage";
-import { fetchPreferences, type Preferences } from "@/lib/preferences";
+import { LanguageSelect } from "./LanguageSelect";
+import { DEFAULT_PREFERENCES, fetchPreferences, isPreferences, savePreferences, type Preferences } from "@/lib/preferences";
 import { SignInGate } from "./SignInGate";
 import { track } from "@/lib/analytics";
 import { AuthProvider, useAuth } from "@/lib/auth";
@@ -48,22 +49,28 @@ function AppContent() {
   const [work, setWork] = useState<Work | null>(null);
   const [loadFailed, setLoadFailed] = useState(false);
 
-  const [names, setNames] = useState<Awaited<ReturnType<typeof fetchMuseumNames>> | null>(null);
-
-  // Language is a user-level setting; until it is saved, app-level text follows the browser's language.
-  const uiLang: LanguageCode = prefs && prefs !== "error" ? prefs.language : browserLanguage();
+  // Language is a user-level setting; until it is saved, text follows the language chosen on this device, else the browser's.
+  const [deviceLang] = useState<LanguageCode>(initialLanguage);
+  const uiLang: LanguageCode = prefs && prefs !== "error" ? prefs.language : deviceLang;
   const ui = uiStrings[uiLang];
-  const localized = useMemo(() => (museums ? localizeMuseums(museums, names) : null), [museums, names]);
+  const localized = useMemo(() => (museums ? localizeMuseums(museums, uiLang) : null), [museums, uiLang]);
   const museum = localized?.find((m) => m.id === museumId);
 
-  // Language is a user-level setting. A museum that has no guides in it shows its first available language.
-  const preferredLanguage: LanguageCode = prefs && prefs !== "error" ? prefs.language : "en";
+  // Language is a user-level setting. A museum with no guides in it shows English, else its first available language.
+  const preferredLanguage: LanguageCode = uiLang;
   const languageCode: LanguageCode | null = offered
     ? offered.includes(preferredLanguage)
       ? preferredLanguage
-      : (offered[0] ?? null)
+      : offered.includes("en")
+        ? "en"
+        : (offered[0] ?? null)
     : null;
   const languageFallback = Boolean(offered && languageCode && languageCode !== preferredLanguage);
+
+  useEffect(() => {
+    document.documentElement.lang = htmlLang(uiLang);
+    document.title = `Lazy Guide — ${ui.tagline}`;
+  }, [uiLang, ui.tagline]);
 
   useEffect(() => {
     if (user) track("app_open");
@@ -82,19 +89,6 @@ function AppContent() {
   }, [user]);
 
   useEffect(() => {
-    if (!user) return;
-    let current = true;
-    // Museum names in the visitor's language; the English names stay if this fails.
-    fetchMuseumNames(uiLang).then(
-      (n) => current && setNames(n),
-      () => {},
-    );
-    return () => {
-      current = false;
-    };
-  }, [user, uiLang]);
-
-  useEffect(() => {
     if (!user) {
       setPrefs(undefined);
       return;
@@ -103,6 +97,7 @@ function AppContent() {
     fetchPreferences().then(
       (r) => {
         if (!current) return;
+        if (r.prefs) rememberLanguage(r.prefs.language);
         setPrefs(r.prefs);
         setDraft(r.draft);
       },
@@ -177,11 +172,11 @@ function AppContent() {
   };
 
   if (loading) return null;
-  if (!user) return <SignInGate />;
+  if (!user) return <SignInGate language={deviceLang} />;
 
   if (loadFailed) {
     return (
-      <main className="shell" lang={uiLang === "zh" ? "zh-Hans" : "en"}>
+      <main className="shell" lang={htmlLang(uiLang)}>
         <p className="muted">{ui.loadFailed}</p>
       </main>
     );
@@ -189,23 +184,34 @@ function AppContent() {
 
   if (prefs === undefined) {
     return (
-      <main className="shell" lang={uiLang === "zh" ? "zh-Hans" : "en"}>
+      <main className="shell" lang={htmlLang(uiLang)}>
         <p className="muted">{ui.loading}</p>
       </main>
     );
   }
 
-  // First login: ask once, before anything else.
+  // First login: ask for the language once, before anything else. Everything else starts at its default
+  // (or what an earlier, partial save held) and can be changed in Settings.
   if (prefs === null) {
-    return <PreferencesPage initial={draft} onboarding onSaved={setPrefs} />;
+    return (
+      <LanguageSelect
+        onChoose={async (language) => {
+          const next: Preferences = { ...DEFAULT_PREFERENCES, ...draft, language };
+          const complete = isPreferences(next) ? next : { ...DEFAULT_PREFERENCES, language };
+          await savePreferences(complete);
+          rememberLanguage(language);
+          setPrefs(complete);
+        }}
+      />
+    );
   }
 
   if (showSettings) {
     return (
       <PreferencesPage
         initial={prefs === "error" ? null : prefs}
-        onboarding={false}
         onSaved={(p) => {
+          rememberLanguage(p.language);
           setPrefs(p);
           setShowSettings(false);
         }}
@@ -229,7 +235,7 @@ function AppContent() {
 
   if (!museums) {
     return (
-      <main className="shell" lang={uiLang === "zh" ? "zh-Hans" : "en"}>
+      <main className="shell" lang={htmlLang(uiLang)}>
         <p className="muted">{ui.loading}</p>
       </main>
     );
@@ -237,7 +243,7 @@ function AppContent() {
 
   if (!museum) {
     return (
-      <main className="map-shell" lang={uiLang === "zh" ? "zh-Hans" : "en"}>
+      <main className="map-shell" lang={htmlLang(uiLang)}>
         <header className="brand map-brand">
           <h1>Lazy Guide</h1>
           <p className="brand-tag">{ui.tagline}</p>
@@ -265,6 +271,7 @@ function AppContent() {
         work={work}
         museumId={museum.id}
         language={catalog.language}
+        uiLanguage={uiLang}
         textCredit={catalog.textCredit}
         preferences={prefs === "error" ? null : prefs}
         onChangePreferences={() => setShowSettings(true)}
@@ -274,11 +281,11 @@ function AppContent() {
       <p className="muted">{ui.loading}</p>
     );
   } else {
-    content = <CollectionPage catalog={catalog} onSelect={chooseWork} onAddWorks={addWorks} />;
+    content = <CollectionPage catalog={catalog} uiLanguage={uiLang} onSelect={chooseWork} onAddWorks={addWorks} />;
   }
 
   return (
-    <main className="shell" lang={languageCode === "zh" ? "zh-Hans" : "en"}>
+    <main className="shell" lang={htmlLang(uiLang)}>
       <BackToTop label={ui.backToTop} />
       {languageFallback && languageCode && (
         <p className="notice" role="note">

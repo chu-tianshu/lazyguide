@@ -44,6 +44,7 @@ function pickVoice(speechLang: string): SpeechSynthesisVoice | undefined {
 export function GuidePlayer({
   sections,
   language,
+  uiLanguage = language,
   onListenedChange,
   jumpTo,
   autoPlay = false,
@@ -52,7 +53,10 @@ export function GuidePlayer({
   /** Start speaking as soon as the player mounts. */
   autoPlay?: boolean;
   sections: Section[];
+  /** The language the text is written in: what is chunked and spoken. */
   language: LanguageCode;
+  /** The visitor's language, for the player's own labels (defaults to the text's). */
+  uiLanguage?: LanguageCode;
   /** When set, plays, replays and completions of this guide are logged as telemetry. */
   track?: { museumId: string; workId: string };
   /** Reports the text the visitor has heard so far (sentences up to the current one). */
@@ -60,7 +64,8 @@ export function GuidePlayer({
   /** Start playing from this section when `token` changes. */
   jumpTo?: { section: number; token: number };
 }) {
-  const t = strings[language];
+  const t = strings[uiLanguage];
+  const c = strings[language];
 
   const flat = useMemo(() => {
     const items: { text: string; section: number }[] = [];
@@ -127,7 +132,7 @@ export function GuidePlayer({
       speakBrowser(start, r, keepHeard);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [flat, supported, t.speechLang, language],
+    [flat, supported, c.speechLang, language],
   );
 
   /** Neural voice: audio is requested one sentence at a time (the next is fetched while one plays). */
@@ -209,7 +214,7 @@ export function GuidePlayer({
 
       const runId = ++runRef.current;
       const isCurrent = () => runId === runRef.current;
-      const voice = pickVoice(t.speechLang);
+      const voice = pickVoice(c.speechLang);
       // Only warn once voices have loaded and none matches the guide's language.
       setNoVoice(!voice && synth.getVoices().length > 0);
 
@@ -222,7 +227,7 @@ export function GuidePlayer({
         const item = flat[index];
         const utterance = new SpeechSynthesisUtterance(item.text);
         utterance.rate = r;
-        utterance.lang = voice?.lang ?? t.speechLang;
+        utterance.lang = voice?.lang ?? c.speechLang;
         if (voice) utterance.voice = voice;
 
         utterance.onstart = () => {
@@ -334,8 +339,8 @@ export function GuidePlayer({
       flat
         .filter((_, i) => heard.has(i))
         .map((f) => f.text)
-        .join(t.joiner),
-    [flat, heard, t.joiner],
+        .join(c.joiner),
+    [flat, heard, c.joiner],
   );
 
   useEffect(() => {
@@ -458,7 +463,7 @@ export function GuidePlayer({
                     className={cls}
                   >
                     {item.text}
-                    {t.joiner}
+                    {c.joiner}
                   </span>
                 );
               })}

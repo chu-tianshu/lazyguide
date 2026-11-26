@@ -65,6 +65,48 @@ export const OPTION_LABELS = {
       anecdotes: { title: "轶事", desc: "令人惊讶的故事与趣闻" },
     },
   },
+  fr: {
+    length: {
+      short: { title: "Court", desc: "Environ 1 minute" },
+      medium: { title: "Moyen", desc: "Environ 2 à 3 minutes" },
+      long: { title: "Long", desc: "Environ 5 minutes" },
+    },
+    style: {
+      conversational: { title: "Conversationnel", desc: "Chaleureux et naturel, comme un ami à vos côtés" },
+      storytelling: { title: "Récit", desc: "Raconté comme une histoire avec un fil conducteur" },
+      scholarly: { title: "Savant", desc: "Précis, avec la profondeur de l’histoire de l’art" },
+      playful: { title: "Ludique", desc: "Léger, plein d’esprit et de curiosité" },
+    },
+    topic: {
+      history: { title: "Histoire", desc: "Quand et pourquoi l’œuvre a été créée" },
+      technique: { title: "Technique", desc: "Les matériaux et la façon de la réaliser" },
+      symbolism: { title: "Symbolisme", desc: "Sens cachés et iconographie" },
+      artist: { title: "L’artiste", desc: "Sa vie et sa carrière" },
+      culture: { title: "Culture et société", desc: "Le monde autour de l’œuvre" },
+      anecdotes: { title: "Anecdotes", desc: "Histoires surprenantes et curiosités" },
+    },
+  },
+  es: {
+    length: {
+      short: { title: "Corta", desc: "Alrededor de 1 minuto" },
+      medium: { title: "Media", desc: "Alrededor de 2–3 minutos" },
+      long: { title: "Larga", desc: "Alrededor de 5 minutos" },
+    },
+    style: {
+      conversational: { title: "Conversacional", desc: "Cercano y natural, como un amigo a tu lado" },
+      storytelling: { title: "Narrativo", desc: "Contado como una historia con hilo conductor" },
+      scholarly: { title: "Erudito", desc: "Preciso, con profundidad de historia del arte" },
+      playful: { title: "Desenfadado", desc: "Ligero, ingenioso y curioso" },
+    },
+    topic: {
+      history: { title: "Historia", desc: "Cuándo y por qué se creó" },
+      technique: { title: "Técnica", desc: "Materiales y cómo se hizo" },
+      symbolism: { title: "Simbolismo", desc: "Significados ocultos e iconografía" },
+      artist: { title: "El artista", desc: "Su vida y trayectoria" },
+      culture: { title: "Cultura y sociedad", desc: "El mundo que rodea la obra" },
+      anecdotes: { title: "Anécdotas", desc: "Historias sorprendentes y curiosidades" },
+    },
+  },
 } as const;
 
 export const DEFAULT_PREFERENCES: Preferences = {

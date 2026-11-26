@@ -2,8 +2,10 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { searchWorks, type Catalog, type WorkSummary } from "@/data/catalog";
+import { museumLocation, museumName } from "@/data/museumNames";
+import { factLabel } from "@/data/factLabels";
 import { fetchSourceNames, searchSources } from "@/lib/catalogApi";
-import { strings, uiStrings } from "@/lib/i18n";
+import { strings, uiStrings, type LanguageCode } from "@/lib/i18n";
 import { fetchVisits } from "@/lib/visits";
 import { museumHeader } from "@/data/museumImages";
 import { LouvreExplorer } from "./LouvreExplorer";
@@ -11,15 +13,20 @@ import { PradoExplorer } from "./PradoExplorer";
 
 export function CollectionPage({
   catalog,
+  uiLanguage,
   onSelect,
   onAddWorks,
 }: {
   catalog: Catalog;
+  /** The visitor's language: the page's own text. The catalog may be in another one. */
+  uiLanguage: LanguageCode;
   onSelect: (id: string) => void;
   onAddWorks: (works: WorkSummary[]) => void;
 }) {
-  const t = strings[catalog.language];
-  const ui = uiStrings[catalog.language];
+  const t = strings[uiLanguage];
+  const ui = uiStrings[uiLanguage];
+  const title = museumName(catalog.museumId, uiLanguage) ?? catalog.museumName;
+  const location = museumLocation(catalog.museumId, uiLanguage) ?? catalog.museumLocation;
   const header = museumHeader(catalog.museumId);
   const [query, setQuery] = useState("");
   // Works the signed-in visitor has already opened a guide for.
@@ -54,7 +61,7 @@ export function CollectionPage({
   const phrase = query.trim();
   // An outcome belongs to the phrase it was for; typing something else makes the offer fresh.
   const outcome = online && online.query === phrase ? online.phase : null;
-  const sourceList = (sourceNames ?? []).join(catalog.language === "zh" ? "、" : ", ");
+  const sourceList = (sourceNames ?? []).join(ui.listSeparator);
 
   const searchOnline = async () => {
     setOnline({ query: phrase, phase: "searching" });
@@ -104,7 +111,7 @@ export function CollectionPage({
       {header && (
         <figure className="museum-header">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={header.src} alt={catalog.museumName} loading="eager" />
+          <img src={header.src} alt={title} loading="eager" />
           <figcaption>
             <a href={header.creditUrl} target="_blank" rel="noreferrer">
               {ui.photoCredit}
@@ -114,8 +121,8 @@ export function CollectionPage({
       )}
 
       <header className="masthead">
-        <p className="eyebrow">{catalog.museumLocation}</p>
-        <h1>{catalog.museumName}</h1>
+        <p className="eyebrow">{location}</p>
+        <h1>{title}</h1>
       </header>
 
       {/* The Louvre explorer's wing and level controls render here, under the title. */}
@@ -153,11 +160,11 @@ export function CollectionPage({
 
         {/* The Louvre and the Prado are browsed by room; a search falls back to the plain list below. */}
         {catalog.museumId === "louvre" && !phrase && (
-          <LouvreExplorer language={catalog.language} works={catalog.works} visited={visited} onSelect={onSelect} />
+          <LouvreExplorer language={uiLanguage} works={catalog.works} visited={visited} onSelect={onSelect} />
         )}
 
         {catalog.museumId === "prado" && !phrase && (
-          <PradoExplorer works={catalog.works} visited={visited} onSelect={onSelect} />
+          <PradoExplorer language={uiLanguage} works={catalog.works} visited={visited} onSelect={onSelect} />
         )}
 
         {!((catalog.museumId === "louvre" || catalog.museumId === "prado") && !phrase) && groups.map((group) => (

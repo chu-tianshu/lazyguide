@@ -7,6 +7,7 @@
 import type { LanguageCode } from "@/lib/i18n";
 import type { Catalog, Fact, Guide, PaintingImage, Work, WorkSummary } from "@/data/catalog";
 import type { Museum } from "@/data/museums";
+import { museumLocation, museumName, placeName } from "@/data/museumNames";
 import { supabase } from "./supabaseClient";
 
 function db() {
@@ -56,20 +57,19 @@ export async function fetchMuseums(): Promise<Museum[]> {
   }));
 }
 
-/** Each museum's name and location as written in one language (museums with no catalog in it are absent). */
-export async function fetchMuseumNames(language: LanguageCode): Promise<Record<string, { name: string; location: string }>> {
-  const { data, error } = await db().from("catalogs").select("museum_id, museum_name, location").eq("language", language);
-  if (error) throw error;
-  return Object.fromEntries(data.map((r) => [r.museum_id, { name: r.museum_name, location: r.location }]));
-}
-
-/** Museums with their names and locations in the given language where the catalog has them. */
-export function localizeMuseums(museums: Museum[], names: Record<string, { name: string; location: string }> | null): Museum[] {
-  if (!names) return museums;
-  return museums.map((m) => {
-    const n = names[m.id];
-    return n ? { ...m, name: n.name, subtitle: n.location } : m;
-  });
+/** Museums with their names and locations in the given language (the database's English where there is no translation). */
+export function localizeMuseums(museums: Museum[], language: LanguageCode): Museum[] {
+  return museums.map((m) => ({
+    ...m,
+    name: museumName(m.id, language) ?? m.name,
+    subtitle: museumLocation(m.id, language) ?? m.subtitle,
+    place: {
+      ...m.place,
+      city: placeName(m.place.city, language),
+      country: placeName(m.place.country, language),
+      continent: placeName(m.place.continent, language),
+    },
+  }));
 }
 
 /** Languages a museum has guides for. */

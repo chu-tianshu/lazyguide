@@ -2,18 +2,16 @@
 
 import { useState } from "react";
 import { useAuth } from "@/lib/auth";
-import { browserLanguage, uiStrings } from "@/lib/i18n";
+import { htmlLang, uiStrings, type LanguageCode } from "@/lib/i18n";
 
 /** Shown before anything else: a visitor must sign in with Google or continue as a guest. */
-export function SignInGate() {
+export function SignInGate({ language }: { language: LanguageCode }) {
   const { signInWithGoogle, continueAsGuest } = useAuth();
   const [error, setError] = useState<string>();
-  // Nothing is saved before sign-in, so follow the browser's language.
-  const language = browserLanguage();
   const ui = uiStrings[language];
 
   return (
-    <main className="map-shell" lang={language === "zh" ? "zh-Hans" : "en"}>
+    <main className="map-shell" lang={htmlLang(language)}>
       <div className="gate-screen">
         <header className="brand map-brand">
           <h1>Lazy Guide</h1>

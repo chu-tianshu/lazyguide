@@ -24,6 +24,8 @@ export const MAX_STORED = 3;
 const factLabels: Record<LanguageCode, Record<FactKey, string>> = {
   en: { date: "Date", medium: "Medium", dimensions: "Size", culture: "Culture", type: "Type", accession: "Accession", location: "Location", credit: "Credit" },
   zh: { date: "年代", medium: "材质", dimensions: "尺寸", culture: "文化", type: "类别", accession: "编号", location: "位置", credit: "来源" },
+  fr: { date: "Date", medium: "Technique", dimensions: "Dimensions", culture: "Culture", type: "Type", accession: "N° d’acquisition", location: "Emplacement", credit: "Crédit" },
+  es: { date: "Fecha", medium: "Técnica", dimensions: "Dimensiones", culture: "Cultura", type: "Tipo", accession: "N.º de registro", location: "Ubicación", credit: "Crédito" },
 };
 
 export interface SourceResult {

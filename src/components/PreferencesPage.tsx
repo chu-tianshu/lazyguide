@@ -2,9 +2,8 @@
 
 import { useState } from "react";
 import { languages } from "@/data/languages";
-import { browserLanguage, uiStrings } from "@/lib/i18n";
-import { CnFlag } from "./CnFlag";
-import { UsFlag } from "./UsFlag";
+import { htmlLang, initialLanguage, uiStrings } from "@/lib/i18n";
+import { LanguageFlag } from "./LanguageFlag";
 import {
   DEFAULT_PREFERENCES,
   LENGTHS,
@@ -17,24 +16,21 @@ import {
 } from "@/lib/preferences";
 
 /**
- * Length, style and topics for generated guides. Shown once after a visitor's first sign-in
- * (`onboarding`), and any time later from the settings link.
+ * Language, length, style and topics for generated guides, from the settings link.
  */
 export function PreferencesPage({
   initial,
-  onboarding,
   onSaved,
   onBack,
 }: {
   initial: Partial<Preferences> | null;
-  onboarding: boolean;
   onSaved: (prefs: Preferences) => void;
   onBack?: () => void;
 }) {
   const [prefs, setPrefs] = useState<Preferences>(() => ({
     ...DEFAULT_PREFERENCES,
     // A first-time visitor starts from their browser's language.
-    language: browserLanguage(),
+    language: initialLanguage(),
     ...initial,
   }));
   const ui = uiStrings[prefs.language];
@@ -61,17 +57,17 @@ export function PreferencesPage({
   }
 
   return (
-    <main className="shell" lang={prefs.language === "zh" ? "zh-Hans" : "en"}>
-      {!onboarding && onBack && (
+    <main className="shell" lang={htmlLang(prefs.language)}>
+      {onBack && (
         <button className="back" onClick={onBack}>
           {ui.allMuseums}
         </button>
       )}
 
       <header className="masthead">
-        <h1>{onboarding ? ui.prefsOnboardingTitle : ui.prefsSettingsTitle}</h1>
+        <h1>{ui.prefsSettingsTitle}</h1>
         <p className="muted">
-          {onboarding ? ui.prefsOnboardingNote : ui.prefsSettingsNote}
+          {ui.prefsSettingsNote}
         </p>
       </header>
 
@@ -85,9 +81,9 @@ export function PreferencesPage({
               role="radio"
               aria-checked={prefs.language === l.code}
               onClick={() => setPrefs((p) => ({ ...p, language: l.code }))}
-              lang={l.code === "zh" ? "zh-Hans" : "en"}
+              lang={htmlLang(l.code)}
             >
-              {l.code === "zh" ? <CnFlag className="flag" /> : <UsFlag className="flag" />}
+              <LanguageFlag code={l.code} className="flag" />
               <strong>{l.label}</strong>
               <span>{l.subtitle}</span>
             </button>
@@ -149,7 +145,7 @@ export function PreferencesPage({
       )}
 
       <button className="gate-primary pref-save" onClick={save} disabled={saving || prefs.topics.length === 0}>
-        {saving ? ui.saving : onboarding ? ui.saveContinue : ui.save}
+        {saving ? ui.saving : ui.save}
       </button>
       {prefs.topics.length === 0 && <p className="muted">{ui.prefTopicsMin}</p>}
     </main>

@@ -15,8 +15,7 @@ export function CnFlag({ className }: { className?: string }) {
     <svg
       className={className}
       viewBox="0 0 30 20"
-      role="img"
-      aria-label="Flag of China"
+      aria-hidden="true"
       preserveAspectRatio="xMidYMid slice"
     >
       <rect width="30" height="20" fill="#de2910" />

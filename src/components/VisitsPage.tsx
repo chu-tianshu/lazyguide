@@ -2,8 +2,8 @@
 
 import { useEffect, useMemo, useState } from "react";
 import type { Museum } from "@/data/museums";
-import { fetchMuseumNames, fetchMuseums, localizeMuseums } from "@/lib/catalogApi";
-import { uiStrings, type LanguageCode } from "@/lib/i18n";
+import { fetchMuseums, localizeMuseums } from "@/lib/catalogApi";
+import { htmlLang, uiStrings, type LanguageCode } from "@/lib/i18n";
 import { useAuth } from "@/lib/auth";
 import { fetchVisits, type Visit } from "@/lib/visits";
 
@@ -59,10 +59,7 @@ export function VisitsPage({
     // Only used to show museum names; ids are shown if this fails.
     let current = true;
     fetchMuseums().then(
-      async (list) => {
-        const names = await fetchMuseumNames(language).catch(() => null);
-        if (current) setMuseums(localizeMuseums(list, names));
-      },
+      (list) => current && setMuseums(localizeMuseums(list, language)),
       () => {},
     );
     return () => {
@@ -73,7 +70,7 @@ export function VisitsPage({
   const grouped = useMemo(() => groupByMuseum(visits ?? [], museums), [visits, museums]);
 
   return (
-    <main className="shell" lang={language === "zh" ? "zh-Hans" : "en"}>
+    <main className="shell" lang={htmlLang(language)}>
       <button className="back" onClick={onBack}>
         {ui.allMuseums}
       </button>
@@ -95,7 +92,7 @@ export function VisitsPage({
               <button className="result visit-item" onClick={() => onSelectMuseum(m.museumId)}>
                 <span className="result-title">{m.name}</span>
                 <span className="result-meta">
-                  {ui.worksViewed(m.workCount)} · {ui.firstVisited(new Date(m.firstVisited).toLocaleDateString(language === "zh" ? "zh-CN" : undefined))}
+                  {ui.worksViewed(m.workCount)} · {ui.firstVisited(new Date(m.firstVisited).toLocaleDateString(ui.dateLocale))}
                 </span>
               </button>
             </li>

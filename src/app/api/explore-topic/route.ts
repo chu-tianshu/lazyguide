@@ -1,7 +1,7 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { fetchPromptSource } from "@/lib/catalogApi";
 import { claudeConfig, limits } from "@/lib/config";
-import { isLanguageCode, strings } from "@/lib/i18n";
+import { isLanguageCode, strings, type LanguageCode } from "@/lib/i18n";
 import { EXPLORE_SYSTEM_PROMPT, buildExploreMessage } from "@/lib/prompts";
 import { logUsage } from "@/lib/usageLog";
 
@@ -42,7 +42,7 @@ export async function POST(request: Request) {
   const { museumId, workId, language, topic, covered } = b as {
     museumId: string;
     workId: string;
-    language: "en" | "zh";
+    language: LanguageCode;
     topic: string;
     covered: string;
   };

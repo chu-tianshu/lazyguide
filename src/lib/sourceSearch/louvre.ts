@@ -22,10 +22,10 @@ interface RawRecord {
   room?: string;
 }
 
-const WINGS: Record<string, { en: string; zh: string }> = {
-  Denon: { en: "Denon Wing", zh: "德农馆" },
-  Sully: { en: "Sully Wing", zh: "苏利馆" },
-  Richelieu: { en: "Richelieu Wing", zh: "黎塞留馆" },
+const WINGS: Record<string, Partial<Record<LanguageCode, string>>> = {
+  Denon: { en: "Denon Wing", zh: "德农馆", fr: "Aile Denon", es: "Ala Denon" },
+  Sully: { en: "Sully Wing", zh: "苏利馆", fr: "Aile Sully", es: "Ala Sully" },
+  Richelieu: { en: "Richelieu Wing", zh: "黎塞留馆", fr: "Aile Richelieu", es: "Ala Richelieu" },
 };
 
 /** "Salle 711, Aile Aile Denon, Niveau 1" -> "Room 711, Denon Wing, Level 1". */
@@ -33,7 +33,10 @@ function formatRoom(room: string, language: LanguageCode): string {
   const m = room.match(/^Salle\s+(\S+?),\s*Aile\s+(?:Aile\s+)?(\w+),\s*Niveau\s+(-?\d+)/i);
   if (!m) return room;
   const wing = WINGS[m[2]]?.[language] ?? m[2];
-  return language === "zh" ? `${m[1]}号展厅，${wing}，${m[3]}层` : `Room ${m[1]}, ${wing}, Level ${m[3]}`;
+  if (language === "zh") return `${m[1]}号展厅，${wing}，${m[3]}层`;
+  if (language === "fr") return `Salle ${m[1]}, ${wing}, Niveau ${m[3]}`;
+  if (language === "es") return `Sala ${m[1]}, ${wing}, Planta ${m[3]}`;
+  return `Room ${m[1]}, ${wing}, Level ${m[3]}`;
 }
 
 /** `arkId` is Wikidata's P9394 value, e.g. "010062370". */

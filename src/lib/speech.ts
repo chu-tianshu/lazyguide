@@ -2,11 +2,14 @@ import type { LanguageCode } from "./i18n";
 
 const SENTENCE: Record<LanguageCode, RegExp> = {
   en: /[^.!?]+(?:[.!?]+["’”)\]]*|$)/g,
+  // French and Spanish also close quotes with » and ».
+  fr: /[^.!?]+(?:[.!?]+["’”»)\]]*|$)/g,
+  es: /[^.!?]+(?:[.!?]+["’”»)\]]*|$)/g,
   // Chinese sentences end with 。！？ (decimal points inside numbers are not split).
   zh: /[^。！？!?]+(?:[。！？!?]+["”’）)」』]*|$)/g,
 };
-const MIN_LENGTH: Record<LanguageCode, number> = { en: 25, zh: 8 };
-const JOINER: Record<LanguageCode, string> = { en: " ", zh: "" };
+const MIN_LENGTH: Record<LanguageCode, number> = { en: 25, zh: 8, fr: 25, es: 25 };
+const JOINER: Record<LanguageCode, string> = { en: " ", zh: "", fr: " ", es: " " };
 
 /**
  * Split guide text into sentence-sized chunks. Each chunk is spoken as one

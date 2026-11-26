@@ -33,8 +33,7 @@ export function UsFlag({ className }: { className?: string }) {
     <svg
       className={className}
       viewBox={`0 0 ${W} ${H}`}
-      role="img"
-      aria-label="American flag"
+      aria-hidden="true"
       preserveAspectRatio="xMidYMid slice"
     >
       <rect width={W} height={H} fill="#ffffff" />

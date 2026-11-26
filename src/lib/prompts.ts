@@ -29,6 +29,8 @@ Rules for every answer:
 const LANGUAGE_NAME: Record<LanguageCode, string> = {
   en: "English",
   zh: "Simplified Chinese (简体中文)",
+  fr: "French (français)",
+  es: "Spanish (español)",
 };
 
 const GUIDE_DEPTH = {
@@ -124,9 +126,24 @@ const TOPIC_DESC = {
 } as const;
 
 const LENGTH_TARGET: Record<"short" | "medium" | "long", Record<LanguageCode, string>> = {
-  short: { en: "about 150 words (roughly 1 minute aloud)", zh: "约250个汉字（朗读约1分钟）" },
-  medium: { en: "about 380 words (roughly 2–3 minutes aloud)", zh: "约600个汉字（朗读约2到3分钟）" },
-  long: { en: "about 750 words (roughly 5 minutes aloud)", zh: "约1200个汉字（朗读约5分钟）" },
+  short: {
+    en: "about 150 words (roughly 1 minute aloud)",
+    zh: "约250个汉字（朗读约1分钟）",
+    fr: "environ 150 mots (environ 1 minute à voix haute)",
+    es: "unas 150 palabras (aproximadamente 1 minuto en voz alta)",
+  },
+  medium: {
+    en: "about 380 words (roughly 2–3 minutes aloud)",
+    zh: "约600个汉字（朗读约2到3分钟）",
+    fr: "environ 380 mots (environ 2 à 3 minutes à voix haute)",
+    es: "unas 380 palabras (aproximadamente 2–3 minutos en voz alta)",
+  },
+  long: {
+    en: "about 750 words (roughly 5 minutes aloud)",
+    zh: "约1200个汉字（朗读约5分钟）",
+    fr: "environ 750 mots (environ 5 minutes à voix haute)",
+    es: "unas 750 palabras (aproximadamente 5 minutos en voz alta)",
+  },
 };
 
 export interface GenerateGuideInput {
