@@ -5,7 +5,6 @@ import { usePathname, useRouter } from "next/navigation";
 import { museumIdForSlug, slugForMuseum } from "@/data/museumSlugs";
 import type { Catalog, Work, WorkSummary } from "@/data/catalog";
 import type { Museum } from "@/data/museums";
-import { languages } from "@/data/languages";
 import { htmlLang, initialLanguage, rememberLanguage, uiStrings, type LanguageCode } from "@/lib/i18n";
 import { fetchCatalog, fetchLanguageCodes, fetchMuseums, fetchWork, localizeMuseums } from "@/lib/catalogApi";
 import { MuseumMap } from "./MuseumMap";
@@ -65,7 +64,6 @@ function AppContent() {
         ? "en"
         : (offered[0] ?? null)
     : null;
-  const languageFallback = Boolean(offered && languageCode && languageCode !== preferredLanguage);
 
   useEffect(() => {
     document.documentElement.lang = htmlLang(uiLang);
@@ -287,11 +285,6 @@ function AppContent() {
   return (
     <main className="shell" lang={htmlLang(uiLang)}>
       <BackToTop label={ui.backToTop} />
-      {languageFallback && languageCode && (
-        <p className="notice" role="note">
-          {ui.fallbackNotice(languages.find((l) => l.code === languageCode)?.label ?? "")}
-        </p>
-      )}
       {content}
     </main>
   );

@@ -371,7 +371,6 @@ export interface UiStrings {
   mapLabel: string;
   museumCount: (n: number) => string;
   noGuidesYet: string;
-  fallbackNotice: (language: string) => string;
   backToTop: string;
   visited: string;
   photoCredit: string;
@@ -440,7 +439,6 @@ export const uiStrings: Record<LanguageCode, UiStrings> = {
     mapLabel: "World map of museums. Use plus and minus to zoom.",
     museumCount: (n) => `${n} ${n === 1 ? "museum" : "museums"}`,
     noGuidesYet: "This museum has no guides yet.",
-    fallbackNotice: (l) => `This museum has no guides in your language yet, so it is shown in ${l}.`,
     backToTop: "Back to top",
     visited: "Visited",
     photoCredit: "Photo: Wikimedia Commons",
@@ -505,7 +503,6 @@ export const uiStrings: Record<LanguageCode, UiStrings> = {
     mapLabel: "博物馆世界地图。使用加号和减号缩放。",
     museumCount: (n) => `${n}座博物馆`,
     noGuidesYet: "该博物馆暂无导览。",
-    fallbackNotice: (l) => `该博物馆暂无您所选语言的导览，现以${l}显示。`,
     backToTop: "回到顶部",
     visited: "已参观",
     photoCredit: "照片：维基共享资源",
@@ -570,7 +567,6 @@ export const uiStrings: Record<LanguageCode, UiStrings> = {
     mapLabel: "Carte du monde des musées. Utilisez plus et moins pour zoomer.",
     museumCount: (n) => `${n} ${n === 1 ? "musée" : "musées"}`,
     noGuidesYet: "Ce musée n’a pas encore de guides.",
-    fallbackNotice: (l) => `Ce musée n’a pas encore de guides dans votre langue ; il s’affiche donc en ${l}.`,
     backToTop: "Haut de page",
     visited: "Visité",
     photoCredit: "Photo : Wikimedia Commons",
@@ -635,7 +631,6 @@ export const uiStrings: Record<LanguageCode, UiStrings> = {
     mapLabel: "Mapamundi de museos. Usa más y menos para acercar o alejar.",
     museumCount: (n) => `${n} ${n === 1 ? "museo" : "museos"}`,
     noGuidesYet: "Este museo aún no tiene guías.",
-    fallbackNotice: (l) => `Este museo aún no tiene guías en tu idioma, así que se muestra en ${l}.`,
     backToTop: "Volver arriba",
     visited: "Visitada",
     photoCredit: "Foto: Wikimedia Commons",
