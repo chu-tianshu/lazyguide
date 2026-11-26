@@ -376,38 +376,23 @@ export function LouvreExplorer({
   return (
     <div className="explorer">
       <div className="x-controls">
-        <div className="x-axis">
-          <span className="x-axis-label" aria-hidden="true">
-            {x.wing}
-          </span>
-          <div className="x-row">
-            <button className="x-back" onClick={() => chooseWing(null)}>
-              ← {x.changeWing}
-            </button>
-            <span className="x-current">
-              <span className="x-dot" style={{ background: `hsl(${hueOf(wing)} 55% 52%)` }} aria-hidden="true" />
-              {x.wingSuffix(wing)}
-            </span>
-          </div>
-        </div>
-        <div className="x-axis">
-          <span className="x-axis-label" aria-hidden="true">
-            {x.floor}
-          </span>
-          <div className="x-row" role="group" aria-label={x.floor}>
-            {LEVELS.map((l) => (
-              <button
-                key={l}
-                className="x-chip x-floor"
-                aria-pressed={l === level}
-                aria-label={LEVEL_NAME[l]}
-                onClick={() => chooseLevel(l)}
-              >
-                {levelChip(l)} <span className="x-count">{levelCounts.get(l) ?? 0}</span>
-              </button>
+        <button className="x-back" onClick={() => chooseWing(null)}>
+          ← {x.changeWing}
+        </button>
+        <span className="x-current">
+          <span className="x-dot" style={{ background: `hsl(${hueOf(wing)} 55% 52%)` }} aria-hidden="true" />
+          {x.wingSuffix(wing)}
+        </span>
+        <label className="x-level">
+          <span className="x-axis-label">{x.floor}</span>
+          <select value={level} onChange={(e) => chooseLevel(Number(e.target.value))}>
+            {[...LEVELS].reverse().map((l) => (
+              <option key={l} value={l}>
+                {LEVEL_NAME[l]} ({levelCounts.get(l) ?? 0})
+              </option>
             ))}
-          </div>
-        </div>
+          </select>
+        </label>
       </div>
 
       <div className="x-body">
