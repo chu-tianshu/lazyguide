@@ -12,12 +12,10 @@ import { PradoExplorer } from "./PradoExplorer";
 export function CollectionPage({
   catalog,
   onSelect,
-  onChangeMuseum,
   onAddWorks,
 }: {
   catalog: Catalog;
   onSelect: (id: string) => void;
-  onChangeMuseum: () => void;
   onAddWorks: (works: WorkSummary[]) => void;
 }) {
   const t = strings[catalog.language];
@@ -103,10 +101,6 @@ export function CollectionPage({
 
   return (
     <>
-      <button className="back" onClick={onChangeMuseum}>
-        {t.changeMuseum}
-      </button>
-
       {header && (
         <figure className="museum-header">
           {/* eslint-disable-next-line @next/next/no-img-element */}

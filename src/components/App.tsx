@@ -158,8 +158,6 @@ function AppContent() {
     setWork(null);
   }, [museumId]);
 
-  const reset = () => router.push("/");
-
   const chooseMuseum = (id: string) => {
     const slug = slugForMuseum(id);
     if (slug) router.push(`/${slug}`);
@@ -255,9 +253,6 @@ function AppContent() {
   if (offered?.length === 0) {
     content = (
       <>
-        <button className="back" onClick={reset}>
-          {ui.allMuseums}
-        </button>
         <p className="muted">{ui.noGuidesYet}</p>
       </>
     );
@@ -279,7 +274,7 @@ function AppContent() {
       <p className="muted">{ui.loading}</p>
     );
   } else {
-    content = <CollectionPage catalog={catalog} onSelect={chooseWork} onChangeMuseum={reset} onAddWorks={addWorks} />;
+    content = <CollectionPage catalog={catalog} onSelect={chooseWork} onAddWorks={addWorks} />;
   }
 
   return (
