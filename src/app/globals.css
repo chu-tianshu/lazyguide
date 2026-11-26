@@ -685,3 +685,8 @@ label.search {
   to { opacity: 1; transform: none; filter: none; }
 }
 @media (prefers-reduced-motion: reduce) { .lang-word-text { animation: none; } }
+
+/* Favorite museums */
+.fav-btn { background: none; border: 0; padding: 0.2rem; margin-left: 0.5rem; vertical-align: middle; cursor: pointer; color: var(--muted); line-height: 1; }
+.fav-btn.on, .fav-btn:hover { color: var(--accent); }
+.fav-more { margin-top: 1rem; }

@@ -16,6 +16,7 @@ import { PreferencesPage } from "./PreferencesPage";
 import { LanguageSelect } from "./LanguageSelect";
 import { DEFAULT_PREFERENCES, fetchPreferences, isPreferences, savePreferences, type Preferences } from "@/lib/preferences";
 import { SignInGate } from "./SignInGate";
+import { addFavorite, fetchFavorites, removeFavorite } from "@/lib/favorites";
 import { track } from "@/lib/analytics";
 import { AuthProvider, useAuth } from "@/lib/auth";
 
@@ -36,6 +37,9 @@ function AppContent() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [showVisits, setShowVisits] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
+  // Favorite museum ids, newest first; null until loaded. showMap swaps the front-page list for the world map.
+  const [favorites, setFavorites] = useState<string[] | null>(null);
+  const [showMap, setShowMap] = useState(false);
   // undefined while loading; null once loaded with nothing saved (first login); "error" if the lookup failed.
   const [prefs, setPrefs] = useState<Preferences | null | "error" | undefined>(undefined);
   // What an earlier, incomplete save held (e.g. from before language was a setting), to prefill the form.
@@ -151,6 +155,25 @@ function AppContent() {
     setWork(null);
   }, [museumId]);
 
+  useEffect(() => {
+    if (!user) return;
+    let current = true;
+    fetchFavorites().then(
+      (ids) => current && setFavorites(ids),
+      () => current && setFavorites([]),
+    );
+    return () => {
+      current = false;
+    };
+  }, [user]);
+
+  const toggleFavorite = async (id: string) => {
+    const was = (favorites ?? []).includes(id);
+    setFavorites((f) => (was ? (f ?? []).filter((x) => x !== id) : [id, ...(f ?? [])]));
+    const ok = await (was ? removeFavorite(id) : addFavorite(id));
+    if (!ok) setFavorites((f) => (was ? [id, ...(f ?? [])] : (f ?? []).filter((x) => x !== id)));
+  };
+
   const chooseMuseum = (id: string) => {
     const slug = slugForMuseum(id);
     if (slug) router.push(`/${slug}`);
@@ -239,6 +262,44 @@ function AppContent() {
     );
   }
 
+  if (!museum && favorites === null) {
+    return (
+      <main className="shell" lang={htmlLang(uiLang)}>
+        <p className="muted">{ui.loading}</p>
+      </main>
+    );
+  }
+
+  const favoriteMuseums = (favorites ?? [])
+    .map((id) => (localized ?? museums).find((m) => m.id === id))
+    .filter((m): m is Museum => !!m);
+
+  if (!museum && favoriteMuseums.length > 0 && !showMap) {
+    return (
+      <main className="shell" lang={htmlLang(uiLang)}>
+        <header className="brand">
+          <h1>Lazy Guide</h1>
+          <p className="brand-tag">{ui.tagline}</p>
+        </header>
+        <UserBar language={uiLang} onShowVisits={() => setShowVisits(true)} onShowSettings={() => setShowSettings(true)} />
+        <h2>{ui.favoritesHeading}</h2>
+        <ul className="visit-list">
+          {favoriteMuseums.map((m) => (
+            <li key={m.id}>
+              <button className="result visit-item" onClick={() => chooseMuseum(m.id)}>
+                <span className="result-title">{m.name}</span>
+                <span className="result-meta">{m.subtitle || `${m.place.city}, ${m.place.country}`}</span>
+              </button>
+            </li>
+          ))}
+        </ul>
+        <button className="back fav-more" onClick={() => setShowMap(true)}>
+          {ui.favoritesMore} →
+        </button>
+      </main>
+    );
+  }
+
   if (!museum) {
     return (
       <main className="map-shell" lang={htmlLang(uiLang)}>
@@ -279,7 +340,7 @@ function AppContent() {
       <p className="muted">{ui.loading}</p>
     );
   } else {
-    content = <CollectionPage catalog={catalog} uiLanguage={uiLang} onSelect={chooseWork} onAddWorks={addWorks} />;
+    content = <CollectionPage catalog={catalog} uiLanguage={uiLang} favorite={(favorites ?? []).includes(museum.id)} onToggleFavorite={() => toggleFavorite(museum.id)} onSelect={chooseWork} onAddWorks={addWorks} />;
   }
 
   return (

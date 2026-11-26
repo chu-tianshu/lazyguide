@@ -16,12 +16,16 @@ export function CollectionPage({
   uiLanguage,
   onSelect,
   onAddWorks,
+  favorite,
+  onToggleFavorite,
 }: {
   catalog: Catalog;
   /** The visitor's language: the page's own text. The catalog may be in another one. */
   uiLanguage: LanguageCode;
   onSelect: (id: string) => void;
   onAddWorks: (works: WorkSummary[]) => void;
+  favorite: boolean;
+  onToggleFavorite: () => void;
 }) {
   const t = strings[uiLanguage];
   const ui = uiStrings[uiLanguage];
@@ -122,7 +126,20 @@ export function CollectionPage({
 
       <header className="masthead">
         <p className="eyebrow">{location}</p>
-        <h1>{title}</h1>
+        <h1>
+          {title}
+          <button
+            className={`fav-btn${favorite ? " on" : ""}`}
+            aria-pressed={favorite}
+            aria-label={favorite ? ui.removeFavorite : ui.addFavorite}
+            title={favorite ? ui.removeFavorite : ui.addFavorite}
+            onClick={onToggleFavorite}
+          >
+            <svg viewBox="0 0 24 24" width="22" height="22" fill={favorite ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" strokeLinejoin="round" aria-hidden="true">
+              <path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z" />
+            </svg>
+          </button>
+        </h1>
       </header>
 
       {/* The Louvre explorer's wing and level controls render here, under the title. */}
