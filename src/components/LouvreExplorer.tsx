@@ -93,8 +93,8 @@ function bboxOf(ds: string[]): [number, number, number, number] | null {
 }
 
 // The visitor's place survives opening a work and coming back.
-let saved: { level: number | null; wing: string | null; selected: string | null; open: string[]; scrollY: number } = {
-  level: null,
+let saved: { level: number; wing: string | null; selected: string | null; open: string[]; scrollY: number } = {
+  level: DEFAULT_LEVEL,
   wing: null,
   selected: null,
   open: [],
@@ -130,8 +130,7 @@ export function LouvreExplorer({
     saved.scrollY = 0;
     if (y) requestAnimationFrame(() => window.scrollTo({ top: y }));
   }, []);
-  const [pickedLevel, setLevel] = useState<number | null>(saved.level);
-  const level = pickedLevel ?? DEFAULT_LEVEL;
+  const [level, setLevel] = useState(saved.level);
   const [wing, setWing] = useState<string | null>(saved.wing);
   const [selected, setSelected] = useState<string | null>(saved.selected);
   const [open, setOpen] = useState<Set<string>>(new Set(saved.open));
@@ -140,8 +139,8 @@ export function LouvreExplorer({
   const [hover, setHover] = useState<string | null>(null);
   const [plan, setPlan] = useState<Plan | null>(null);
   useEffect(() => {
-    saved = { ...saved, level: pickedLevel, wing, selected, open: [...open] };
-  }, [pickedLevel, wing, selected, open]);
+    saved = { ...saved, level, wing, selected, open: [...open] };
+  }, [level, wing, selected, open]);
   // A new floor or wing starts from the whole framed view.
   useEffect(() => {
     setZoom(1);
@@ -324,10 +323,10 @@ export function LouvreExplorer({
     return byGroup.has(id) ? 2 : 1;
   };
 
-  // Wing first, then level. Choosing a wing asks for a level; going back to the wings clears both.
+  // Wing first; choosing one opens it on the ground level. Going back to the wings clears the scope.
   const chooseWing = (next: string | null) => {
     setWing(next);
-    setLevel(null);
+    setLevel(DEFAULT_LEVEL);
     setSelected(null);
     setOpen(new Set());
     window.scrollTo({ top: 0 });
@@ -357,31 +356,18 @@ export function LouvreExplorer({
     }
   };
 
-  if (!wing || pickedLevel === null) {
-    const stepWing = !wing;
+  if (!wing) {
     return (
       <div className="explorer x-pick">
-        {!stepWing && (
-          <button className="x-back" onClick={() => chooseWing(null)}>
-            ← {x.changeWing}
-          </button>
-        )}
-        <h2 className="x-pick-title">{stepWing ? x.pickWing : `${x.wingSuffix(wing)} · ${x.pickFloor}`}</h2>
+        <h2 className="x-pick-title">{x.pickWing}</h2>
         <div className="x-pick-grid">
-          {stepWing
-            ? WINGS.map((w) => (
-                <button key={w} className="x-pick-card" onClick={() => chooseWing(w)}>
-                  <span className="x-dot" style={{ background: `hsl(${hueOf(w)} 55% 52%)` }} aria-hidden="true" />
-                  <strong>{x.wingName(w)}</strong>
-                  <span className="x-count">{worksLabel(wingTotals.get(w) ?? 0)}</span>
-                </button>
-              ))
-            : [...LEVELS].reverse().map((l) => (
-                <button key={l} className="x-pick-card" onClick={() => chooseLevel(l)}>
-                  <strong>{LEVEL_NAME[l]}</strong>
-                  <span className="x-count">{worksLabel(levelCounts.get(l) ?? 0)}</span>
-                </button>
-              ))}
+          {WINGS.map((w) => (
+            <button key={w} className="x-pick-card" onClick={() => chooseWing(w)}>
+              <span className="x-dot" style={{ background: `hsl(${hueOf(w)} 55% 52%)` }} aria-hidden="true" />
+              <strong>{x.wingName(w)}</strong>
+              <span className="x-count">{worksLabel(wingTotals.get(w) ?? 0)}</span>
+            </button>
+          ))}
         </div>
       </div>
     );
