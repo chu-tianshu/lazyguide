@@ -384,16 +384,6 @@ export function LouvreExplorer({
         createPortal(
           <div className="x-controls">
             <label className="x-level">
-              <span className="x-axis-label">{x.floor}</span>
-              <select value={level} onChange={(e) => chooseLevel(Number(e.target.value))}>
-                {[...LEVELS].reverse().map((l) => (
-                  <option key={l} value={l}>
-                    {LEVEL_NAME[l]} ({levelCounts.get(l) ?? 0})
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label className="x-level">
               <span className="x-axis-label">{x.wing}</span>
               <select
                 value={wing}
@@ -404,6 +394,16 @@ export function LouvreExplorer({
                 {WINGS.map((w) => (
                   <option key={w} value={w}>
                     {x.wingSuffix(w)} ({wingTotals.get(w) ?? 0})
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label className="x-level">
+              <span className="x-axis-label">{x.floor}</span>
+              <select value={level} onChange={(e) => chooseLevel(Number(e.target.value))}>
+                {[...LEVELS].reverse().map((l) => (
+                  <option key={l} value={l}>
+                    {LEVEL_NAME[l]} ({levelCounts.get(l) ?? 0})
                   </option>
                 ))}
               </select>
