@@ -16,7 +16,6 @@ export interface Strings {
   searchUnavailable: string;
   searchNoSource: string;
   backToCollection: string;
-  changeMuseum: string;
   audioGuide: string;
   guideUnavailable: string;
   guideDepth: string;
@@ -87,7 +86,6 @@ export const strings: Record<LanguageCode, Strings> = {
     searchUnavailable: "The search couldn’t reach its sources just now. Please try again in a moment.",
     searchNoSource: "There is no open online source for this museum to search.",
     backToCollection: "← Back to collection",
-    changeMuseum: "← All museums",
     audioGuide: "Audio guide",
     guideUnavailable: "Be the first to hear this one: get a guide written just for you, in your language and shaped by your interests.",
     guideDepth: "Guide depth",
@@ -157,7 +155,6 @@ export const strings: Record<LanguageCode, Strings> = {
     searchUnavailable: "暂时无法连接搜索来源，请稍后再试。",
     searchNoSource: "该博物馆暂无可供搜索的公开在线来源。",
     backToCollection: "← 返回展品列表",
-    changeMuseum: "← 全部博物馆",
     audioGuide: "语音导览",
     guideUnavailable: "来做第一个聆听者：获取一份按您的语言与兴趣专门撰写的导览。",
     guideDepth: "导览深度",
@@ -295,7 +292,7 @@ export const uiStrings: Record<LanguageCode, UiStrings> = {
     signOut: "Sign out",
     loading: "Loading…",
     loadFailed: "The collection couldn’t be loaded. Check your connection and reload.",
-    allMuseums: "← All museums",
+    allMuseums: "← Back",
     mapHint: "Zoom in to find a museum. Click its icon to see the name, then click the name to enter.",
     mapLabel: "World map of museums. Use plus and minus to zoom.",
     museumCount: (n) => `${n} ${n === 1 ? "museum" : "museums"}`,
@@ -359,7 +356,7 @@ export const uiStrings: Record<LanguageCode, UiStrings> = {
     signOut: "退出登录",
     loading: "加载中…",
     loadFailed: "无法加载藏品，请检查网络后刷新页面。",
-    allMuseums: "← 全部博物馆",
+    allMuseums: "← 返回",
     mapHint: "放大地图以查找博物馆。点击图标查看名称，再点击名称进入。",
     mapLabel: "博物馆世界地图。使用加号和减号缩放。",
     museumCount: (n) => `${n}座博物馆`,
