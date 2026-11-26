@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { languages } from "@/data/languages";
 import { htmlLang, initialLanguage, uiStrings } from "@/lib/i18n";
+import { useAuth } from "@/lib/auth";
 import { LanguageFlag } from "./LanguageFlag";
 import {
   DEFAULT_PREFERENCES,
@@ -35,6 +36,7 @@ export function PreferencesPage({
   }));
   const ui = uiStrings[prefs.language];
   const labels = OPTION_LABELS[prefs.language];
+  const { signOut } = useAuth();
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string>();
 
@@ -148,6 +150,10 @@ export function PreferencesPage({
         {saving ? ui.saving : ui.save}
       </button>
       {prefs.topics.length === 0 && <p className="muted">{ui.prefTopicsMin}</p>}
+
+      <button className="fav-more" onClick={() => signOut()}>
+        {ui.signOut}
+      </button>
     </main>
   );
 }

@@ -15,20 +15,12 @@ export function UserBar({
   onShowFavorites: () => void;
   onShowSettings: () => void;
 }) {
-  const { user, signOut } = useAuth();
+  const { user } = useAuth();
   const ui = uiStrings[language];
   if (!user) return null;
 
-  const name = user.is_anonymous
-    ? ui.guest
-    : (user.user_metadata?.full_name as string | undefined) ?? user.email ?? ui.signedIn;
-  const avatar = user.user_metadata?.avatar_url as string | undefined;
-
   return (
     <div className="user-bar">
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      {avatar ? <img className="user-avatar" src={avatar} alt="" /> : null}
-      <span className="user-name">{name}</span>
       <button className="user-link" onClick={onShowVisits}>
         {ui.myVisits}
       </button>
@@ -37,9 +29,6 @@ export function UserBar({
       </button>
       <button className="user-link" onClick={onShowSettings}>
         {ui.settings}
-      </button>
-      <button className="user-link" onClick={() => signOut()}>
-        {ui.signOut}
       </button>
     </div>
   );
