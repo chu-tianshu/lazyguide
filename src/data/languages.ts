@@ -14,4 +14,9 @@ export const languages: Language[] = [
   { code: "zh", label: "简体中文", subtitle: "中国 · 普通话", word: "语言" },
   { code: "fr", label: "Français", subtitle: "France", word: "Langue" },
   { code: "es", label: "Español", subtitle: "España", word: "Idioma" },
+  { code: "de", label: "Deutsch", subtitle: "Deutschland", word: "Sprache" },
+  { code: "pt", label: "Português", subtitle: "Portugal", word: "Língua" },
+  { code: "it", label: "Italiano", subtitle: "Italia", word: "Lingua" },
+  { code: "ja", label: "日本語", subtitle: "日本", word: "言語" },
+  { code: "ko", label: "한국어", subtitle: "대한민국", word: "언어" },
 ];

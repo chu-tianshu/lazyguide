@@ -31,6 +31,11 @@ const LANGUAGE_NAME: Record<LanguageCode, string> = {
   zh: "Simplified Chinese (简体中文)",
   fr: "French (français)",
   es: "Spanish (español)",
+  de: "German (Deutsch)",
+  pt: "Portuguese (português)",
+  it: "Italian (italiano)",
+  ja: "Japanese (日本語)",
+  ko: "Korean (한국어)",
 };
 
 const GUIDE_DEPTH = {
@@ -131,18 +136,33 @@ const LENGTH_TARGET: Record<"short" | "medium" | "long", Record<LanguageCode, st
     zh: "约250个汉字（朗读约1分钟）",
     fr: "environ 150 mots (environ 1 minute à voix haute)",
     es: "unas 150 palabras (aproximadamente 1 minuto en voz alta)",
+    de: "etwa 150 Wörter (laut gelesen etwa 1 Minute)",
+    pt: "cerca de 150 palavras (aproximadamente 1 minuto em voz alta)",
+    it: "circa 150 parole (circa 1 minuto a voce alta)",
+    ja: "約300字（音読でおよそ1分）",
+    ko: "약 350자(소리 내어 읽으면 약 1분)",
   },
   medium: {
     en: "about 380 words (roughly 2–3 minutes aloud)",
     zh: "约600个汉字（朗读约2到3分钟）",
     fr: "environ 380 mots (environ 2 à 3 minutes à voix haute)",
     es: "unas 380 palabras (aproximadamente 2–3 minutos en voz alta)",
+    de: "etwa 380 Wörter (laut gelesen etwa 2–3 Minuten)",
+    pt: "cerca de 380 palavras (aproximadamente 2–3 minutos em voz alta)",
+    it: "circa 380 parole (circa 2–3 minuti a voce alta)",
+    ja: "約700字（音読でおよそ2〜3分）",
+    ko: "약 900자(소리 내어 읽으면 약 2~3분)",
   },
   long: {
     en: "about 750 words (roughly 5 minutes aloud)",
     zh: "约1200个汉字（朗读约5分钟）",
     fr: "environ 750 mots (environ 5 minutes à voix haute)",
     es: "unas 750 palabras (aproximadamente 5 minutos en voz alta)",
+    de: "etwa 750 Wörter (laut gelesen etwa 5 Minuten)",
+    pt: "cerca de 750 palavras (aproximadamente 5 minutos em voz alta)",
+    it: "circa 750 parole (circa 5 minuti a voce alta)",
+    ja: "約1400字（音読でおよそ5分）",
+    ko: "약 1,800자(소리 내어 읽으면 약 5분)",
   },
 };
 

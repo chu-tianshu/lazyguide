@@ -5,11 +5,17 @@ const SENTENCE: Record<LanguageCode, RegExp> = {
   // French and Spanish also close quotes with » and ».
   fr: /[^.!?]+(?:[.!?]+["’”»)\]]*|$)/g,
   es: /[^.!?]+(?:[.!?]+["’”»)\]]*|$)/g,
+  de: /[^.!?]+(?:[.!?]+["’“”«»)\]]*|$)/g,
+  pt: /[^.!?]+(?:[.!?]+["’”»)\]]*|$)/g,
+  it: /[^.!?]+(?:[.!?]+["’”»)\]]*|$)/g,
+  // Japanese sentences end with 。！？.
+  ja: /[^。！？!?]+(?:[。！？!?]+["”’）)」』]*|$)/g,
+  ko: /[^.!?]+(?:[.!?]+["’”)\]]*|$)/g,
   // Chinese sentences end with 。！？ (decimal points inside numbers are not split).
   zh: /[^。！？!?]+(?:[。！？!?]+["”’）)」』]*|$)/g,
 };
-const MIN_LENGTH: Record<LanguageCode, number> = { en: 25, zh: 8, fr: 25, es: 25 };
-const JOINER: Record<LanguageCode, string> = { en: " ", zh: "", fr: " ", es: " " };
+const MIN_LENGTH: Record<LanguageCode, number> = { en: 25, zh: 8, fr: 25, es: 25, de: 25, pt: 25, it: 25, ja: 8, ko: 12 };
+const JOINER: Record<LanguageCode, string> = { en: " ", zh: "", fr: " ", es: " ", de: " ", pt: " ", it: " ", ja: "", ko: " " };
 
 /**
  * Split guide text into sentence-sized chunks. Each chunk is spoken as one

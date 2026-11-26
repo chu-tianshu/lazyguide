@@ -55,7 +55,7 @@ grant select, insert, update on public.generated_guides to service_role;
 -- Angles the model suggests exploring after a guide (shown as buttons under the guide).
 alter table public.generated_guides add column if not exists suggestions text[] not null default '{}';
 
--- Languages: English, Chinese, French and Spanish. Run this once to allow fr and es.
+-- Languages: English, Chinese, French, Spanish, German, Portuguese, Italian, Japanese and Korean. Run this once to allow fr and es.
 alter table public.user_preferences drop constraint if exists user_preferences_language_check;
 alter table public.user_preferences
-  add constraint user_preferences_language_check check (language in ('en', 'zh', 'fr', 'es'));
+  add constraint user_preferences_language_check check (language in ('en', 'zh', 'fr', 'es', 'de', 'pt', 'it', 'ja', 'ko'));

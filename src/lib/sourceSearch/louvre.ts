@@ -23,9 +23,9 @@ interface RawRecord {
 }
 
 const WINGS: Record<string, Partial<Record<LanguageCode, string>>> = {
-  Denon: { en: "Denon Wing", zh: "德农馆", fr: "Aile Denon", es: "Ala Denon" },
-  Sully: { en: "Sully Wing", zh: "苏利馆", fr: "Aile Sully", es: "Ala Sully" },
-  Richelieu: { en: "Richelieu Wing", zh: "黎塞留馆", fr: "Aile Richelieu", es: "Ala Richelieu" },
+  Denon: { en: "Denon Wing", zh: "德农馆", fr: "Aile Denon", es: "Ala Denon", de: "Denon-Flügel", pt: "Ala Denon", it: "Ala Denon", ja: "ドノン翼", ko: "드농관" },
+  Sully: { en: "Sully Wing", zh: "苏利馆", fr: "Aile Sully", es: "Ala Sully", de: "Sully-Flügel", pt: "Ala Sully", it: "Ala Sully", ja: "シュリー翼", ko: "쉴리관" },
+  Richelieu: { en: "Richelieu Wing", zh: "黎塞留馆", fr: "Aile Richelieu", es: "Ala Richelieu", de: "Richelieu-Flügel", pt: "Ala Richelieu", it: "Ala Richelieu", ja: "リシュリュー翼", ko: "리슐리외관" },
 };
 
 /** "Salle 711, Aile Aile Denon, Niveau 1" -> "Room 711, Denon Wing, Level 1". */
@@ -36,6 +36,11 @@ function formatRoom(room: string, language: LanguageCode): string {
   if (language === "zh") return `${m[1]}号展厅，${wing}，${m[3]}层`;
   if (language === "fr") return `Salle ${m[1]}, ${wing}, Niveau ${m[3]}`;
   if (language === "es") return `Sala ${m[1]}, ${wing}, Planta ${m[3]}`;
+  if (language === "de") return `Saal ${m[1]}, ${wing}, Etage ${m[3]}`;
+  if (language === "pt") return `Sala ${m[1]}, ${wing}, Piso ${m[3]}`;
+  if (language === "it") return `Sala ${m[1]}, ${wing}, Piano ${m[3]}`;
+  if (language === "ja") return `${m[1]}室、${wing}、${m[3]}階`;
+  if (language === "ko") return `${m[1]}번 전시실, ${wing}, ${m[3]}층`;
   return `Room ${m[1]}, ${wing}, Level ${m[3]}`;
 }
 

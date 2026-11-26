@@ -107,6 +107,111 @@ export const OPTION_LABELS = {
       anecdotes: { title: "Anécdotas", desc: "Historias sorprendentes y curiosidades" },
     },
   },
+  de: {
+    length: {
+      short: { title: "Kurz", desc: "Etwa 1 Minute" },
+      medium: { title: "Mittel", desc: "Etwa 2–3 Minuten" },
+      long: { title: "Lang", desc: "Etwa 5 Minuten" },
+    },
+    style: {
+      conversational: { title: "Gesprächig", desc: "Warm und locker, wie ein Freund an Ihrer Seite" },
+      storytelling: { title: "Erzählend", desc: "Als Geschichte mit rotem Faden erzählt" },
+      scholarly: { title: "Wissenschaftlich", desc: "Präzise, mit kunsthistorischer Tiefe" },
+      playful: { title: "Verspielt", desc: "Leicht, witzig und neugierig" },
+    },
+    topic: {
+      history: { title: "Geschichte", desc: "Wann und warum es entstand" },
+      technique: { title: "Technik", desc: "Materialien und Herstellung" },
+      symbolism: { title: "Symbolik", desc: "Verborgene Bedeutungen und Ikonografie" },
+      artist: { title: "Der Künstler", desc: "Leben und Werdegang" },
+      culture: { title: "Kultur & Gesellschaft", desc: "Die Welt rund um das Werk" },
+      anecdotes: { title: "Anekdoten", desc: "Überraschende Geschichten und Wissenswertes" },
+    },
+  },
+  pt: {
+    length: {
+      short: { title: "Curta", desc: "Cerca de 1 minuto" },
+      medium: { title: "Média", desc: "Cerca de 2–3 minutos" },
+      long: { title: "Longa", desc: "Cerca de 5 minutos" },
+    },
+    style: {
+      conversational: { title: "Conversacional", desc: "Caloroso e descontraído, como um amigo ao seu lado" },
+      storytelling: { title: "Narrativo", desc: "Contado como uma história com fio condutor" },
+      scholarly: { title: "Erudito", desc: "Rigoroso, com profundidade de história da arte" },
+      playful: { title: "Descontraído", desc: "Leve, espirituoso e curioso" },
+    },
+    topic: {
+      history: { title: "História", desc: "Quando e porque foi criada" },
+      technique: { title: "Técnica", desc: "Materiais e como foi feita" },
+      symbolism: { title: "Simbolismo", desc: "Significados ocultos e iconografia" },
+      artist: { title: "O artista", desc: "A sua vida e carreira" },
+      culture: { title: "Cultura e sociedade", desc: "O mundo em redor da obra" },
+      anecdotes: { title: "Anedotas", desc: "Histórias surpreendentes e curiosidades" },
+    },
+  },
+  it: {
+    length: {
+      short: { title: "Breve", desc: "Circa 1 minuto" },
+      medium: { title: "Media", desc: "Circa 2–3 minuti" },
+      long: { title: "Lunga", desc: "Circa 5 minuti" },
+    },
+    style: {
+      conversational: { title: "Colloquiale", desc: "Caloroso e spontaneo, come un amico accanto a te" },
+      storytelling: { title: "Narrativo", desc: "Raccontato come una storia con un filo conduttore" },
+      scholarly: { title: "Accademico", desc: "Preciso, con profondità storico-artistica" },
+      playful: { title: "Giocoso", desc: "Leggero, arguto e curioso" },
+    },
+    topic: {
+      history: { title: "Storia", desc: "Quando e perché è stata creata" },
+      technique: { title: "Tecnica", desc: "Materiali e modo di realizzazione" },
+      symbolism: { title: "Simbolismo", desc: "Significati nascosti e iconografia" },
+      artist: { title: "L’artista", desc: "La sua vita e la sua carriera" },
+      culture: { title: "Cultura e società", desc: "Il mondo intorno all’opera" },
+      anecdotes: { title: "Aneddoti", desc: "Storie sorprendenti e curiosità" },
+    },
+  },
+  ja: {
+    length: {
+      short: { title: "短め", desc: "約1分" },
+      medium: { title: "標準", desc: "約2〜3分" },
+      long: { title: "長め", desc: "約5分" },
+    },
+    style: {
+      conversational: { title: "会話調", desc: "友人がそばで語るような、温かく気軽な語り口" },
+      storytelling: { title: "物語調", desc: "一本の筋でたどる物語として語る" },
+      scholarly: { title: "学術的", desc: "正確で、美術史の深みがある" },
+      playful: { title: "遊び心", desc: "軽やかで機知に富み、好奇心いっぱい" },
+    },
+    topic: {
+      history: { title: "歴史", desc: "いつ、なぜ作られたのか" },
+      technique: { title: "技法", desc: "素材と制作方法" },
+      symbolism: { title: "象徴", desc: "隠された意味と図像学" },
+      artist: { title: "作者", desc: "生涯と経歴" },
+      culture: { title: "文化と社会", desc: "作品を取り巻く時代背景" },
+      anecdotes: { title: "逸話", desc: "意外な物語や豆知識" },
+    },
+  },
+  ko: {
+    length: {
+      short: { title: "짧게", desc: "약 1분" },
+      medium: { title: "보통", desc: "약 2~3분" },
+      long: { title: "길게", desc: "약 5분" },
+    },
+    style: {
+      conversational: { title: "대화체", desc: "친구가 옆에서 말해 주듯 따뜻하고 편안하게" },
+      storytelling: { title: "이야기체", desc: "하나의 줄기를 가진 이야기로 풀어서" },
+      scholarly: { title: "학술적", desc: "정확하고 미술사적 깊이가 있게" },
+      playful: { title: "유쾌하게", desc: "가볍고 재치 있으며 호기심 가득하게" },
+    },
+    topic: {
+      history: { title: "역사", desc: "언제, 왜 만들어졌는지" },
+      technique: { title: "기법", desc: "재료와 제작 방식" },
+      symbolism: { title: "상징", desc: "숨은 의미와 도상학" },
+      artist: { title: "작가", desc: "생애와 경력" },
+      culture: { title: "문화와 사회", desc: "작품을 둘러싼 시대 배경" },
+      anecdotes: { title: "일화", desc: "놀라운 이야기와 흥미로운 사실" },
+    },
+  },
 } as const;
 
 export const DEFAULT_PREFERENCES: Preferences = {

@@ -25,6 +25,11 @@ const factLabels: Record<LanguageCode, Record<FactKey, string>> = {
   en: { date: "Date", medium: "Medium", dimensions: "Size", culture: "Culture", type: "Type", accession: "Accession", location: "Location", credit: "Credit" },
   zh: { date: "年代", medium: "材质", dimensions: "尺寸", culture: "文化", type: "类别", accession: "编号", location: "位置", credit: "来源" },
   fr: { date: "Date", medium: "Technique", dimensions: "Dimensions", culture: "Culture", type: "Type", accession: "N° d’acquisition", location: "Emplacement", credit: "Crédit" },
+  de: { date: "Datum", medium: "Technik", dimensions: "Maße", culture: "Kultur", type: "Typ", accession: "Zugangsnr.", location: "Standort", credit: "Nachweis" },
+  pt: { date: "Data", medium: "Técnica", dimensions: "Dimensões", culture: "Cultura", type: "Tipo", accession: "N.º de registo", location: "Localização", credit: "Crédito" },
+  it: { date: "Data", medium: "Tecnica", dimensions: "Dimensioni", culture: "Cultura", type: "Tipo", accession: "N. di acquisizione", location: "Ubicazione", credit: "Crediti" },
+  ja: { date: "日付", medium: "技法・素材", dimensions: "寸法", culture: "文化", type: "種別", accession: "受入番号", location: "所在地", credit: "クレジット" },
+  ko: { date: "날짜", medium: "기법", dimensions: "크기", culture: "문화", type: "유형", accession: "입수 번호", location: "위치", credit: "출처" },
   es: { date: "Fecha", medium: "Técnica", dimensions: "Dimensiones", culture: "Cultura", type: "Tipo", accession: "N.º de registro", location: "Ubicación", credit: "Crédito" },
 };
 
