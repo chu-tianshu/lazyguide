@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { museumIdForSlug, slugForMuseum } from "@/data/museumSlugs";
 import type { Catalog, Work, WorkSummary } from "@/data/catalog";
 import type { Museum } from "@/data/museums";
 import { languages } from "@/data/languages";
@@ -27,7 +29,10 @@ export function App() {
 
 function AppContent() {
   const { user, loading } = useAuth();
-  const [museumId, setMuseumId] = useState<string | null>(null);
+  const router = useRouter();
+  // The museum is in the address: lazyguide.io/louvre.
+  const pathname = usePathname();
+  const museumId = useMemo(() => museumIdForSlug(pathname.split("/")[1] ?? "") ?? null, [pathname]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [showVisits, setShowVisits] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
@@ -145,17 +150,19 @@ function AppContent() {
     };
   }, [museumId, languageCode, selectedId]);
 
-  const reset = () => {
-    setMuseumId(null);
+  // Whenever the museum changes (link, Back button), drop the previous museum's data.
+  useEffect(() => {
     setSelectedId(null);
     setOffered(null);
     setCatalog(null);
     setWork(null);
-  };
+  }, [museumId]);
+
+  const reset = () => router.push("/");
 
   const chooseMuseum = (id: string) => {
-    setOffered(null);
-    setMuseumId(id);
+    const slug = slugForMuseum(id);
+    if (slug) router.push(`/${slug}`);
   };
 
   // Works found by an online search join the list in place, so the page needs no reload.
