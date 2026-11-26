@@ -408,9 +408,6 @@ export function LouvreExplorer({
                 ))}
               </select>
             </label>
-            <button className="x-back" onClick={() => chooseWing(null)}>
-              ← {x.changeWing}
-            </button>
           </div>,
           slot,
         )}

@@ -549,11 +549,11 @@ label.search {
 }
 .x-controls {
   margin-bottom: 1.25rem;
-  display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.9rem;
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.9rem; max-width: 40rem;
 }
-.x-level { display: inline-flex; align-items: center; gap: 0.5rem; }
-.x-level .x-axis-label { padding-top: 0; }
-.x-level select { padding: 0.35rem 0.6rem; border: 1px solid var(--line); border-radius: 0.5rem; background: var(--surface); color: inherit; font: inherit; font-size: 0.9rem; }
+.x-level { display: grid; gap: 0.35rem; }
+.x-level .x-axis-label { padding-top: 0; font-size: 0.8rem; }
+.x-level select { width: 100%; padding: 0.7rem 0.9rem; border: 1px solid var(--line); border-radius: 0.6rem; background: var(--surface); color: inherit; font: inherit; font-size: 1.1rem; }
 /* Two labelled, independent rows (wing and level) that combine; each count ignores only its own row. */
 .x-axis { display: grid; grid-template-columns: 3.6rem minmax(0, 1fr); align-items: start; gap: 0.5rem; }
 .x-axis-label { padding-top: 0.4rem; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
