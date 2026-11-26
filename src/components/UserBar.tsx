@@ -56,9 +56,9 @@ export function UserBar({
 
   return (
     <div className="user-bar">
-      <IconButton icon="map" label={ui.mapTab} onClick={onShowMap} />
-      <IconButton icon="visits" label={ui.myVisits} onClick={onShowVisits} />
       <IconButton icon="favorites" label={ui.favoritesTab} onClick={onShowFavorites} />
+      <IconButton icon="visits" label={ui.myVisits} onClick={onShowVisits} />
+      <IconButton icon="map" label={ui.mapTab} onClick={onShowMap} />
       <IconButton icon="settings" label={ui.settings} onClick={onShowSettings} />
     </div>
   );
