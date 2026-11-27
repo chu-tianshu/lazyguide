@@ -6,7 +6,8 @@ import { museumIdForSlug, slugForMuseum } from "@/data/museumSlugs";
 import type { Catalog, Work, WorkSummary } from "@/data/catalog";
 import type { Museum } from "@/data/museums";
 import { htmlLang, initialLanguage, rememberLanguage, uiStrings, type LanguageCode } from "@/lib/i18n";
-import { fetchCatalog, fetchLanguageCodes, fetchMuseums, fetchWork, localizeMuseums } from "@/lib/catalogApi";
+import { fetchCatalog, fetchLanguageCodes, fetchMuseums, fetchTranslations, fetchWork, localizeMuseums } from "@/lib/catalogApi";
+import { localizeWork, type Translation } from "@/lib/localizeWork";
 import { MuseumMap } from "./MuseumMap";
 import { CollectionPage } from "./CollectionPage";
 import { PaintingDetail } from "./PaintingDetail";
@@ -53,6 +54,8 @@ function AppContent() {
   const [catalog, setCatalog] = useState<Catalog | null>(null);
   const [work, setWork] = useState<Work | null>(null);
   const [loadFailed, setLoadFailed] = useState(false);
+  // Titles, artists and materials that open sources have in the visitor's language (for catalogs written in English).
+  const [translations, setTranslations] = useState<Record<string, Translation> | null>(null);
 
   // Language is a user-level setting; until it is saved, text follows the language chosen on this device, else the browser's.
   const [deviceLang] = useState<LanguageCode>(initialLanguage);
@@ -148,6 +151,33 @@ function AppContent() {
       current = false;
     };
   }, [museumId, languageCode, selectedId]);
+
+  const translateFrom = catalog?.language === "en" && uiLang !== "en" ? uiLang : null;
+  useEffect(() => {
+    setTranslations(null);
+    if (!museumId || !translateFrom) return;
+    let current = true;
+    fetchTranslations(museumId, translateFrom).then(
+      (t) => current && setTranslations(t),
+      // The English text stays if this fails.
+      () => {},
+    );
+    return () => {
+      current = false;
+    };
+  }, [museumId, translateFrom]);
+
+  const shownCatalog = useMemo(
+    () =>
+      catalog && museumId
+        ? { ...catalog, works: catalog.works.map((w) => localizeWork(w, museumId, catalog.language, uiLang, translations?.[w.id])) }
+        : catalog,
+    [catalog, museumId, uiLang, translations],
+  );
+  const shownWork = useMemo(
+    () => (work && catalog && museumId ? localizeWork(work, museumId, catalog.language, uiLang, translations?.[work.id]) : work),
+    [work, catalog, museumId, uiLang, translations],
+  );
 
   // Whenever the museum changes (link, Back button), drop the previous museum's data.
   useEffect(() => {
@@ -332,13 +362,13 @@ function AppContent() {
         <p className="muted">{ui.noGuidesYet}</p>
       </>
     );
-  } else if (!languageCode || !catalog) {
+  } else if (!languageCode || !catalog || !shownCatalog) {
     content = <p className="muted">{ui.loading}</p>;
   } else if (selectedId) {
-    content = work ? (
+    content = shownWork ? (
       <PaintingDetail
-        key={work.id}
-        work={work}
+        key={shownWork.id}
+        work={shownWork}
         museumId={museum.id}
         language={catalog.language}
         uiLanguage={uiLang}
@@ -351,7 +381,7 @@ function AppContent() {
       <p className="muted">{ui.loading}</p>
     );
   } else {
-    content = <CollectionPage catalog={catalog} uiLanguage={uiLang} favorite={(favorites ?? []).includes(museum.id)} onToggleFavorite={() => toggleFavorite(museum.id)} onSelect={chooseWork} onAddWorks={addWorks} />;
+    content = <CollectionPage catalog={shownCatalog} uiLanguage={uiLang} favorite={(favorites ?? []).includes(museum.id)} onToggleFavorite={() => toggleFavorite(museum.id)} onSelect={chooseWork} onAddWorks={addWorks} />;
   }
 
   return (

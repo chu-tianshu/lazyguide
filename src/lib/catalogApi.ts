@@ -8,6 +8,7 @@ import type { LanguageCode } from "@/lib/i18n";
 import type { Catalog, Fact, Guide, PaintingImage, Work, WorkSummary } from "@/data/catalog";
 import type { Museum } from "@/data/museums";
 import { museumLocation, museumName, placeName } from "@/data/museumNames";
+import type { Translation } from "./localizeWork";
 import { supabase } from "./supabaseClient";
 
 function db() {
@@ -185,4 +186,28 @@ export async function fetchMuseumName(museumId: string, language: LanguageCode):
     .maybeSingle();
   if (error) throw error;
   return data?.museum_name;
+}
+
+/**
+ * Titles, artists and material names that open sources (Wikidata, the Louvre's own records) have in the
+ * visitor's language, keyed by work id. Only works with such a source are present. Paged, since a
+ * museum can have more rows than one request returns.
+ */
+export async function fetchTranslations(museumId: string, language: LanguageCode): Promise<Record<string, Translation>> {
+  const out: Record<string, Translation> = {};
+  const PAGE = 1000;
+  for (let from = 0; ; from += PAGE) {
+    const { data, error } = await db()
+      .from("work_translations")
+      .select("work_id, title, artist, facts")
+      .eq("museum_id", museumId)
+      .eq("language", language)
+      .order("work_id")
+      .range(from, from + PAGE - 1);
+    if (error) throw error;
+    for (const r of data) {
+      out[r.work_id] = { title: r.title ?? undefined, artist: r.artist ?? undefined, facts: r.facts ?? undefined };
+    }
+    if (data.length < PAGE) return out;
+  }
 }

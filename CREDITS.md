@@ -232,3 +232,7 @@ The eight English guide texts were drafted for this project from public pages of
 # Prado (rooms, metadata and images)
 
 Titles, authors, medium and date, and which room each work hangs in come from the Museo del Prado's public collection pages (https://www.museodelprado.es); each work's page links to its Prado page. Inventory number and size come from Wikidata (CC0), matched by the Prado's artwork ID. Images are Wikimedia Commons thumbnails, linked rather than copied; only files marked Public domain, CC0, CC BY or CC BY-SA are used, with the author credited where the licence requires it. The Prado's own images are not used.
+
+# Translated titles, artists and materials
+
+Work titles, creator names and material names shown in languages other than English come from Wikidata labels (CC0, https://www.wikidata.org) and, for French Louvre works, the Louvre's own collection records (https://collections.louvre.fr, text only). See `scripts/localize/README.md`.
