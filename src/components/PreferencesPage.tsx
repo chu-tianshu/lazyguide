@@ -46,7 +46,14 @@ export function PreferencesPage({
       topics: p.topics.includes(topic) ? p.topics.filter((t) => t !== topic) : [...p.topics, topic],
     }));
 
-  async function save() {
+  async function goBack() {
+    if (saving) return;
+    // Nothing to save when unchanged or when no topic is selected.
+    const changed = JSON.stringify(prefs) !== JSON.stringify({ ...DEFAULT_PREFERENCES, language: initialLanguage(), ...initial });
+    if (!changed || prefs.topics.length === 0) {
+      onBack?.();
+      return;
+    }
     setSaving(true);
     setError(undefined);
     try {
@@ -61,7 +68,7 @@ export function PreferencesPage({
   return (
     <main className="shell" lang={htmlLang(prefs.language)}>
       {onBack && (
-        <button className="back" onClick={onBack}>
+        <button className="back" onClick={goBack} disabled={saving}>
           {ui.allMuseums}
         </button>
       )}
@@ -146,9 +153,6 @@ export function PreferencesPage({
         </p>
       )}
 
-      <button className="gate-primary pref-save" onClick={save} disabled={saving || prefs.topics.length === 0}>
-        {saving ? ui.saving : ui.save}
-      </button>
       {prefs.topics.length === 0 && <p className="muted">{ui.prefTopicsMin}</p>}
 
       <button className="fav-more" onClick={() => signOut()}>
