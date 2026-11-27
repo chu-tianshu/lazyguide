@@ -6,6 +6,11 @@ import { supabase } from "@/lib/supabaseClient";
 
 type Row = { label: string; value: number; note?: string };
 interface Data {
+  users: { total_users: number; signed_in_users: number; guest_users: number };
+  topMuseumsByVisitors: Row[];
+  preferences: { length: Row[]; style: Row[]; topic: Row[]; language: Row[] };
+  followUps: { clicks: number; questions: number; clickUsers: number; clicksByMuseum: Row[] };
+  favorites: { total: number; byMuseum: Row[] };
   summary: { total_users: number; dau: number; wau: number; mau: number; work_views: number; plays: number; replays: number; completes: number; questions: number };
   usage: { guide_generations: number; questions: number; tts_requests: number; audio_minutes: number; tts_chars: number; input_tokens: number; output_tokens: number };
   usageDaily: { label: string; audioMinutes: number; guides: number }[];
@@ -98,6 +103,13 @@ function Dashboard() {
   return (
     <main style={{ maxWidth: 900, margin: "0 auto", padding: "24px 20px 60px", fontFamily: "system-ui, sans-serif", color: "#222" }}>
       <h1 style={{ fontSize: 24 }}>LazyGuide analytics</h1>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginBottom: 12 }}>
+        <Card label="Unique users" value={data.users.total_users} />
+        <Card label="Signed in" value={data.users.signed_in_users} />
+        <Card label="Guests" value={data.users.guest_users} />
+        <Card label="Follow-up clicks" value={data.followUps.clicks} />
+        <Card label="Favorites" value={data.favorites.total} />
+      </div>
       <div style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
         <Card label="Active today" value={s.dau} />
         <Card label="Active 7 days" value={s.wau} />
@@ -126,6 +138,16 @@ function Dashboard() {
       <Section title="Guides generated per day (last 30 days)">
         <Bars rows={data.usageDaily.map((d) => ({ label: d.label, value: d.guides }))} unit="guides" />
       </Section>
+
+      <Section title="Top visited museums (unique visitors)"><Bars rows={data.topMuseumsByVisitors} unit="visitors" /></Section>
+      <Section title="Language picks"><Bars rows={data.preferences.language} unit="users" /></Section>
+      <Section title="Preference: guide length"><Bars rows={data.preferences.length} unit="users" /></Section>
+      <Section title="Preference: style"><Bars rows={data.preferences.style} unit="users" /></Section>
+      <Section title="Preference: topics"><Bars rows={data.preferences.topic} unit="users" /></Section>
+      <Section title={`Follow-up clicks by museum (plus ${data.followUps.questions} typed questions)`}>
+        <Bars rows={data.followUps.clicksByMuseum} unit="clicks" />
+      </Section>
+      <Section title="Favorite museums"><Bars rows={data.favorites.byMuseum} unit="favorites" /></Section>
 
       <Section title="Daily active users (last 30 days)">
         <Bars rows={data.daily} unit="users" />

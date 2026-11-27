@@ -41,7 +41,7 @@ export async function GET(request: Request) {
     return Response.json({ error: `Not authorized. ${reason}` }, { status: 403 });
   }
 
-  const [summaryRes, dailyRes, worksRes, titlesRes, museumsRes, usageTotalRes, usageDailyRes] = await Promise.all([
+  const [summaryRes, dailyRes, worksRes, titlesRes, museumsRes, usageTotalRes, usageDailyRes, usersRes, museumStatsRes, prefsRes, followRes] = await Promise.all([
     db.from("analytics_summary").select("*").single(),
     db.from("analytics_daily").select("*").order("day"),
     db.from("analytics_works").select("*"),
@@ -49,8 +49,12 @@ export async function GET(request: Request) {
     db.from("catalogs").select("museum_id, museum_name").eq("language", "en"),
     db.from("analytics_usage_total").select("*").single(),
     db.from("analytics_usage_daily").select("*").order("day"),
+    db.from("analytics_users").select("*").single(),
+    db.from("analytics_museums").select("*"),
+    db.from("analytics_preferences").select("*"),
+    db.from("analytics_follow_ups").select("*"),
   ]);
-  const err = summaryRes.error ?? dailyRes.error ?? worksRes.error ?? usageTotalRes.error ?? usageDailyRes.error;
+  const err = summaryRes.error ?? dailyRes.error ?? worksRes.error ?? usageTotalRes.error ?? usageDailyRes.error ?? usersRes.error ?? museumStatsRes.error ?? prefsRes.error ?? followRes.error;
   if (err) {
     return Response.json({ error: `Query failed: ${err.message}. Has supabase/analytics.sql been run?` }, { status: 500 });
   }
@@ -77,7 +81,29 @@ export async function GET(request: Request) {
     .map((w) => ({ label: nameOf(w), value: Math.round((w.completes / (w.plays + w.replays)) * 100), note: `${w.completes} completes` }))
     .sort((a, b) => b.value - a.value).slice(0, 10);
 
+  const name = (id: string) => museumNames.get(id) ?? id;
+  const museumStats = (museumStatsRes.data ?? []) as { museum_id: string; visitors: number; works_visited: number; favorites: number; views: number }[];
+  const rank = (f: (m: (typeof museumStats)[number]) => number, n = 10) =>
+    [...museumStats].filter((m) => f(m) > 0).sort((a, b) => f(b) - f(a)).slice(0, n)
+      .map((m) => ({ label: name(m.museum_id), value: f(m) }));
+  const prefs = (kind: string) =>
+    ((prefsRes.data ?? []) as { kind: string; label: string; users: number }[])
+      .filter((p) => p.kind === kind).sort((a, b) => b.users - a.users).map((p) => ({ label: p.label, value: p.users }));
+  const follow = (followRes.data ?? []) as { museum_id: string; clicks: number; questions: number; click_users: number }[];
+  const followClicks = follow.reduce((n, f) => n + f.clicks, 0);
+  const totalFavorites = museumStats.reduce((n, m) => n + m.favorites, 0);
+
   return Response.json({
+    users: usersRes.data,
+    topMuseumsByVisitors: rank((m) => m.visitors),
+    preferences: { length: prefs("length"), style: prefs("style"), topic: prefs("topic"), language: prefs("language") },
+    followUps: {
+      clicks: followClicks,
+      questions: follow.reduce((n, f) => n + f.questions, 0),
+      clickUsers: follow.reduce((n, f) => n + f.click_users, 0),
+      clicksByMuseum: follow.filter((f) => f.clicks > 0).sort((a, b) => b.clicks - a.clicks).slice(0, 10).map((f) => ({ label: name(f.museum_id), value: f.clicks })),
+    },
+    favorites: { total: totalFavorites, byMuseum: rank((m) => m.favorites) },
     summary: s,
     usage: u,
     usageDaily: usageDaily.map((d) => ({ label: d.day, audioMinutes: Math.round(Number(d.audio_minutes) * 10) / 10, guides: d.guide_generations })),

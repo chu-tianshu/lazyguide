@@ -112,3 +112,52 @@ from public.usage_log;
 
 revoke all on public.analytics_usage_daily, public.analytics_usage_total from anon, authenticated;
 grant select on public.analytics_usage_daily, public.analytics_usage_total to service_role;
+
+-- ---------------------------------------------------------------------------------------------
+-- Admin dashboard additions (run again safely): follow-up clicks, users, museums, preferences, favorites.
+
+-- The app also logs 'explore_topic' (a follow-up suggestion button click).
+alter table public.events drop constraint if exists events_event_check;
+alter table public.events add constraint events_event_check
+  check (event in ('app_open', 'work_view', 'play', 'replay', 'complete', 'expand', 'question', 'explore_topic'));
+
+-- Unique users: everyone with an account row, split into Google/email sign-ins and anonymous guests.
+-- Not security_invoker: it reads auth.users, so it is locked to the service role below.
+create or replace view public.analytics_users as
+select count(*) as total_users,
+       count(*) filter (where not coalesce(is_anonymous, false)) as signed_in_users,
+       count(*) filter (where coalesce(is_anonymous, false)) as guest_users
+from auth.users;
+
+-- One row per museum: distinct visitors and distinct works opened (visits), favorites, and event views.
+create or replace view public.analytics_museums with (security_invoker = true) as
+with v as (
+  select museum_id, count(distinct user_id) as visitors, count(*) as works_visited from public.visits group by 1
+), f as (
+  select museum_id, count(*) as favorites from public.favorites group by 1
+), e as (
+  select museum_id, count(*) as views from public.events where event = 'work_view' and museum_id is not null group by 1
+)
+select coalesce(v.museum_id, f.museum_id, e.museum_id) as museum_id,
+       coalesce(v.visitors, 0) as visitors, coalesce(v.works_visited, 0) as works_visited,
+       coalesce(f.favorites, 0) as favorites, coalesce(e.views, 0) as views
+from v full join f using (museum_id) full join e using (museum_id);
+
+-- Preference choices: kind is length | style | topic | language.
+create or replace view public.analytics_preferences with (security_invoker = true) as
+select 'length' as kind, length as label, count(*) as users from public.user_preferences group by 2
+union all select 'style', style, count(*) from public.user_preferences group by 2
+union all select 'topic', t, count(*) from public.user_preferences, unnest(topics) as t group by 2
+union all select 'language', coalesce(language, 'unset'), count(*) from public.user_preferences group by 2;
+
+-- Follow-ups: suggestion-button clicks and typed questions, by museum.
+create or replace view public.analytics_follow_ups with (security_invoker = true) as
+select coalesce(museum_id, 'unknown') as museum_id,
+       count(*) filter (where event = 'explore_topic') as clicks,
+       count(*) filter (where event = 'question') as questions,
+       count(distinct user_id) filter (where event = 'explore_topic') as click_users
+from public.events where event in ('explore_topic', 'question') group by 1;
+
+revoke all on public.analytics_users, public.analytics_museums, public.analytics_preferences, public.analytics_follow_ups from anon, authenticated;
+grant select on public.analytics_users, public.analytics_museums, public.analytics_preferences, public.analytics_follow_ups to service_role;
+grant select on public.visits, public.favorites, public.user_preferences to service_role;
